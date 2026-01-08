@@ -15,6 +15,7 @@ import {
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 
 import { fetchProducts } from "../../../api/products";
+import { AdminMenu } from "../../../components/admin-menu";
 
 export const Route = createFileRoute("/admin/products/")({
   component: AdminProductsPage,
@@ -50,7 +51,11 @@ function AdminProductsPage() {
       <Flex direction="column" gap="4">
         {/* Header */}
         <Flex justify="between" align="center">
-          <Heading size="6">Products</Heading>
+          <Flex align="center" gap="2">
+            <AdminMenu />
+            <Heading size="6">Products</Heading>
+          </Flex>
+
           <Button asChild>
             <Link to="/admin/products/new">Add Product</Link>
           </Button>

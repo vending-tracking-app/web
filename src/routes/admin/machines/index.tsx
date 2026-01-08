@@ -15,6 +15,7 @@ import {
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 
 import { fetchMachines } from "../../../api/machines";
+import { AdminMenu } from "../../../components/admin-menu";
 
 export const Route = createFileRoute("/admin/machines/")({
   component: AdminMachinesPage,
@@ -50,7 +51,11 @@ function AdminMachinesPage() {
       <Flex direction="column" gap="4">
         {/* Header */}
         <Flex justify="between" align="center">
-          <Heading size="6">Machines</Heading>
+          <Flex align="center" gap="2">
+            <AdminMenu />
+            <Heading size="6">Machines</Heading>
+          </Flex>
+
           <Button asChild>
             <Link to="/admin/machines/new">Add Machine</Link>
           </Button>
