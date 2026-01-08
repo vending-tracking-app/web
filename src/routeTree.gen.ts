@@ -14,11 +14,13 @@ import { Route as ExpeditorRouteRouteImport } from './routes/expeditor/route'
 import { Route as AdminRouteRouteImport } from './routes/admin/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ExpeditorMachinesRouteImport } from './routes/expeditor/machines'
-import { Route as AdminUsersRouteImport } from './routes/admin/users'
+import { Route as AdminUsersIndexRouteImport } from './routes/admin/users/index'
 import { Route as AdminProductsIndexRouteImport } from './routes/admin/products/index'
 import { Route as AdminMachinesIndexRouteImport } from './routes/admin/machines/index'
+import { Route as AdminUsersNewRouteImport } from './routes/admin/users/new'
 import { Route as AdminProductsNewRouteImport } from './routes/admin/products/new'
 import { Route as AdminMachinesNewRouteImport } from './routes/admin/machines/new'
+import { Route as AdminUsersIdEditRouteImport } from './routes/admin/users/$id.edit'
 import { Route as AdminProductsIdEditRouteImport } from './routes/admin/products/$id.edit'
 import { Route as AdminMachinesIdEditRouteImport } from './routes/admin/machines/$id.edit'
 
@@ -47,9 +49,9 @@ const ExpeditorMachinesRoute = ExpeditorMachinesRouteImport.update({
   path: '/machines',
   getParentRoute: () => ExpeditorRouteRoute,
 } as any)
-const AdminUsersRoute = AdminUsersRouteImport.update({
-  id: '/users',
-  path: '/users',
+const AdminUsersIndexRoute = AdminUsersIndexRouteImport.update({
+  id: '/users/',
+  path: '/users/',
   getParentRoute: () => AdminRouteRoute,
 } as any)
 const AdminProductsIndexRoute = AdminProductsIndexRouteImport.update({
@@ -62,6 +64,11 @@ const AdminMachinesIndexRoute = AdminMachinesIndexRouteImport.update({
   path: '/machines/',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminUsersNewRoute = AdminUsersNewRouteImport.update({
+  id: '/users/new',
+  path: '/users/new',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AdminProductsNewRoute = AdminProductsNewRouteImport.update({
   id: '/products/new',
   path: '/products/new',
@@ -70,6 +77,11 @@ const AdminProductsNewRoute = AdminProductsNewRouteImport.update({
 const AdminMachinesNewRoute = AdminMachinesNewRouteImport.update({
   id: '/machines/new',
   path: '/machines/new',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminUsersIdEditRoute = AdminUsersIdEditRouteImport.update({
+  id: '/users/$id/edit',
+  path: '/users/$id/edit',
   getParentRoute: () => AdminRouteRoute,
 } as any)
 const AdminProductsIdEditRoute = AdminProductsIdEditRouteImport.update({
@@ -88,28 +100,32 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteRouteWithChildren
   '/expeditor': typeof ExpeditorRouteRouteWithChildren
   '/login': typeof LoginRoute
-  '/admin/users': typeof AdminUsersRoute
   '/expeditor/machines': typeof ExpeditorMachinesRoute
   '/admin/machines/new': typeof AdminMachinesNewRoute
   '/admin/products/new': typeof AdminProductsNewRoute
+  '/admin/users/new': typeof AdminUsersNewRoute
   '/admin/machines': typeof AdminMachinesIndexRoute
   '/admin/products': typeof AdminProductsIndexRoute
+  '/admin/users': typeof AdminUsersIndexRoute
   '/admin/machines/$id/edit': typeof AdminMachinesIdEditRoute
   '/admin/products/$id/edit': typeof AdminProductsIdEditRoute
+  '/admin/users/$id/edit': typeof AdminUsersIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteRouteWithChildren
   '/expeditor': typeof ExpeditorRouteRouteWithChildren
   '/login': typeof LoginRoute
-  '/admin/users': typeof AdminUsersRoute
   '/expeditor/machines': typeof ExpeditorMachinesRoute
   '/admin/machines/new': typeof AdminMachinesNewRoute
   '/admin/products/new': typeof AdminProductsNewRoute
+  '/admin/users/new': typeof AdminUsersNewRoute
   '/admin/machines': typeof AdminMachinesIndexRoute
   '/admin/products': typeof AdminProductsIndexRoute
+  '/admin/users': typeof AdminUsersIndexRoute
   '/admin/machines/$id/edit': typeof AdminMachinesIdEditRoute
   '/admin/products/$id/edit': typeof AdminProductsIdEditRoute
+  '/admin/users/$id/edit': typeof AdminUsersIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -117,14 +133,16 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteRouteWithChildren
   '/expeditor': typeof ExpeditorRouteRouteWithChildren
   '/login': typeof LoginRoute
-  '/admin/users': typeof AdminUsersRoute
   '/expeditor/machines': typeof ExpeditorMachinesRoute
   '/admin/machines/new': typeof AdminMachinesNewRoute
   '/admin/products/new': typeof AdminProductsNewRoute
+  '/admin/users/new': typeof AdminUsersNewRoute
   '/admin/machines/': typeof AdminMachinesIndexRoute
   '/admin/products/': typeof AdminProductsIndexRoute
+  '/admin/users/': typeof AdminUsersIndexRoute
   '/admin/machines/$id/edit': typeof AdminMachinesIdEditRoute
   '/admin/products/$id/edit': typeof AdminProductsIdEditRoute
+  '/admin/users/$id/edit': typeof AdminUsersIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -133,42 +151,48 @@ export interface FileRouteTypes {
     | '/admin'
     | '/expeditor'
     | '/login'
-    | '/admin/users'
     | '/expeditor/machines'
     | '/admin/machines/new'
     | '/admin/products/new'
+    | '/admin/users/new'
     | '/admin/machines'
     | '/admin/products'
+    | '/admin/users'
     | '/admin/machines/$id/edit'
     | '/admin/products/$id/edit'
+    | '/admin/users/$id/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/admin'
     | '/expeditor'
     | '/login'
-    | '/admin/users'
     | '/expeditor/machines'
     | '/admin/machines/new'
     | '/admin/products/new'
+    | '/admin/users/new'
     | '/admin/machines'
     | '/admin/products'
+    | '/admin/users'
     | '/admin/machines/$id/edit'
     | '/admin/products/$id/edit'
+    | '/admin/users/$id/edit'
   id:
     | '__root__'
     | '/'
     | '/admin'
     | '/expeditor'
     | '/login'
-    | '/admin/users'
     | '/expeditor/machines'
     | '/admin/machines/new'
     | '/admin/products/new'
+    | '/admin/users/new'
     | '/admin/machines/'
     | '/admin/products/'
+    | '/admin/users/'
     | '/admin/machines/$id/edit'
     | '/admin/products/$id/edit'
+    | '/admin/users/$id/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -215,11 +239,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExpeditorMachinesRouteImport
       parentRoute: typeof ExpeditorRouteRoute
     }
-    '/admin/users': {
-      id: '/admin/users'
+    '/admin/users/': {
+      id: '/admin/users/'
       path: '/users'
       fullPath: '/admin/users'
-      preLoaderRoute: typeof AdminUsersRouteImport
+      preLoaderRoute: typeof AdminUsersIndexRouteImport
       parentRoute: typeof AdminRouteRoute
     }
     '/admin/products/': {
@@ -236,6 +260,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminMachinesIndexRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/users/new': {
+      id: '/admin/users/new'
+      path: '/users/new'
+      fullPath: '/admin/users/new'
+      preLoaderRoute: typeof AdminUsersNewRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/products/new': {
       id: '/admin/products/new'
       path: '/products/new'
@@ -248,6 +279,13 @@ declare module '@tanstack/react-router' {
       path: '/machines/new'
       fullPath: '/admin/machines/new'
       preLoaderRoute: typeof AdminMachinesNewRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/users/$id/edit': {
+      id: '/admin/users/$id/edit'
+      path: '/users/$id/edit'
+      fullPath: '/admin/users/$id/edit'
+      preLoaderRoute: typeof AdminUsersIdEditRouteImport
       parentRoute: typeof AdminRouteRoute
     }
     '/admin/products/$id/edit': {
@@ -268,23 +306,27 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteRouteChildren {
-  AdminUsersRoute: typeof AdminUsersRoute
   AdminMachinesNewRoute: typeof AdminMachinesNewRoute
   AdminProductsNewRoute: typeof AdminProductsNewRoute
+  AdminUsersNewRoute: typeof AdminUsersNewRoute
   AdminMachinesIndexRoute: typeof AdminMachinesIndexRoute
   AdminProductsIndexRoute: typeof AdminProductsIndexRoute
+  AdminUsersIndexRoute: typeof AdminUsersIndexRoute
   AdminMachinesIdEditRoute: typeof AdminMachinesIdEditRoute
   AdminProductsIdEditRoute: typeof AdminProductsIdEditRoute
+  AdminUsersIdEditRoute: typeof AdminUsersIdEditRoute
 }
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
-  AdminUsersRoute: AdminUsersRoute,
   AdminMachinesNewRoute: AdminMachinesNewRoute,
   AdminProductsNewRoute: AdminProductsNewRoute,
+  AdminUsersNewRoute: AdminUsersNewRoute,
   AdminMachinesIndexRoute: AdminMachinesIndexRoute,
   AdminProductsIndexRoute: AdminProductsIndexRoute,
+  AdminUsersIndexRoute: AdminUsersIndexRoute,
   AdminMachinesIdEditRoute: AdminMachinesIdEditRoute,
   AdminProductsIdEditRoute: AdminProductsIdEditRoute,
+  AdminUsersIdEditRoute: AdminUsersIdEditRoute,
 }
 
 const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(

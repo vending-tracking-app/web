@@ -19,6 +19,10 @@ export function AdminMenu() {
         <DropdownMenu.Item asChild>
           <Link to="/admin/machines">Machines</Link>
         </DropdownMenu.Item>
+
+        <DropdownMenu.Item asChild>
+          <Link to="/admin/users">Users</Link>
+        </DropdownMenu.Item>
       </DropdownMenu.Content>
     </DropdownMenu.Root>
   );
