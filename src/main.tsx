@@ -1,6 +1,7 @@
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Theme } from "@radix-ui/themes";
 
 import "@radix-ui/themes/styles.css";
@@ -9,6 +10,16 @@ import "@radix-ui/themes/styles.css";
 import { routeTree } from "./routeTree.gen";
 
 import "./styles.css";
+
+// Create a QueryClient instance
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: Infinity,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 // Create a new router instance
 const router = createRouter({
@@ -34,9 +45,11 @@ if (rootElement && !rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>
-      <Theme>
-        <RouterProvider router={router} />
-      </Theme>
+      <QueryClientProvider client={queryClient}>
+        <Theme>
+          <RouterProvider router={router} />
+        </Theme>
+      </QueryClientProvider>
     </StrictMode>
   );
 }
