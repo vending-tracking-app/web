@@ -17,14 +17,18 @@ export const Route = createRootRoute({
 function RootComponent() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { data: session } = authClient.useSession();
+  const { data: session, isPending } = authClient.useSession();
 
   useEffect(() => {
+    // Only check session after loading is complete
+    if (isPending) {
+      return;
+    }
     // If there's no session and we're not already on the login page, redirect
     if (!session && location.pathname !== "/login") {
       navigate({ to: "/login" });
     }
-  }, [session, location.pathname, navigate]);
+  }, [session, isPending, location.pathname, navigate]);
 
   return (
     <>

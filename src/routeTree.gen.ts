@@ -10,11 +10,27 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as ExpeditorRouteRouteImport } from './routes/expeditor/route'
+import { Route as AdminRouteRouteImport } from './routes/admin/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ExpeditorMachinesRouteImport } from './routes/expeditor/machines'
+import { Route as AdminUsersRouteImport } from './routes/admin/users'
+import { Route as AdminProductsRouteImport } from './routes/admin/products'
+import { Route as AdminMachinesRouteImport } from './routes/admin/machines'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExpeditorRouteRoute = ExpeditorRouteRouteImport.update({
+  id: '/expeditor',
+  path: '/expeditor',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRouteRoute = AdminRouteRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -22,30 +38,95 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ExpeditorMachinesRoute = ExpeditorMachinesRouteImport.update({
+  id: '/machines',
+  path: '/machines',
+  getParentRoute: () => ExpeditorRouteRoute,
+} as any)
+const AdminUsersRoute = AdminUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminProductsRoute = AdminProductsRouteImport.update({
+  id: '/products',
+  path: '/products',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminMachinesRoute = AdminMachinesRouteImport.update({
+  id: '/machines',
+  path: '/machines',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteRouteWithChildren
+  '/expeditor': typeof ExpeditorRouteRouteWithChildren
   '/login': typeof LoginRoute
+  '/admin/machines': typeof AdminMachinesRoute
+  '/admin/products': typeof AdminProductsRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/expeditor/machines': typeof ExpeditorMachinesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteRouteWithChildren
+  '/expeditor': typeof ExpeditorRouteRouteWithChildren
   '/login': typeof LoginRoute
+  '/admin/machines': typeof AdminMachinesRoute
+  '/admin/products': typeof AdminProductsRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/expeditor/machines': typeof ExpeditorMachinesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteRouteWithChildren
+  '/expeditor': typeof ExpeditorRouteRouteWithChildren
   '/login': typeof LoginRoute
+  '/admin/machines': typeof AdminMachinesRoute
+  '/admin/products': typeof AdminProductsRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/expeditor/machines': typeof ExpeditorMachinesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/expeditor'
+    | '/login'
+    | '/admin/machines'
+    | '/admin/products'
+    | '/admin/users'
+    | '/expeditor/machines'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login'
-  id: '__root__' | '/' | '/login'
+  to:
+    | '/'
+    | '/admin'
+    | '/expeditor'
+    | '/login'
+    | '/admin/machines'
+    | '/admin/products'
+    | '/admin/users'
+    | '/expeditor/machines'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/expeditor'
+    | '/login'
+    | '/admin/machines'
+    | '/admin/products'
+    | '/admin/users'
+    | '/expeditor/machines'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRouteRoute: typeof AdminRouteRouteWithChildren
+  ExpeditorRouteRoute: typeof ExpeditorRouteRouteWithChildren
   LoginRoute: typeof LoginRoute
 }
 
@@ -58,6 +139,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/expeditor': {
+      id: '/expeditor'
+      path: '/expeditor'
+      fullPath: '/expeditor'
+      preLoaderRoute: typeof ExpeditorRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -65,11 +160,69 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/expeditor/machines': {
+      id: '/expeditor/machines'
+      path: '/machines'
+      fullPath: '/expeditor/machines'
+      preLoaderRoute: typeof ExpeditorMachinesRouteImport
+      parentRoute: typeof ExpeditorRouteRoute
+    }
+    '/admin/users': {
+      id: '/admin/users'
+      path: '/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminUsersRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/products': {
+      id: '/admin/products'
+      path: '/products'
+      fullPath: '/admin/products'
+      preLoaderRoute: typeof AdminProductsRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/machines': {
+      id: '/admin/machines'
+      path: '/machines'
+      fullPath: '/admin/machines'
+      preLoaderRoute: typeof AdminMachinesRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
   }
 }
 
+interface AdminRouteRouteChildren {
+  AdminMachinesRoute: typeof AdminMachinesRoute
+  AdminProductsRoute: typeof AdminProductsRoute
+  AdminUsersRoute: typeof AdminUsersRoute
+}
+
+const AdminRouteRouteChildren: AdminRouteRouteChildren = {
+  AdminMachinesRoute: AdminMachinesRoute,
+  AdminProductsRoute: AdminProductsRoute,
+  AdminUsersRoute: AdminUsersRoute,
+}
+
+const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
+  AdminRouteRouteChildren,
+)
+
+interface ExpeditorRouteRouteChildren {
+  ExpeditorMachinesRoute: typeof ExpeditorMachinesRoute
+}
+
+const ExpeditorRouteRouteChildren: ExpeditorRouteRouteChildren = {
+  ExpeditorMachinesRoute: ExpeditorMachinesRoute,
+}
+
+const ExpeditorRouteRouteWithChildren = ExpeditorRouteRoute._addFileChildren(
+  ExpeditorRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRouteRoute: AdminRouteRouteWithChildren,
+  ExpeditorRouteRoute: ExpeditorRouteRouteWithChildren,
   LoginRoute: LoginRoute,
 }
 export const routeTree = rootRouteImport
