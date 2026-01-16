@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   Container,
   Heading,
@@ -10,6 +10,8 @@ import {
   Card,
   Box,
 } from "@radix-ui/themes";
+import { useCallback } from "react";
+import toast from "react-hot-toast";
 
 import {
   fetchProduct,
@@ -19,6 +21,10 @@ import {
 
 export const Route = createFileRoute("/admin/products/$id/edit")({
   component: EditProductPage,
+  loader: async ({ params }) => {
+    const product = await fetchProduct(params.id);
+    return { product };
+  },
 });
 
 function EditProductPage() {
@@ -26,28 +32,38 @@ function EditProductPage() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const { data: product } = useQuery({
-    queryKey: ["products", id],
-    queryFn: () => fetchProduct(id),
-  });
+  const { product } = Route.useLoaderData();
 
   const updateMutation = useMutation({
     mutationFn: updateProduct,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
-      navigate({ to: "/admin/products" });
     },
   });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const data: UpdateProductInput = {
-      sku: formData.get("sku") as string,
-      name: formData.get("name") as string,
-    };
-    updateMutation.mutate({ id, data });
-  };
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+
+      try {
+        const formData = new FormData(e.currentTarget);
+        const data: UpdateProductInput = {
+          sku: formData.get("sku") as string,
+          name: formData.get("name") as string,
+        };
+
+        await updateMutation.mutateAsync({ id, data });
+
+        toast.success("Product updated successfully");
+
+        await navigate({ to: "/admin/products" });
+      } catch (error) {
+        console.error(error);
+        toast.error("Failed to update product");
+      }
+    },
+    [updateMutation, id, navigate]
+  );
 
   if (!product) {
     return null;

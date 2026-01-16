@@ -10,6 +10,8 @@ import {
   Card,
   Box,
 } from "@radix-ui/themes";
+import { useCallback } from "react";
+import toast from "react-hot-toast";
 
 import { createProduct, type CreateProductInput } from "../../../api/products";
 
@@ -25,19 +27,32 @@ function NewProductPage() {
     mutationFn: createProduct,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
-      navigate({ to: "/admin/products" });
     },
   });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const data: CreateProductInput = {
-      sku: formData.get("sku") as string,
-      name: formData.get("name") as string,
-    };
-    createMutation.mutate(data);
-  };
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+
+      try {
+        const formData = new FormData(e.currentTarget);
+        const data: CreateProductInput = {
+          sku: formData.get("sku") as string,
+          name: formData.get("name") as string,
+        };
+
+        await createMutation.mutateAsync(data);
+
+        toast.success("Product created successfully");
+
+        await navigate({ to: "/admin/products" });
+      } catch (error) {
+        console.error(error);
+        toast.error("Failed to create product");
+      }
+    },
+    [createMutation, navigate]
+  );
 
   return (
     <Container size="2" p="4">

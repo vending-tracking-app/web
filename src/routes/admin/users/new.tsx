@@ -58,7 +58,7 @@ function NewUserPage() {
         toast.error("Failed to create user");
       }
     },
-    [createMutation, queryClient, navigate]
+    [createMutation, navigate]
   );
 
   return (

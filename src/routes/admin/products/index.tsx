@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
 import { useState, useMemo } from "react";
 import {
   Container,
@@ -19,15 +18,16 @@ import { AdminMenu } from "../../../components/admin-menu";
 
 export const Route = createFileRoute("/admin/products/")({
   component: AdminProductsPage,
+  loader: async () => {
+    const products = await fetchProducts();
+    return { products };
+  },
 });
 
 function AdminProductsPage() {
-  const [searchQuery, setSearchQuery] = useState("");
+  const { products } = Route.useLoaderData();
 
-  const { data: products } = useQuery({
-    queryKey: ["products"],
-    queryFn: fetchProducts,
-  });
+  const [searchQuery, setSearchQuery] = useState("");
 
   const filteredProducts = useMemo(() => {
     if (!products) {
