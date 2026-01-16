@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   Container,
   Heading,
@@ -10,6 +10,8 @@ import {
   Card,
   Box,
 } from "@radix-ui/themes";
+import { useCallback } from "react";
+import toast from "react-hot-toast";
 
 import {
   fetchMachine,
@@ -19,6 +21,10 @@ import {
 
 export const Route = createFileRoute("/admin/machines/$id/edit")({
   component: EditMachinePage,
+  loader: async ({ params }) => {
+    const machine = await fetchMachine(params.id);
+    return { machine };
+  },
 });
 
 function EditMachinePage() {
@@ -26,10 +32,7 @@ function EditMachinePage() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const { data: machine } = useQuery({
-    queryKey: ["machines", id],
-    queryFn: () => fetchMachine(id),
-  });
+  const { machine } = Route.useLoaderData();
 
   const updateMutation = useMutation({
     mutationFn: updateMachine,
@@ -39,15 +42,29 @@ function EditMachinePage() {
     },
   });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const data: UpdateMachineInput = {
-      name: formData.get("name") as string,
-      location: formData.get("location") as string,
-    };
-    updateMutation.mutate({ id, data });
-  };
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+
+      try {
+        const formData = new FormData(e.currentTarget);
+        const data: UpdateMachineInput = {
+          name: formData.get("name") as string,
+          location: formData.get("location") as string,
+        };
+
+        await updateMutation.mutateAsync({ id, data });
+
+        toast.success("Machine updated successfully");
+
+        await navigate({ to: "/admin/machines" });
+      } catch (error) {
+        console.error(error);
+        toast.error("Failed to update machine");
+      }
+    },
+    [updateMutation, id, navigate]
+  );
 
   if (!machine) {
     return null;

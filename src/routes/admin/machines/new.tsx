@@ -10,6 +10,8 @@ import {
   Card,
   Box,
 } from "@radix-ui/themes";
+import { useCallback } from "react";
+import toast from "react-hot-toast";
 
 import { createMachine, type CreateMachineInput } from "../../../api/machines";
 
@@ -25,19 +27,32 @@ function NewMachinePage() {
     mutationFn: createMachine,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["machines"] });
-      navigate({ to: "/admin/machines" });
     },
   });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const data: CreateMachineInput = {
-      name: formData.get("name") as string,
-      location: formData.get("location") as string,
-    };
-    createMutation.mutate(data);
-  };
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+
+      try {
+        const formData = new FormData(e.currentTarget);
+        const data: CreateMachineInput = {
+          name: formData.get("name") as string,
+          location: formData.get("location") as string,
+        };
+
+        await createMutation.mutateAsync(data);
+
+        toast.success("Machine created successfully");
+
+        await navigate({ to: "/admin/machines" });
+      } catch (error) {
+        console.error(error);
+        toast.error("Failed to create machine");
+      }
+    },
+    [createMutation, navigate]
+  );
 
   return (
     <Container size="2" p="4">

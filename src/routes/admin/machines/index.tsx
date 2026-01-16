@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
 import { useState, useMemo } from "react";
 import {
   Container,
@@ -19,15 +18,16 @@ import { AdminMenu } from "../../../components/admin-menu";
 
 export const Route = createFileRoute("/admin/machines/")({
   component: AdminMachinesPage,
+  loader: async () => {
+    const machines = await fetchMachines();
+    return { machines };
+  },
 });
 
 function AdminMachinesPage() {
-  const [searchQuery, setSearchQuery] = useState("");
+  const { machines } = Route.useLoaderData();
 
-  const { data: machines } = useQuery({
-    queryKey: ["machines"],
-    queryFn: fetchMachines,
-  });
+  const [searchQuery, setSearchQuery] = useState("");
 
   const filteredMachines = useMemo(() => {
     if (!machines) {
