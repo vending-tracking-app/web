@@ -20,6 +20,7 @@ import { Route as AdminMachinesIndexRouteImport } from './routes/admin/machines/
 import { Route as AdminUsersNewRouteImport } from './routes/admin/users/new'
 import { Route as AdminProductsNewRouteImport } from './routes/admin/products/new'
 import { Route as AdminMachinesNewRouteImport } from './routes/admin/machines/new'
+import { Route as ExpeditorMachinesIdOpenShiftRouteImport } from './routes/expeditor/machines/$id.open-shift'
 import { Route as ExpeditorMachinesIdCloseShiftRouteImport } from './routes/expeditor/machines/$id.close-shift'
 import { Route as AdminUsersIdEditRouteImport } from './routes/admin/users/$id.edit'
 import { Route as AdminProductsIdEditRouteImport } from './routes/admin/products/$id.edit'
@@ -80,6 +81,12 @@ const AdminMachinesNewRoute = AdminMachinesNewRouteImport.update({
   path: '/machines/new',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const ExpeditorMachinesIdOpenShiftRoute =
+  ExpeditorMachinesIdOpenShiftRouteImport.update({
+    id: '/machines/$id/open-shift',
+    path: '/machines/$id/open-shift',
+    getParentRoute: () => ExpeditorRouteRoute,
+  } as any)
 const ExpeditorMachinesIdCloseShiftRoute =
   ExpeditorMachinesIdCloseShiftRouteImport.update({
     id: '/machines/$id/close-shift',
@@ -118,6 +125,7 @@ export interface FileRoutesByFullPath {
   '/admin/products/$id/edit': typeof AdminProductsIdEditRoute
   '/admin/users/$id/edit': typeof AdminUsersIdEditRoute
   '/expeditor/machines/$id/close-shift': typeof ExpeditorMachinesIdCloseShiftRoute
+  '/expeditor/machines/$id/open-shift': typeof ExpeditorMachinesIdOpenShiftRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -135,6 +143,7 @@ export interface FileRoutesByTo {
   '/admin/products/$id/edit': typeof AdminProductsIdEditRoute
   '/admin/users/$id/edit': typeof AdminUsersIdEditRoute
   '/expeditor/machines/$id/close-shift': typeof ExpeditorMachinesIdCloseShiftRoute
+  '/expeditor/machines/$id/open-shift': typeof ExpeditorMachinesIdOpenShiftRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -153,6 +162,7 @@ export interface FileRoutesById {
   '/admin/products/$id/edit': typeof AdminProductsIdEditRoute
   '/admin/users/$id/edit': typeof AdminUsersIdEditRoute
   '/expeditor/machines/$id/close-shift': typeof ExpeditorMachinesIdCloseShiftRoute
+  '/expeditor/machines/$id/open-shift': typeof ExpeditorMachinesIdOpenShiftRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -172,6 +182,7 @@ export interface FileRouteTypes {
     | '/admin/products/$id/edit'
     | '/admin/users/$id/edit'
     | '/expeditor/machines/$id/close-shift'
+    | '/expeditor/machines/$id/open-shift'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -189,6 +200,7 @@ export interface FileRouteTypes {
     | '/admin/products/$id/edit'
     | '/admin/users/$id/edit'
     | '/expeditor/machines/$id/close-shift'
+    | '/expeditor/machines/$id/open-shift'
   id:
     | '__root__'
     | '/'
@@ -206,6 +218,7 @@ export interface FileRouteTypes {
     | '/admin/products/$id/edit'
     | '/admin/users/$id/edit'
     | '/expeditor/machines/$id/close-shift'
+    | '/expeditor/machines/$id/open-shift'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -294,6 +307,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminMachinesNewRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/expeditor/machines/$id/open-shift': {
+      id: '/expeditor/machines/$id/open-shift'
+      path: '/machines/$id/open-shift'
+      fullPath: '/expeditor/machines/$id/open-shift'
+      preLoaderRoute: typeof ExpeditorMachinesIdOpenShiftRouteImport
+      parentRoute: typeof ExpeditorRouteRoute
+    }
     '/expeditor/machines/$id/close-shift': {
       id: '/expeditor/machines/$id/close-shift'
       path: '/machines/$id/close-shift'
@@ -356,11 +376,13 @@ const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
 interface ExpeditorRouteRouteChildren {
   ExpeditorMachinesIndexRoute: typeof ExpeditorMachinesIndexRoute
   ExpeditorMachinesIdCloseShiftRoute: typeof ExpeditorMachinesIdCloseShiftRoute
+  ExpeditorMachinesIdOpenShiftRoute: typeof ExpeditorMachinesIdOpenShiftRoute
 }
 
 const ExpeditorRouteRouteChildren: ExpeditorRouteRouteChildren = {
   ExpeditorMachinesIndexRoute: ExpeditorMachinesIndexRoute,
   ExpeditorMachinesIdCloseShiftRoute: ExpeditorMachinesIdCloseShiftRoute,
+  ExpeditorMachinesIdOpenShiftRoute: ExpeditorMachinesIdOpenShiftRoute,
 }
 
 const ExpeditorRouteRouteWithChildren = ExpeditorRouteRoute._addFileChildren(

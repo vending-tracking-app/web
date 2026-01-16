@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Theme } from "@radix-ui/themes";
+import { Toaster } from "react-hot-toast";
 
 import "@radix-ui/themes/styles.css";
 
@@ -48,6 +49,7 @@ if (rootElement && !rootElement.innerHTML) {
       <QueryClientProvider client={queryClient}>
         <Theme>
           <RouterProvider router={router} />
+          <Toaster />
         </Theme>
       </QueryClientProvider>
     </StrictMode>

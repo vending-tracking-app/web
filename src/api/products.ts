@@ -1,10 +1,8 @@
 import { api } from "../lib/api-client";
+import type { BaseEntity } from "./types";
 
 // Types
-export interface Product {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
+export interface Product extends BaseEntity {
   sku: string;
   name: string;
 }

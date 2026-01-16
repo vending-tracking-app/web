@@ -10,7 +10,6 @@ import {
   IconButton,
   Card,
   Popover,
-  TextField,
 } from "@radix-ui/themes";
 import {
   TrashIcon,
@@ -34,8 +33,8 @@ interface ProductInStock {
   quantity: number;
 }
 
-export const Route = createFileRoute("/expeditor/machines/$id/close-shift")({
-  component: ExpeditorCloseShiftPage,
+export const Route = createFileRoute("/expeditor/machines/$id/open-shift")({
+  component: ExpeditorOpenShiftPage,
   loader: async ({ params }) => {
     const [machineStock, products] = await Promise.all([
       fetchMachineStock(params.id),
@@ -45,7 +44,7 @@ export const Route = createFileRoute("/expeditor/machines/$id/close-shift")({
   },
 });
 
-function ExpeditorCloseShiftPage() {
+function ExpeditorOpenShiftPage() {
   const navigate = useNavigate();
 
   const { id } = Route.useParams();
@@ -63,7 +62,6 @@ function ExpeditorCloseShiftPage() {
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState<string>();
   const [photoFile, setPhotoFile] = useState<File | null>(null);
-  const [cashCollected, setCashCollected] = useState<string>("");
 
   const photoUrl = useMemo(() => {
     if (!photoFile) {
@@ -81,7 +79,7 @@ function ExpeditorCloseShiftPage() {
     };
   }, [photoUrl]);
 
-  const closeShiftMutation = useMutation({
+  const openShiftMutation = useMutation({
     mutationFn: createShiftOperation,
   });
 
@@ -129,41 +127,35 @@ function ExpeditorCloseShiftPage() {
     [products]
   );
 
-  const handleCloseShift = useCallback(async () => {
-    if (!photoFile || cashCollected === "") {
-      toast.error(
-        "Please take a photo of the machine and enter the money collected"
-      );
+  const handleOpenShift = useCallback(async () => {
+    if (!photoFile) {
+      toast.error("Please take a photo of the machine");
       return;
     }
 
     try {
-      await closeShiftMutation.mutateAsync({
+      await openShiftMutation.mutateAsync({
         machineId: id,
-        type: ShiftOperationType.SHIFT_END,
-        cashCollected: parseFloat(cashCollected) || 0,
+        type: ShiftOperationType.SHIFT_START,
         snapshot: snapshot.map((item) => ({
           productId: item.id,
           quantity: item.quantity,
         })),
       });
 
-      toast.success("Shift closed successfully");
+      toast.success("Shift opened successfully");
 
-      await navigate({
-        to: "/expeditor/machines/$id/open-shift",
-        params: { id },
-      });
+      await navigate({ to: "/expeditor/machines" });
     } catch (error) {
       console.error(error);
-      toast.error("Failed to close shift");
+      toast.error("Failed to open shift");
     }
-  }, [id, cashCollected, snapshot, closeShiftMutation]);
+  }, [id, snapshot, photoFile, openShiftMutation]);
 
   return (
     <Container size="4" p="4">
       <Flex direction="column" gap="6">
-        <Heading size="6">Close Shift - Machine</Heading>
+        <Heading size="6">Open Shift - Machine</Heading>
 
         <Flex direction="column" gap="3">
           <Text weight="bold" size="3">
@@ -216,24 +208,6 @@ function ExpeditorCloseShiftPage() {
             <CameraIcon />
             {photoUrl ? "Retake Photo" : "Take Photo"}
           </Button>
-        </Flex>
-
-        <Flex direction="column" gap="3">
-          <Text as="label" htmlFor="moneyAmount" weight="bold" size="3">
-            Money in Machine
-          </Text>
-
-          <TextField.Root
-            id="moneyAmount"
-            type="number"
-            placeholder="0"
-            value={cashCollected}
-            onChange={(e) => setCashCollected(e.target.value)}
-            step="1"
-            min="0"
-          >
-            <TextField.Slot>₸</TextField.Slot>
-          </TextField.Root>
         </Flex>
 
         <Flex direction="column" gap="3">
@@ -323,12 +297,12 @@ function ExpeditorCloseShiftPage() {
 
         <Button
           color="green"
-          disabled={!photoUrl || cashCollected === ""}
-          onClick={handleCloseShift}
-          loading={closeShiftMutation.isPending}
+          disabled={!photoFile}
+          onClick={handleOpenShift}
+          loading={openShiftMutation.isPending}
         >
           <CheckIcon />
-          Close Shift
+          Open Shift
         </Button>
       </Flex>
     </Container>

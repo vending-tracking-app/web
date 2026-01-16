@@ -1,10 +1,10 @@
 import { api } from "../lib/api-client";
+import type { BaseEntity } from "./types";
 
 // Types
 export type UserRole = "admin" | "user";
 
-export interface User {
-  id: string;
+export interface User extends BaseEntity {
   name: string;
   email: string;
   role: UserRole;
