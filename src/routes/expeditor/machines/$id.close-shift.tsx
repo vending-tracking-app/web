@@ -9,9 +9,16 @@ import {
   IconButton,
   Card,
   Popover,
+  TextField,
 } from "@radix-ui/themes";
-import { TrashIcon, MinusIcon, PlusIcon } from "@radix-ui/react-icons";
-import { useState, useCallback, useMemo } from "react";
+import {
+  TrashIcon,
+  MinusIcon,
+  PlusIcon,
+  CameraIcon,
+  CheckIcon,
+} from "@radix-ui/react-icons";
+import { useState, useCallback, useMemo, useRef, useEffect } from "react";
 
 import { fetchProducts } from "../../../api/products";
 import { fetchMachineStock } from "../../../api/machines";
@@ -35,6 +42,8 @@ export const Route = createFileRoute("/expeditor/machines/$id/close-shift")({
 function ExpeditorCloseShiftPage() {
   const { machineStock, products } = Route.useLoaderData();
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const [snapshot, setSnapshot] = useState<ProductInStock[]>(() => {
     return machineStock.stock.map((stockItem) => ({
       id: stockItem.productId,
@@ -43,7 +52,25 @@ function ExpeditorCloseShiftPage() {
   });
 
   const [popoverOpen, setPopoverOpen] = useState(false);
-  const [selectedProductId, setSelectedProductId] = useState<string>("");
+  const [selectedProductId, setSelectedProductId] = useState<string>();
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
+  const [moneyAmount, setMoneyAmount] = useState<string>("");
+
+  const photoUrl = useMemo(() => {
+    if (!photoFile) {
+      return null;
+    }
+
+    return URL.createObjectURL(photoFile);
+  }, [photoFile]);
+
+  useEffect(() => {
+    return () => {
+      if (photoUrl) {
+        URL.revokeObjectURL(photoUrl);
+      }
+    };
+  }, [photoUrl]);
 
   const incrementQuantity = useCallback((index: number) => {
     setSnapshot((prev) =>
@@ -91,10 +118,115 @@ function ExpeditorCloseShiftPage() {
 
   return (
     <Container size="4" p="4">
-      <Flex direction="column" gap="4">
+      <Flex direction="column" gap="6">
         <Heading size="6">Close Shift - Machine</Heading>
 
         <Flex direction="column" gap="3">
+          <Text weight="bold" size="3">
+            Machine Photo
+          </Text>
+
+          <Card>
+            {photoUrl ? (
+              <img
+                src={photoUrl}
+                alt="Machine"
+                style={{
+                  width: "100%",
+                  maxHeight: "400px",
+                  objectFit: "contain",
+                }}
+              />
+            ) : (
+              <Flex
+                direction="column"
+                align="center"
+                justify="center"
+                gap="2"
+                p="6"
+              >
+                <CameraIcon width="32" height="32" color="gray" />
+                <Text color="gray" size="2">
+                  No photo taken yet
+                </Text>
+              </Flex>
+            )}
+          </Card>
+
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            capture="environment"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+
+              if (file) {
+                setPhotoFile(file);
+              }
+            }}
+            style={{ display: "none" }}
+          />
+
+          <Button onClick={() => fileInputRef.current?.click()} variant="soft">
+            <CameraIcon />
+            {photoUrl ? "Retake Photo" : "Take Photo"}
+          </Button>
+        </Flex>
+
+        <Flex direction="column" gap="3">
+          <Text as="label" htmlFor="moneyAmount" weight="bold" size="3">
+            Money in Machine
+          </Text>
+
+          <TextField.Root
+            id="moneyAmount"
+            type="number"
+            placeholder="0"
+            value={moneyAmount}
+            onChange={(e) => setMoneyAmount(e.target.value)}
+            step="1"
+            min="0"
+          >
+            <TextField.Slot>₸</TextField.Slot>
+          </TextField.Root>
+        </Flex>
+
+        <Flex direction="column" gap="3">
+          <Flex align="center" justify="between">
+            <Text weight="bold" size="3">
+              Products
+            </Text>
+
+            <Popover.Root open={popoverOpen} onOpenChange={setPopoverOpen}>
+              <Popover.Trigger>
+                <Button disabled={!hasAvailableProducts}>
+                  <PlusIcon /> Add Product
+                </Button>
+              </Popover.Trigger>
+              <Popover.Content width="300px">
+                <Flex direction="column" gap="3">
+                  <Select.Root
+                    value={selectedProductId}
+                    onValueChange={setSelectedProductId}
+                  >
+                    <Select.Trigger placeholder="Select product" />
+                    <Select.Content>
+                      {availableProducts.map((product) => (
+                        <Select.Item key={product.id} value={product.id}>
+                          {product.name}
+                        </Select.Item>
+                      ))}
+                    </Select.Content>
+                  </Select.Root>
+                  <Button onClick={addProduct} disabled={!selectedProductId}>
+                    Add
+                  </Button>
+                </Flex>
+              </Popover.Content>
+            </Popover.Root>
+          </Flex>
+
           {snapshot.map((item, index) => (
             <Card key={item.id}>
               <Flex align="center" justify="between" gap="3">
@@ -145,31 +277,9 @@ function ExpeditorCloseShiftPage() {
           )}
         </Flex>
 
-        <Popover.Root open={popoverOpen} onOpenChange={setPopoverOpen}>
-          <Popover.Trigger>
-            <Button disabled={!hasAvailableProducts}>Add Product</Button>
-          </Popover.Trigger>
-          <Popover.Content width="300px">
-            <Flex direction="column" gap="3">
-              <Select.Root
-                value={selectedProductId}
-                onValueChange={setSelectedProductId}
-              >
-                <Select.Trigger placeholder="Select product" />
-                <Select.Content>
-                  {availableProducts.map((product) => (
-                    <Select.Item key={product.id} value={product.id}>
-                      {product.name}
-                    </Select.Item>
-                  ))}
-                </Select.Content>
-              </Select.Root>
-              <Button onClick={addProduct} disabled={!selectedProductId}>
-                Add
-              </Button>
-            </Flex>
-          </Popover.Content>
-        </Popover.Root>
+        <Button color="green" disabled={!photoUrl || moneyAmount === ""}>
+          <CheckIcon /> Close Shift
+        </Button>
       </Flex>
     </Container>
   );
