@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useCallback } from "react";
 import {
   Container,
   Heading,
@@ -11,6 +12,7 @@ import {
   Box,
   Select,
 } from "@radix-ui/themes";
+import toast from "react-hot-toast";
 
 import {
   createUser,
@@ -30,21 +32,34 @@ function NewUserPage() {
     mutationFn: createUser,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
-      navigate({ to: "/admin/users" });
     },
   });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const data: CreateUserInput = {
-      name: formData.get("name") as string,
-      email: formData.get("email") as string,
-      role: formData.get("role") as UserRole,
-      password: formData.get("password") as string,
-    };
-    createMutation.mutate(data);
-  };
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+
+      try {
+        const formData = new FormData(e.currentTarget);
+        const data: CreateUserInput = {
+          name: formData.get("name") as string,
+          email: formData.get("email") as string,
+          role: formData.get("role") as UserRole,
+          password: formData.get("password") as string,
+        };
+
+        await createMutation.mutateAsync(data);
+
+        toast.success("User created successfully");
+
+        await navigate({ to: "/admin/users" });
+      } catch (error) {
+        console.error(error);
+        toast.error("Failed to create user");
+      }
+    },
+    [createMutation, queryClient, navigate]
+  );
 
   return (
     <Container size="2" p="4">

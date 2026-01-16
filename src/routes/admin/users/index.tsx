@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
 import { useState, useMemo } from "react";
 import {
   Container,
@@ -21,34 +20,53 @@ import { authClient } from "../../../lib/auth-client";
 
 export const Route = createFileRoute("/admin/users/")({
   component: AdminUsersPage,
+  loader: async () => {
+    const users = await fetchUsers();
+    return { users };
+  },
 });
 
 function AdminUsersPage() {
   const session = authClient.useSession();
+  const { users } = Route.useLoaderData();
 
   const [searchQuery, setSearchQuery] = useState("");
-
-  const { data: users } = useQuery({
-    queryKey: ["users"],
-    queryFn: fetchUsers,
-  });
 
   const filteredUsers = useMemo(() => {
     if (!users) {
       return [];
     }
 
-    if (!searchQuery.trim()) {
-      return users;
+    let result = users;
+
+    // Filter by search query if provided
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+
+      result = users.filter(
+        (user) =>
+          user.name.toLowerCase().includes(query) ||
+          user.email.toLowerCase().includes(query)
+      );
     }
 
-    const query = searchQuery.toLowerCase();
-    return users.filter(
-      (user) =>
-        user.name.toLowerCase().includes(query) ||
-        user.email.toLowerCase().includes(query)
-    );
-  }, [users, searchQuery]);
+    // Sort to show current user first
+    const currentUserId = session.data?.user?.id;
+
+    if (currentUserId) {
+      result = [...result].sort((a, b) => {
+        if (a.id === currentUserId) {
+          return -1;
+        } else if (b.id === currentUserId) {
+          return 1;
+        }
+
+        return 0;
+      });
+    }
+
+    return result;
+  }, [users, searchQuery, session.data?.user?.id]);
 
   return (
     <Container size="4" p="4">
