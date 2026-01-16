@@ -9,6 +9,15 @@ export interface Machine {
   location: string;
 }
 
+export interface MachineStockItem {
+  productId: string;
+  quantity: number;
+}
+
+export interface MachineStock {
+  stock: MachineStockItem[];
+}
+
 export interface CreateMachineInput {
   name: string;
   location: string;
@@ -34,3 +43,6 @@ export const updateMachine = ({
   id: string;
   data: UpdateMachineInput;
 }) => api.patch<Machine>(`/machines/${id}`, data);
+
+export const fetchMachineStock = (id: string) =>
+  api.get<MachineStock>(`/machines/${id}/stock`);
