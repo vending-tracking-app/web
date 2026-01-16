@@ -38,7 +38,6 @@ function EditMachinePage() {
     mutationFn: updateMachine,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["machines"] });
-      navigate({ to: "/admin/machines" });
     },
   });
 
