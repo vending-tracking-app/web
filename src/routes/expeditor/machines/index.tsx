@@ -15,6 +15,7 @@ import {
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 
 import { fetchMachines } from "../../../api/machines";
+import { ExpeditorMenu } from "../../../components/expeditor-menu";
 
 export const Route = createFileRoute("/expeditor/machines/")({
   component: ExpeditorMachinesPage,
@@ -49,11 +50,9 @@ function ExpeditorMachinesPage() {
     <Container size="4" p="4">
       <Flex direction="column" gap="4">
         {/* Header */}
-        <Flex align="center">
-          <Flex align="center" gap="2">
-            {/* <ExpeditorMenu /> */}
-            <Heading size="6">Machines</Heading>
-          </Flex>
+        <Flex align="center" gap="2">
+          <ExpeditorMenu />
+          <Heading size="6">Machines</Heading>
         </Flex>
 
         {/* Search */}

@@ -13,6 +13,8 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as ExpeditorRouteRouteImport } from './routes/expeditor/route'
 import { Route as AdminRouteRouteImport } from './routes/admin/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ExpeditorMyStockRouteImport } from './routes/expeditor/my-stock'
+import { Route as AdminMyStockRouteImport } from './routes/admin/my-stock'
 import { Route as ExpeditorMachinesIndexRouteImport } from './routes/expeditor/machines/index'
 import { Route as AdminUsersIndexRouteImport } from './routes/admin/users/index'
 import { Route as AdminProductsIndexRouteImport } from './routes/admin/products/index'
@@ -47,6 +49,16 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const ExpeditorMyStockRoute = ExpeditorMyStockRouteImport.update({
+  id: '/my-stock',
+  path: '/my-stock',
+  getParentRoute: () => ExpeditorRouteRoute,
+} as any)
+const AdminMyStockRoute = AdminMyStockRouteImport.update({
+  id: '/my-stock',
+  path: '/my-stock',
+  getParentRoute: () => AdminRouteRoute,
 } as any)
 const ExpeditorMachinesIndexRoute = ExpeditorMachinesIndexRouteImport.update({
   id: '/machines/',
@@ -126,6 +138,8 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteRouteWithChildren
   '/expeditor': typeof ExpeditorRouteRouteWithChildren
   '/login': typeof LoginRoute
+  '/admin/my-stock': typeof AdminMyStockRoute
+  '/expeditor/my-stock': typeof ExpeditorMyStockRoute
   '/admin/machines/new': typeof AdminMachinesNewRoute
   '/admin/products/new': typeof AdminProductsNewRoute
   '/admin/users/new': typeof AdminUsersNewRoute
@@ -146,6 +160,8 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRouteRouteWithChildren
   '/expeditor': typeof ExpeditorRouteRouteWithChildren
   '/login': typeof LoginRoute
+  '/admin/my-stock': typeof AdminMyStockRoute
+  '/expeditor/my-stock': typeof ExpeditorMyStockRoute
   '/admin/machines/new': typeof AdminMachinesNewRoute
   '/admin/products/new': typeof AdminProductsNewRoute
   '/admin/users/new': typeof AdminUsersNewRoute
@@ -167,6 +183,8 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteRouteWithChildren
   '/expeditor': typeof ExpeditorRouteRouteWithChildren
   '/login': typeof LoginRoute
+  '/admin/my-stock': typeof AdminMyStockRoute
+  '/expeditor/my-stock': typeof ExpeditorMyStockRoute
   '/admin/machines/new': typeof AdminMachinesNewRoute
   '/admin/products/new': typeof AdminProductsNewRoute
   '/admin/users/new': typeof AdminUsersNewRoute
@@ -189,6 +207,8 @@ export interface FileRouteTypes {
     | '/admin'
     | '/expeditor'
     | '/login'
+    | '/admin/my-stock'
+    | '/expeditor/my-stock'
     | '/admin/machines/new'
     | '/admin/products/new'
     | '/admin/users/new'
@@ -209,6 +229,8 @@ export interface FileRouteTypes {
     | '/admin'
     | '/expeditor'
     | '/login'
+    | '/admin/my-stock'
+    | '/expeditor/my-stock'
     | '/admin/machines/new'
     | '/admin/products/new'
     | '/admin/users/new'
@@ -229,6 +251,8 @@ export interface FileRouteTypes {
     | '/admin'
     | '/expeditor'
     | '/login'
+    | '/admin/my-stock'
+    | '/expeditor/my-stock'
     | '/admin/machines/new'
     | '/admin/products/new'
     | '/admin/users/new'
@@ -281,6 +305,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/expeditor/my-stock': {
+      id: '/expeditor/my-stock'
+      path: '/my-stock'
+      fullPath: '/expeditor/my-stock'
+      preLoaderRoute: typeof ExpeditorMyStockRouteImport
+      parentRoute: typeof ExpeditorRouteRoute
+    }
+    '/admin/my-stock': {
+      id: '/admin/my-stock'
+      path: '/my-stock'
+      fullPath: '/admin/my-stock'
+      preLoaderRoute: typeof AdminMyStockRouteImport
+      parentRoute: typeof AdminRouteRoute
     }
     '/expeditor/machines/': {
       id: '/expeditor/machines/'
@@ -384,6 +422,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteRouteChildren {
+  AdminMyStockRoute: typeof AdminMyStockRoute
   AdminMachinesNewRoute: typeof AdminMachinesNewRoute
   AdminProductsNewRoute: typeof AdminProductsNewRoute
   AdminUsersNewRoute: typeof AdminUsersNewRoute
@@ -398,6 +437,7 @@ interface AdminRouteRouteChildren {
 }
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
+  AdminMyStockRoute: AdminMyStockRoute,
   AdminMachinesNewRoute: AdminMachinesNewRoute,
   AdminProductsNewRoute: AdminProductsNewRoute,
   AdminUsersNewRoute: AdminUsersNewRoute,
@@ -416,12 +456,14 @@ const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
 )
 
 interface ExpeditorRouteRouteChildren {
+  ExpeditorMyStockRoute: typeof ExpeditorMyStockRoute
   ExpeditorMachinesIndexRoute: typeof ExpeditorMachinesIndexRoute
   ExpeditorMachinesIdCloseShiftRoute: typeof ExpeditorMachinesIdCloseShiftRoute
   ExpeditorMachinesIdOpenShiftRoute: typeof ExpeditorMachinesIdOpenShiftRoute
 }
 
 const ExpeditorRouteRouteChildren: ExpeditorRouteRouteChildren = {
+  ExpeditorMyStockRoute: ExpeditorMyStockRoute,
   ExpeditorMachinesIndexRoute: ExpeditorMachinesIndexRoute,
   ExpeditorMachinesIdCloseShiftRoute: ExpeditorMachinesIdCloseShiftRoute,
   ExpeditorMachinesIdOpenShiftRoute: ExpeditorMachinesIdOpenShiftRoute,
