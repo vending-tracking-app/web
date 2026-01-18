@@ -53,10 +53,12 @@ function ExpeditorOpenShiftPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [snapshot, setSnapshot] = useState<ProductInStock[]>(() => {
-    return machineStock.stock.map((stockItem) => ({
-      id: stockItem.productId,
-      quantity: stockItem.quantity,
-    }));
+    return machineStock.stock
+      .filter((stockItem) => stockItem.quantity > 0)
+      .map((stockItem) => ({
+        id: stockItem.productId,
+        quantity: stockItem.quantity,
+      }));
   });
 
   const [popoverOpen, setPopoverOpen] = useState(false);
