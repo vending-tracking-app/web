@@ -11,6 +11,15 @@ export interface User extends BaseEntity {
   image: string | null;
 }
 
+export interface UserStockItem {
+  productId: string;
+  quantity: number;
+}
+
+export interface UserStock {
+  stock: UserStockItem[];
+}
+
 export interface CreateUserInput {
   name: string;
   email: string;
@@ -39,3 +48,6 @@ export const updateUser = ({
   id: string;
   data: UpdateUserInput;
 }) => api.patch<User>(`/users/${id}`, data);
+
+export const fetchUserStock = (id: string) =>
+  api.get<UserStock>(`/users/${id}/stock`);

@@ -12,7 +12,7 @@ import {
   TextField,
   Badge,
 } from "@radix-ui/themes";
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import { MagnifyingGlassIcon, PlusIcon } from "@radix-ui/react-icons";
 
 import { fetchUsers } from "../../../api/users";
 import { AdminMenu } from "../../../components/admin-menu";
@@ -79,7 +79,9 @@ function AdminUsersPage() {
           </Flex>
 
           <Button asChild>
-            <Link to="/admin/users/new">Add User</Link>
+            <Link to="/admin/users/new">
+              <PlusIcon /> Add User
+            </Link>
           </Button>
         </Flex>
 
@@ -97,44 +99,40 @@ function AdminUsersPage() {
         {/* Users Grid */}
         <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap="4">
           {filteredUsers.map((user) => (
-            <Card key={user.id}>
-              <Flex direction="column" gap="3">
-                {/* User Header */}
-                <Flex justify="between" align="start">
-                  <Flex align="center" gap="2">
-                    <Heading size="4">{user.name}</Heading>
+            <Link key={user.id} to="/admin/users/$id" params={{ id: user.id }}>
+              <Card>
+                <Flex direction="column" gap="3">
+                  {/* User Header */}
+                  <Flex justify="between" align="center">
+                    <Flex align="center" gap="2">
+                      <Heading size="4">{user.name}</Heading>
 
-                    {session.data?.user?.id === user.id && (
-                      <Badge color="gray">You</Badge>
-                    )}
+                      {session.data?.user?.id === user.id && (
+                        <Badge color="gray">You</Badge>
+                      )}
+                    </Flex>
                   </Flex>
 
-                  <Button asChild size="2" variant="soft">
-                    <Link to="/admin/users/$id/edit" params={{ id: user.id }}>
-                      Edit
-                    </Link>
-                  </Button>
+                  {/* User Details */}
+                  <DataList.Root>
+                    <DataList.Item>
+                      <DataList.Label>Email</DataList.Label>
+                      <DataList.Value>
+                        <Text>{user.email}</Text>
+                      </DataList.Value>
+                    </DataList.Item>
+                    <DataList.Item>
+                      <DataList.Label>Role</DataList.Label>
+                      <DataList.Value>
+                        <Badge color={user.role === "admin" ? "blue" : "green"}>
+                          {user.role === "admin" ? "Admin" : "Expeditor"}
+                        </Badge>
+                      </DataList.Value>
+                    </DataList.Item>
+                  </DataList.Root>
                 </Flex>
-
-                {/* User Details */}
-                <DataList.Root>
-                  <DataList.Item>
-                    <DataList.Label>Email</DataList.Label>
-                    <DataList.Value>
-                      <Text>{user.email}</Text>
-                    </DataList.Value>
-                  </DataList.Item>
-                  <DataList.Item>
-                    <DataList.Label>Role</DataList.Label>
-                    <DataList.Value>
-                      <Badge color={user.role === "admin" ? "blue" : "green"}>
-                        {user.role === "admin" ? "Admin" : "Expeditor"}
-                      </Badge>
-                    </DataList.Value>
-                  </DataList.Item>
-                </DataList.Root>
-              </Flex>
-            </Card>
+              </Card>
+            </Link>
           ))}
         </Grid>
       </Flex>

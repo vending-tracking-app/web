@@ -57,7 +57,7 @@ function EditUserPage() {
 
         toast.success("User updated successfully");
 
-        await navigate({ to: "/admin/users" });
+        await navigate({ to: "/admin/users/$id", params: { id } });
       } catch (error) {
         console.error(error);
         toast.error("Failed to update user");
@@ -117,7 +117,9 @@ function EditUserPage() {
                   type="button"
                   variant="soft"
                   color="gray"
-                  onClick={() => navigate({ to: "/admin/users" })}
+                  onClick={() =>
+                    navigate({ to: "/admin/users/$id", params: { id } })
+                  }
                 >
                   Cancel
                 </Button>
