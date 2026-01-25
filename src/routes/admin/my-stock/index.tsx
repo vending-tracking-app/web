@@ -1,12 +1,21 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Container, Flex, Heading, Text, Badge, Table } from "@radix-ui/themes";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import {
+  Container,
+  Flex,
+  Heading,
+  Text,
+  Badge,
+  Table,
+  Button,
+} from "@radix-ui/themes";
+import { PlusIcon } from "@radix-ui/react-icons";
 
-import { fetchUserStock } from "../../api/users";
-import { fetchProducts } from "../../api/products";
-import { AdminMenu } from "../../components/admin-menu";
-import { authClient } from "../../lib/auth-client";
+import { fetchUserStock } from "../../../api/users";
+import { fetchProducts } from "../../../api/products";
+import { AdminMenu } from "../../../components/admin-menu";
+import { authClient } from "../../../lib/auth-client";
 
-export const Route = createFileRoute("/admin/my-stock")({
+export const Route = createFileRoute("/admin/my-stock/")({
   component: AdminMyStockPage,
   loader: async () => {
     const session = await authClient.getSession();
@@ -33,9 +42,16 @@ function AdminMyStockPage() {
     <Container size="3" p="4">
       <Flex direction="column" gap="4">
         {/* Header */}
-        <Flex align="center" gap="2">
-          <AdminMenu />
-          <Heading size="6">My Stock</Heading>
+        <Flex align="center" justify="between">
+          <Flex align="center" gap="2">
+            <AdminMenu />
+            <Heading size="6">My Stock</Heading>
+          </Flex>
+          <Button variant="soft" asChild>
+            <Link to="/admin/my-stock/replenish">
+              <PlusIcon /> Replenish Stock
+            </Link>
+          </Button>
         </Flex>
 
         {/* Stock Table */}

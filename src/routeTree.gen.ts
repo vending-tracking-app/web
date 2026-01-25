@@ -14,13 +14,14 @@ import { Route as ExpeditorRouteRouteImport } from './routes/expeditor/route'
 import { Route as AdminRouteRouteImport } from './routes/admin/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ExpeditorMyStockRouteImport } from './routes/expeditor/my-stock'
-import { Route as AdminMyStockRouteImport } from './routes/admin/my-stock'
 import { Route as ExpeditorMachinesIndexRouteImport } from './routes/expeditor/machines/index'
 import { Route as AdminUsersIndexRouteImport } from './routes/admin/users/index'
 import { Route as AdminProductsIndexRouteImport } from './routes/admin/products/index'
+import { Route as AdminMyStockIndexRouteImport } from './routes/admin/my-stock/index'
 import { Route as AdminMachinesIndexRouteImport } from './routes/admin/machines/index'
 import { Route as AdminUsersNewRouteImport } from './routes/admin/users/new'
 import { Route as AdminProductsNewRouteImport } from './routes/admin/products/new'
+import { Route as AdminMyStockReplenishRouteImport } from './routes/admin/my-stock/replenish'
 import { Route as AdminMachinesNewRouteImport } from './routes/admin/machines/new'
 import { Route as AdminUsersIdIndexRouteImport } from './routes/admin/users/$id.index'
 import { Route as ExpeditorMachinesIdOpenShiftRouteImport } from './routes/expeditor/machines/$id.open-shift'
@@ -55,11 +56,6 @@ const ExpeditorMyStockRoute = ExpeditorMyStockRouteImport.update({
   path: '/my-stock',
   getParentRoute: () => ExpeditorRouteRoute,
 } as any)
-const AdminMyStockRoute = AdminMyStockRouteImport.update({
-  id: '/my-stock',
-  path: '/my-stock',
-  getParentRoute: () => AdminRouteRoute,
-} as any)
 const ExpeditorMachinesIndexRoute = ExpeditorMachinesIndexRouteImport.update({
   id: '/machines/',
   path: '/machines/',
@@ -75,6 +71,11 @@ const AdminProductsIndexRoute = AdminProductsIndexRouteImport.update({
   path: '/products/',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminMyStockIndexRoute = AdminMyStockIndexRouteImport.update({
+  id: '/my-stock/',
+  path: '/my-stock/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AdminMachinesIndexRoute = AdminMachinesIndexRouteImport.update({
   id: '/machines/',
   path: '/machines/',
@@ -88,6 +89,11 @@ const AdminUsersNewRoute = AdminUsersNewRouteImport.update({
 const AdminProductsNewRoute = AdminProductsNewRouteImport.update({
   id: '/products/new',
   path: '/products/new',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminMyStockReplenishRoute = AdminMyStockReplenishRouteImport.update({
+  id: '/my-stock/replenish',
+  path: '/my-stock/replenish',
   getParentRoute: () => AdminRouteRoute,
 } as any)
 const AdminMachinesNewRoute = AdminMachinesNewRouteImport.update({
@@ -138,12 +144,13 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteRouteWithChildren
   '/expeditor': typeof ExpeditorRouteRouteWithChildren
   '/login': typeof LoginRoute
-  '/admin/my-stock': typeof AdminMyStockRoute
   '/expeditor/my-stock': typeof ExpeditorMyStockRoute
   '/admin/machines/new': typeof AdminMachinesNewRoute
+  '/admin/my-stock/replenish': typeof AdminMyStockReplenishRoute
   '/admin/products/new': typeof AdminProductsNewRoute
   '/admin/users/new': typeof AdminUsersNewRoute
   '/admin/machines': typeof AdminMachinesIndexRoute
+  '/admin/my-stock': typeof AdminMyStockIndexRoute
   '/admin/products': typeof AdminProductsIndexRoute
   '/admin/users': typeof AdminUsersIndexRoute
   '/expeditor/machines': typeof ExpeditorMachinesIndexRoute
@@ -160,12 +167,13 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRouteRouteWithChildren
   '/expeditor': typeof ExpeditorRouteRouteWithChildren
   '/login': typeof LoginRoute
-  '/admin/my-stock': typeof AdminMyStockRoute
   '/expeditor/my-stock': typeof ExpeditorMyStockRoute
   '/admin/machines/new': typeof AdminMachinesNewRoute
+  '/admin/my-stock/replenish': typeof AdminMyStockReplenishRoute
   '/admin/products/new': typeof AdminProductsNewRoute
   '/admin/users/new': typeof AdminUsersNewRoute
   '/admin/machines': typeof AdminMachinesIndexRoute
+  '/admin/my-stock': typeof AdminMyStockIndexRoute
   '/admin/products': typeof AdminProductsIndexRoute
   '/admin/users': typeof AdminUsersIndexRoute
   '/expeditor/machines': typeof ExpeditorMachinesIndexRoute
@@ -183,12 +191,13 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteRouteWithChildren
   '/expeditor': typeof ExpeditorRouteRouteWithChildren
   '/login': typeof LoginRoute
-  '/admin/my-stock': typeof AdminMyStockRoute
   '/expeditor/my-stock': typeof ExpeditorMyStockRoute
   '/admin/machines/new': typeof AdminMachinesNewRoute
+  '/admin/my-stock/replenish': typeof AdminMyStockReplenishRoute
   '/admin/products/new': typeof AdminProductsNewRoute
   '/admin/users/new': typeof AdminUsersNewRoute
   '/admin/machines/': typeof AdminMachinesIndexRoute
+  '/admin/my-stock/': typeof AdminMyStockIndexRoute
   '/admin/products/': typeof AdminProductsIndexRoute
   '/admin/users/': typeof AdminUsersIndexRoute
   '/expeditor/machines/': typeof ExpeditorMachinesIndexRoute
@@ -207,12 +216,13 @@ export interface FileRouteTypes {
     | '/admin'
     | '/expeditor'
     | '/login'
-    | '/admin/my-stock'
     | '/expeditor/my-stock'
     | '/admin/machines/new'
+    | '/admin/my-stock/replenish'
     | '/admin/products/new'
     | '/admin/users/new'
     | '/admin/machines'
+    | '/admin/my-stock'
     | '/admin/products'
     | '/admin/users'
     | '/expeditor/machines'
@@ -229,12 +239,13 @@ export interface FileRouteTypes {
     | '/admin'
     | '/expeditor'
     | '/login'
-    | '/admin/my-stock'
     | '/expeditor/my-stock'
     | '/admin/machines/new'
+    | '/admin/my-stock/replenish'
     | '/admin/products/new'
     | '/admin/users/new'
     | '/admin/machines'
+    | '/admin/my-stock'
     | '/admin/products'
     | '/admin/users'
     | '/expeditor/machines'
@@ -251,12 +262,13 @@ export interface FileRouteTypes {
     | '/admin'
     | '/expeditor'
     | '/login'
-    | '/admin/my-stock'
     | '/expeditor/my-stock'
     | '/admin/machines/new'
+    | '/admin/my-stock/replenish'
     | '/admin/products/new'
     | '/admin/users/new'
     | '/admin/machines/'
+    | '/admin/my-stock/'
     | '/admin/products/'
     | '/admin/users/'
     | '/expeditor/machines/'
@@ -313,13 +325,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExpeditorMyStockRouteImport
       parentRoute: typeof ExpeditorRouteRoute
     }
-    '/admin/my-stock': {
-      id: '/admin/my-stock'
-      path: '/my-stock'
-      fullPath: '/admin/my-stock'
-      preLoaderRoute: typeof AdminMyStockRouteImport
-      parentRoute: typeof AdminRouteRoute
-    }
     '/expeditor/machines/': {
       id: '/expeditor/machines/'
       path: '/machines'
@@ -341,6 +346,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminProductsIndexRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/my-stock/': {
+      id: '/admin/my-stock/'
+      path: '/my-stock'
+      fullPath: '/admin/my-stock'
+      preLoaderRoute: typeof AdminMyStockIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/machines/': {
       id: '/admin/machines/'
       path: '/machines'
@@ -360,6 +372,13 @@ declare module '@tanstack/react-router' {
       path: '/products/new'
       fullPath: '/admin/products/new'
       preLoaderRoute: typeof AdminProductsNewRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/my-stock/replenish': {
+      id: '/admin/my-stock/replenish'
+      path: '/my-stock/replenish'
+      fullPath: '/admin/my-stock/replenish'
+      preLoaderRoute: typeof AdminMyStockReplenishRouteImport
       parentRoute: typeof AdminRouteRoute
     }
     '/admin/machines/new': {
@@ -422,11 +441,12 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteRouteChildren {
-  AdminMyStockRoute: typeof AdminMyStockRoute
   AdminMachinesNewRoute: typeof AdminMachinesNewRoute
+  AdminMyStockReplenishRoute: typeof AdminMyStockReplenishRoute
   AdminProductsNewRoute: typeof AdminProductsNewRoute
   AdminUsersNewRoute: typeof AdminUsersNewRoute
   AdminMachinesIndexRoute: typeof AdminMachinesIndexRoute
+  AdminMyStockIndexRoute: typeof AdminMyStockIndexRoute
   AdminProductsIndexRoute: typeof AdminProductsIndexRoute
   AdminUsersIndexRoute: typeof AdminUsersIndexRoute
   AdminMachinesIdEditRoute: typeof AdminMachinesIdEditRoute
@@ -437,11 +457,12 @@ interface AdminRouteRouteChildren {
 }
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
-  AdminMyStockRoute: AdminMyStockRoute,
   AdminMachinesNewRoute: AdminMachinesNewRoute,
+  AdminMyStockReplenishRoute: AdminMyStockReplenishRoute,
   AdminProductsNewRoute: AdminProductsNewRoute,
   AdminUsersNewRoute: AdminUsersNewRoute,
   AdminMachinesIndexRoute: AdminMachinesIndexRoute,
+  AdminMyStockIndexRoute: AdminMyStockIndexRoute,
   AdminProductsIndexRoute: AdminProductsIndexRoute,
   AdminUsersIndexRoute: AdminUsersIndexRoute,
   AdminMachinesIdEditRoute: AdminMachinesIdEditRoute,
