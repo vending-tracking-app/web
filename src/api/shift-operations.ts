@@ -1,10 +1,10 @@
-import { api } from "../lib/api-client";
-import type { SuccessResponse, BaseEntity } from "./types";
+import { api } from '../lib/api-client';
+import type { SuccessResponse, BaseEntity } from './types';
 
 // Enums
 export enum ShiftOperationType {
-  SHIFT_START = "shift_start",
-  SHIFT_END = "shift_end",
+  SHIFT_START = 'shift_start',
+  SHIFT_END = 'shift_end',
 }
 
 // Types
@@ -28,4 +28,4 @@ export interface ShiftOperation extends BaseEntity {
 
 // API functions
 export const createShiftOperation = (data: CreateShiftOperationInput) =>
-  api.post<SuccessResponse>("/shift-operations", data);
+  api.post<SuccessResponse>('/shift-operations', data);

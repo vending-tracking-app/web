@@ -1,5 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState, useMemo } from "react";
+import { createFileRoute, Link } from '@tanstack/react-router';
+import { useState, useMemo } from 'react';
 import {
   Container,
   Heading,
@@ -10,13 +10,13 @@ import {
   Grid,
   DataList,
   TextField,
-} from "@radix-ui/themes";
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
+} from '@radix-ui/themes';
+import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 
-import { fetchProducts } from "../../../api/products";
-import { AdminMenu } from "../../../components/admin-menu";
+import { fetchProducts } from '../../../api/products';
+import { AdminMenu } from '../../../components/admin-menu';
 
-export const Route = createFileRoute("/admin/products/")({
+export const Route = createFileRoute('/admin/products/')({
   component: AdminProductsPage,
   loader: async () => {
     const products = await fetchProducts();
@@ -27,7 +27,7 @@ export const Route = createFileRoute("/admin/products/")({
 function AdminProductsPage() {
   const { products } = Route.useLoaderData();
 
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
 
   const filteredProducts = useMemo(() => {
     if (!products) {
@@ -42,7 +42,7 @@ function AdminProductsPage() {
     return products.filter(
       (product) =>
         product.name.toLowerCase().includes(query) ||
-        product.sku.toLowerCase().includes(query)
+        product.sku.toLowerCase().includes(query),
     );
   }, [products, searchQuery]);
 
@@ -73,7 +73,7 @@ function AdminProductsPage() {
         </TextField.Root>
 
         {/* Products Grid */}
-        <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap="4">
+        <Grid columns={{ initial: '1', sm: '2', md: '3' }} gap="4">
           {filteredProducts.map((product) => (
             <Card key={product.id}>
               <Flex direction="column" gap="3">

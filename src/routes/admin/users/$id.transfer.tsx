@@ -1,5 +1,5 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   Container,
   Flex,
@@ -11,28 +11,28 @@ import {
   Popover,
   IconButton,
   RadioCards,
-} from "@radix-ui/themes";
-import { TrashIcon, MinusIcon, PlusIcon } from "@radix-ui/react-icons";
-import { useState, useCallback, useMemo } from "react";
-import toast from "react-hot-toast";
+} from '@radix-ui/themes';
+import { TrashIcon, MinusIcon, PlusIcon } from '@radix-ui/react-icons';
+import { useState, useCallback, useMemo } from 'react';
+import toast from 'react-hot-toast';
 
-import { fetchUser } from "../../../api/users";
-import { fetchProducts } from "../../../api/products";
+import { fetchUser } from '../../../api/users';
+import { fetchProducts } from '../../../api/products';
 import {
   createStockMovement,
   StockMovementType,
-} from "../../../api/stock-movements";
-import { AdminMenu } from "../../../components/admin-menu";
-import { authClient } from "../../../lib/auth-client";
+} from '../../../api/stock-movements';
+import { AdminMenu } from '../../../components/admin-menu';
+import { authClient } from '../../../lib/auth-client';
 
 interface ProductInTransfer {
   id: string;
   quantity: number;
 }
 
-type TransferDirection = "to" | "from";
+type TransferDirection = 'to' | 'from';
 
-export const Route = createFileRoute("/admin/users/$id/transfer")({
+export const Route = createFileRoute('/admin/users/$id/transfer')({
   component: TransferPage,
   loader: async ({ params }) => {
     const [user, products] = await Promise.all([
@@ -52,7 +52,7 @@ function TransferPage() {
   const queryClient = useQueryClient();
 
   const [transferDirection, setTransferDirection] =
-    useState<TransferDirection>("to");
+    useState<TransferDirection>('to');
   const [transferItems, setTransferItems] = useState<ProductInTransfer[]>([]);
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState<string>();
@@ -60,15 +60,15 @@ function TransferPage() {
   const transferMutation = useMutation({
     mutationFn: createStockMovement,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["users", id, "stock"] });
+      queryClient.invalidateQueries({ queryKey: ['users', id, 'stock'] });
     },
   });
 
   const incrementQuantity = useCallback((index: number) => {
     setTransferItems((prev) =>
       prev.map((item, i) =>
-        i === index ? { ...item, quantity: item.quantity + 1 } : item
-      )
+        i === index ? { ...item, quantity: item.quantity + 1 } : item,
+      ),
     );
   }, []);
 
@@ -77,8 +77,8 @@ function TransferPage() {
       prev.map((item, i) =>
         i === index
           ? { ...item, quantity: Math.max(0, item.quantity - 1) }
-          : item
-      )
+          : item,
+      ),
     );
   }, []);
 
@@ -92,7 +92,7 @@ function TransferPage() {
         ...prev,
         { id: selectedProductId, quantity: 0 },
       ]);
-      setSelectedProductId("");
+      setSelectedProductId('');
       setPopoverOpen(false);
     }
   }, [selectedProductId]);
@@ -100,22 +100,22 @@ function TransferPage() {
   const availableProducts = useMemo(() => {
     const selectedProductIds = transferItems.map((item) => item.id);
     return products.filter(
-      (product) => !selectedProductIds.includes(product.id)
+      (product) => !selectedProductIds.includes(product.id),
     );
   }, [products, transferItems]);
 
   const hasAvailableProducts = availableProducts.length > 0;
 
   const getProductName = useCallback(
-    (productId: string) => products.find((p) => p.id === productId)?.name ?? "",
-    [products]
+    (productId: string) => products.find((p) => p.id === productId)?.name ?? '',
+    [products],
   );
 
   const handleTransfer = useCallback(async () => {
     try {
       await transferMutation.mutateAsync({
-        fromId: transferDirection === "to" ? session.data?.user?.id : id,
-        toId: transferDirection === "to" ? id : session.data?.user?.id,
+        fromId: transferDirection === 'to' ? session.data?.user?.id : id,
+        toId: transferDirection === 'to' ? id : session.data?.user?.id,
         type: StockMovementType.USER_TO_USER,
         items: transferItems.map((item) => ({
           productId: item.id,
@@ -123,12 +123,12 @@ function TransferPage() {
         })),
       });
 
-      toast.success("Products transferred successfully");
+      toast.success('Products transferred successfully');
 
-      await navigate({ to: "/admin/users/$id", params: { id } });
+      await navigate({ to: '/admin/users/$id', params: { id } });
     } catch (error) {
       console.error(error);
-      toast.error("Failed to transfer products");
+      toast.error('Failed to transfer products');
     }
   }, [
     id,
@@ -227,7 +227,7 @@ function TransferPage() {
                       <Text
                         size="3"
                         weight="medium"
-                        style={{ minWidth: "30px", textAlign: "center" }}
+                        style={{ minWidth: '30px', textAlign: 'center' }}
                       >
                         {item.quantity}
                       </Text>
@@ -264,7 +264,7 @@ function TransferPage() {
               variant="soft"
               color="gray"
               onClick={() =>
-                navigate({ to: "/admin/users/$id", params: { id: user.id } })
+                navigate({ to: '/admin/users/$id', params: { id: user.id } })
               }
             >
               Cancel

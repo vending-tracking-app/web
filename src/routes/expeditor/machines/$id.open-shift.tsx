@@ -1,5 +1,5 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useMutation } from "@tanstack/react-query";
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { useMutation } from '@tanstack/react-query';
 import {
   Container,
   Flex,
@@ -10,30 +10,30 @@ import {
   IconButton,
   Card,
   Popover,
-} from "@radix-ui/themes";
+} from '@radix-ui/themes';
 import {
   TrashIcon,
   MinusIcon,
   PlusIcon,
   CameraIcon,
   CheckIcon,
-} from "@radix-ui/react-icons";
-import { useState, useCallback, useMemo, useRef, useEffect } from "react";
-import toast from "react-hot-toast";
+} from '@radix-ui/react-icons';
+import { useState, useCallback, useMemo, useRef, useEffect } from 'react';
+import toast from 'react-hot-toast';
 
-import { fetchProducts } from "../../../api/products";
-import { fetchMachineStock } from "../../../api/machines";
+import { fetchProducts } from '../../../api/products';
+import { fetchMachineStock } from '../../../api/machines';
 import {
   createShiftOperation,
   ShiftOperationType,
-} from "../../../api/shift-operations";
+} from '../../../api/shift-operations';
 
 interface ProductInStock {
   id: string;
   quantity: number;
 }
 
-export const Route = createFileRoute("/expeditor/machines/$id/open-shift")({
+export const Route = createFileRoute('/expeditor/machines/$id/open-shift')({
   component: ExpeditorOpenShiftPage,
   loader: async ({ params }) => {
     const [machineStock, products] = await Promise.all([
@@ -88,8 +88,8 @@ function ExpeditorOpenShiftPage() {
   const incrementQuantity = useCallback((index: number) => {
     setSnapshot((prev) =>
       prev.map((item, i) =>
-        i === index ? { ...item, quantity: item.quantity + 1 } : item
-      )
+        i === index ? { ...item, quantity: item.quantity + 1 } : item,
+      ),
     );
   }, []);
 
@@ -98,8 +98,8 @@ function ExpeditorOpenShiftPage() {
       prev.map((item, i) =>
         i === index
           ? { ...item, quantity: Math.max(0, item.quantity - 1) }
-          : item
-      )
+          : item,
+      ),
     );
   }, []);
 
@@ -110,7 +110,7 @@ function ExpeditorOpenShiftPage() {
   const addProduct = useCallback(() => {
     if (selectedProductId) {
       setSnapshot((prev) => [...prev, { id: selectedProductId, quantity: 0 }]);
-      setSelectedProductId("");
+      setSelectedProductId('');
       setPopoverOpen(false);
     }
   }, [selectedProductId]);
@@ -118,20 +118,20 @@ function ExpeditorOpenShiftPage() {
   const availableProducts = useMemo(() => {
     const selectedProductIds = snapshot.map((item) => item.id);
     return products.filter(
-      (product) => !selectedProductIds.includes(product.id)
+      (product) => !selectedProductIds.includes(product.id),
     );
   }, [products, snapshot]);
 
   const hasAvailableProducts = availableProducts.length > 0;
 
   const getProductName = useCallback(
-    (productId: string) => products.find((p) => p.id === productId)?.name ?? "",
-    [products]
+    (productId: string) => products.find((p) => p.id === productId)?.name ?? '',
+    [products],
   );
 
   const handleOpenShift = useCallback(async () => {
     if (!photoFile) {
-      toast.error("Please take a photo of the machine");
+      toast.error('Please take a photo of the machine');
       return;
     }
 
@@ -145,12 +145,12 @@ function ExpeditorOpenShiftPage() {
         })),
       });
 
-      toast.success("Shift opened successfully");
+      toast.success('Shift opened successfully');
 
-      await navigate({ to: "/expeditor/machines" });
+      await navigate({ to: '/expeditor/machines' });
     } catch (error) {
       console.error(error);
-      toast.error("Failed to open shift");
+      toast.error('Failed to open shift');
     }
   }, [id, snapshot, photoFile, openShiftMutation]);
 
@@ -170,9 +170,9 @@ function ExpeditorOpenShiftPage() {
                 src={photoUrl}
                 alt="Machine"
                 style={{
-                  width: "100%",
-                  maxHeight: "400px",
-                  objectFit: "contain",
+                  width: '100%',
+                  maxHeight: '400px',
+                  objectFit: 'contain',
                 }}
               />
             ) : (
@@ -203,12 +203,12 @@ function ExpeditorOpenShiftPage() {
                 setPhotoFile(file);
               }
             }}
-            style={{ display: "none" }}
+            style={{ display: 'none' }}
           />
 
           <Button onClick={() => fileInputRef.current?.click()} variant="soft">
             <CameraIcon />
-            {photoUrl ? "Retake Photo" : "Take Photo"}
+            {photoUrl ? 'Retake Photo' : 'Take Photo'}
           </Button>
         </Flex>
 
@@ -266,7 +266,7 @@ function ExpeditorOpenShiftPage() {
                     <Text
                       size="3"
                       weight="medium"
-                      style={{ minWidth: "30px", textAlign: "center" }}
+                      style={{ minWidth: '30px', textAlign: 'center' }}
                     >
                       {item.quantity}
                     </Text>

@@ -1,6 +1,6 @@
-import { HamburgerMenuIcon } from "@radix-ui/react-icons";
-import { DropdownMenu, IconButton } from "@radix-ui/themes";
-import { Link } from "@tanstack/react-router";
+import { HamburgerMenuIcon } from '@radix-ui/react-icons';
+import { DropdownMenu, IconButton } from '@radix-ui/themes';
+import { Link } from '@tanstack/react-router';
 
 export function ExpeditorMenu() {
   return (

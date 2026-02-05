@@ -1,5 +1,5 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   Container,
   Flex,
@@ -10,24 +10,24 @@ import {
   Select,
   Popover,
   IconButton,
-} from "@radix-ui/themes";
-import { TrashIcon, MinusIcon, PlusIcon } from "@radix-ui/react-icons";
-import { useState, useCallback, useMemo } from "react";
-import toast from "react-hot-toast";
+} from '@radix-ui/themes';
+import { TrashIcon, MinusIcon, PlusIcon } from '@radix-ui/react-icons';
+import { useState, useCallback, useMemo } from 'react';
+import toast from 'react-hot-toast';
 
-import { fetchProducts } from "../../../api/products";
+import { fetchProducts } from '../../../api/products';
 import {
   createStockMovement,
   StockMovementType,
-} from "../../../api/stock-movements";
-import { authClient } from "../../../lib/auth-client";
+} from '../../../api/stock-movements';
+import { authClient } from '../../../lib/auth-client';
 
 interface ProductInTransfer {
   id: string;
   quantity: number;
 }
 
-export const Route = createFileRoute("/admin/my-stock/replenish")({
+export const Route = createFileRoute('/admin/my-stock/replenish')({
   component: ReplenishPage,
   loader: async () => {
     const products = await fetchProducts();
@@ -49,7 +49,7 @@ function ReplenishPage() {
     mutationFn: createStockMovement,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["users", session.data?.user?.id, "stock"],
+        queryKey: ['users', session.data?.user?.id, 'stock'],
       });
     },
   });
@@ -57,8 +57,8 @@ function ReplenishPage() {
   const incrementQuantity = useCallback((index: number) => {
     setTransferItems((prev) =>
       prev.map((item, i) =>
-        i === index ? { ...item, quantity: item.quantity + 1 } : item
-      )
+        i === index ? { ...item, quantity: item.quantity + 1 } : item,
+      ),
     );
   }, []);
 
@@ -67,8 +67,8 @@ function ReplenishPage() {
       prev.map((item, i) =>
         i === index
           ? { ...item, quantity: Math.max(0, item.quantity - 1) }
-          : item
-      )
+          : item,
+      ),
     );
   }, []);
 
@@ -82,7 +82,7 @@ function ReplenishPage() {
         ...prev,
         { id: selectedProductId, quantity: 0 },
       ]);
-      setSelectedProductId("");
+      setSelectedProductId('');
       setPopoverOpen(false);
     }
   }, [selectedProductId]);
@@ -90,15 +90,15 @@ function ReplenishPage() {
   const availableProducts = useMemo(() => {
     const selectedProductIds = transferItems.map((item) => item.id);
     return products.filter(
-      (product) => !selectedProductIds.includes(product.id)
+      (product) => !selectedProductIds.includes(product.id),
     );
   }, [products, transferItems]);
 
   const hasAvailableProducts = availableProducts.length > 0;
 
   const getProductName = useCallback(
-    (productId: string) => products.find((p) => p.id === productId)?.name ?? "",
-    [products]
+    (productId: string) => products.find((p) => p.id === productId)?.name ?? '',
+    [products],
   );
 
   const handleReplenish = useCallback(async () => {
@@ -112,12 +112,12 @@ function ReplenishPage() {
         })),
       });
 
-      toast.success("Stock replenished successfully");
+      toast.success('Stock replenished successfully');
 
-      await navigate({ to: "/admin/my-stock" });
+      await navigate({ to: '/admin/my-stock' });
     } catch (error) {
       console.error(error);
-      toast.error("Failed to replenish stock");
+      toast.error('Failed to replenish stock');
     }
   }, [transferItems, transferMutation, navigate, session.data?.user?.id]);
 
@@ -183,7 +183,7 @@ function ReplenishPage() {
                       <Text
                         size="3"
                         weight="medium"
-                        style={{ minWidth: "30px", textAlign: "center" }}
+                        style={{ minWidth: '30px', textAlign: 'center' }}
                       >
                         {item.quantity}
                       </Text>
@@ -219,7 +219,7 @@ function ReplenishPage() {
               type="button"
               variant="soft"
               color="gray"
-              onClick={() => navigate({ to: "/admin/my-stock" })}
+              onClick={() => navigate({ to: '/admin/my-stock' })}
             >
               Cancel
             </Button>

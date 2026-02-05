@@ -1,5 +1,0 @@
-{
-	"name": "vendi-web",
-	"image": "mcr.microsoft.com/devcontainers/javascript-node:22-bookworm",
-	"runArgs": ["--name", "vendi-web"]
-}

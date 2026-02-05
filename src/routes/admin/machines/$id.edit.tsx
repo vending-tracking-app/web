@@ -1,5 +1,5 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   Container,
   Heading,
@@ -9,17 +9,17 @@ import {
   Text,
   Card,
   Box,
-} from "@radix-ui/themes";
-import { useCallback } from "react";
-import toast from "react-hot-toast";
+} from '@radix-ui/themes';
+import { useCallback } from 'react';
+import toast from 'react-hot-toast';
 
 import {
   fetchMachine,
   updateMachine,
   type UpdateMachineInput,
-} from "../../../api/machines";
+} from '../../../api/machines';
 
-export const Route = createFileRoute("/admin/machines/$id/edit")({
+export const Route = createFileRoute('/admin/machines/$id/edit')({
   component: EditMachinePage,
   loader: async ({ params }) => {
     const machine = await fetchMachine(params.id);
@@ -37,7 +37,7 @@ function EditMachinePage() {
   const updateMutation = useMutation({
     mutationFn: updateMachine,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["machines"] });
+      queryClient.invalidateQueries({ queryKey: ['machines'] });
     },
   });
 
@@ -48,21 +48,21 @@ function EditMachinePage() {
       try {
         const formData = new FormData(e.currentTarget);
         const data: UpdateMachineInput = {
-          name: formData.get("name") as string,
-          location: formData.get("location") as string,
+          name: formData.get('name') as string,
+          location: formData.get('location') as string,
         };
 
         await updateMutation.mutateAsync({ id, data });
 
-        toast.success("Machine updated successfully");
+        toast.success('Machine updated successfully');
 
-        await navigate({ to: "/admin/machines" });
+        await navigate({ to: '/admin/machines' });
       } catch (error) {
         console.error(error);
-        toast.error("Failed to update machine");
+        toast.error('Failed to update machine');
       }
     },
-    [updateMutation, id, navigate]
+    [updateMutation, id, navigate],
   );
 
   if (!machine) {
@@ -115,7 +115,7 @@ function EditMachinePage() {
                   type="button"
                   variant="soft"
                   color="gray"
-                  onClick={() => navigate({ to: "/admin/machines" })}
+                  onClick={() => navigate({ to: '/admin/machines' })}
                 >
                   Cancel
                 </Button>

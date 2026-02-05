@@ -1,5 +1,5 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   Container,
   Heading,
@@ -9,13 +9,13 @@ import {
   Text,
   Card,
   Box,
-} from "@radix-ui/themes";
-import { useCallback } from "react";
-import toast from "react-hot-toast";
+} from '@radix-ui/themes';
+import { useCallback } from 'react';
+import toast from 'react-hot-toast';
 
-import { createProduct, type CreateProductInput } from "../../../api/products";
+import { createProduct, type CreateProductInput } from '../../../api/products';
 
-export const Route = createFileRoute("/admin/products/new")({
+export const Route = createFileRoute('/admin/products/new')({
   component: NewProductPage,
 });
 
@@ -26,7 +26,7 @@ function NewProductPage() {
   const createMutation = useMutation({
     mutationFn: createProduct,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["products"] });
+      queryClient.invalidateQueries({ queryKey: ['products'] });
     },
   });
 
@@ -37,21 +37,21 @@ function NewProductPage() {
       try {
         const formData = new FormData(e.currentTarget);
         const data: CreateProductInput = {
-          sku: formData.get("sku") as string,
-          name: formData.get("name") as string,
+          sku: formData.get('sku') as string,
+          name: formData.get('name') as string,
         };
 
         await createMutation.mutateAsync(data);
 
-        toast.success("Product created successfully");
+        toast.success('Product created successfully');
 
-        await navigate({ to: "/admin/products" });
+        await navigate({ to: '/admin/products' });
       } catch (error) {
         console.error(error);
-        toast.error("Failed to create product");
+        toast.error('Failed to create product');
       }
     },
-    [createMutation, navigate]
+    [createMutation, navigate],
   );
 
   return (
@@ -98,7 +98,7 @@ function NewProductPage() {
                   type="button"
                   variant="soft"
                   color="gray"
-                  onClick={() => navigate({ to: "/admin/products" })}
+                  onClick={() => navigate({ to: '/admin/products' })}
                 >
                   Cancel
                 </Button>

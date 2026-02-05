@@ -1,6 +1,6 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useCallback } from "react";
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useCallback } from 'react';
 import {
   Container,
   Heading,
@@ -11,16 +11,16 @@ import {
   Card,
   Box,
   Select,
-} from "@radix-ui/themes";
-import toast from "react-hot-toast";
+} from '@radix-ui/themes';
+import toast from 'react-hot-toast';
 
 import {
   createUser,
   type CreateUserInput,
   type UserRole,
-} from "../../../api/users";
+} from '../../../api/users';
 
-export const Route = createFileRoute("/admin/users/new")({
+export const Route = createFileRoute('/admin/users/new')({
   component: NewUserPage,
 });
 
@@ -31,7 +31,7 @@ function NewUserPage() {
   const createMutation = useMutation({
     mutationFn: createUser,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["users"] });
+      queryClient.invalidateQueries({ queryKey: ['users'] });
     },
   });
 
@@ -42,23 +42,23 @@ function NewUserPage() {
       try {
         const formData = new FormData(e.currentTarget);
         const data: CreateUserInput = {
-          name: formData.get("name") as string,
-          email: formData.get("email") as string,
-          role: formData.get("role") as UserRole,
-          password: formData.get("password") as string,
+          name: formData.get('name') as string,
+          email: formData.get('email') as string,
+          role: formData.get('role') as UserRole,
+          password: formData.get('password') as string,
         };
 
         await createMutation.mutateAsync(data);
 
-        toast.success("User created successfully");
+        toast.success('User created successfully');
 
-        await navigate({ to: "/admin/users" });
+        await navigate({ to: '/admin/users' });
       } catch (error) {
         console.error(error);
-        toast.error("Failed to create user");
+        toast.error('Failed to create user');
       }
     },
-    [createMutation, navigate]
+    [createMutation, navigate],
   );
 
   return (
@@ -113,7 +113,7 @@ function NewUserPage() {
                   Role
                 </Text>
                 <Select.Root name="role" defaultValue="user" required>
-                  <Select.Trigger style={{ width: "100%" }} />
+                  <Select.Trigger style={{ width: '100%' }} />
                   <Select.Content>
                     <Select.Item value="user">Expeditor</Select.Item>
                     <Select.Item value="admin">Admin</Select.Item>
@@ -132,7 +132,7 @@ function NewUserPage() {
                   type="button"
                   variant="soft"
                   color="gray"
-                  onClick={() => navigate({ to: "/admin/users" })}
+                  onClick={() => navigate({ to: '/admin/users' })}
                 >
                   Cancel
                 </Button>

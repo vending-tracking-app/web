@@ -1,5 +1,5 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   Container,
   Heading,
@@ -9,13 +9,13 @@ import {
   Text,
   Card,
   Box,
-} from "@radix-ui/themes";
-import { useCallback } from "react";
-import toast from "react-hot-toast";
+} from '@radix-ui/themes';
+import { useCallback } from 'react';
+import toast from 'react-hot-toast';
 
-import { createMachine, type CreateMachineInput } from "../../../api/machines";
+import { createMachine, type CreateMachineInput } from '../../../api/machines';
 
-export const Route = createFileRoute("/admin/machines/new")({
+export const Route = createFileRoute('/admin/machines/new')({
   component: NewMachinePage,
 });
 
@@ -26,7 +26,7 @@ function NewMachinePage() {
   const createMutation = useMutation({
     mutationFn: createMachine,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["machines"] });
+      queryClient.invalidateQueries({ queryKey: ['machines'] });
     },
   });
 
@@ -37,21 +37,21 @@ function NewMachinePage() {
       try {
         const formData = new FormData(e.currentTarget);
         const data: CreateMachineInput = {
-          name: formData.get("name") as string,
-          location: formData.get("location") as string,
+          name: formData.get('name') as string,
+          location: formData.get('location') as string,
         };
 
         await createMutation.mutateAsync(data);
 
-        toast.success("Machine created successfully");
+        toast.success('Machine created successfully');
 
-        await navigate({ to: "/admin/machines" });
+        await navigate({ to: '/admin/machines' });
       } catch (error) {
         console.error(error);
-        toast.error("Failed to create machine");
+        toast.error('Failed to create machine');
       }
     },
-    [createMutation, navigate]
+    [createMutation, navigate],
   );
 
   return (
@@ -98,7 +98,7 @@ function NewMachinePage() {
                   type="button"
                   variant="soft"
                   color="gray"
-                  onClick={() => navigate({ to: "/admin/machines" })}
+                  onClick={() => navigate({ to: '/admin/machines' })}
                 >
                   Cancel
                 </Button>

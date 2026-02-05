@@ -1,16 +1,16 @@
-import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
-import { Box, Card, Flex, Text, TextField, Button } from "@radix-ui/themes";
-import { useState, type FormEvent } from "react";
+import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router';
+import { Box, Card, Flex, Text, TextField, Button } from '@radix-ui/themes';
+import { useState, type FormEvent } from 'react';
 
-import { authClient } from "@/lib/auth-client";
+import { authClient } from '@/lib/auth-client';
 
-export const Route = createFileRoute("/login")({
+export const Route = createFileRoute('/login')({
   beforeLoad: async () => {
     const session = await authClient.getSession();
 
     if (session.data) {
       throw redirect({
-        to: "/",
+        to: '/',
       });
     }
   },
@@ -24,13 +24,13 @@ function Login() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     setIsLoading(true);
     setError(null);
 
     const formData = new FormData(e.target as HTMLFormElement);
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
 
     await authClient.signIn.email(
       {
@@ -39,12 +39,12 @@ function Login() {
       },
       {
         onSuccess: () => {
-          navigate({ to: "/" });
+          navigate({ to: '/' });
         },
         onError: (ctx) => {
-          setError(ctx.error.message ?? "Failed to sign in");
+          setError(ctx.error.message ?? 'Failed to sign in');
         },
-      }
+      },
     );
 
     setIsLoading(false);

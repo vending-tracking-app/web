@@ -1,15 +1,15 @@
-import { HamburgerMenuIcon } from "@radix-ui/react-icons";
-import { DropdownMenu, IconButton } from "@radix-ui/themes";
-import { Link, useNavigate } from "@tanstack/react-router";
+import { HamburgerMenuIcon } from '@radix-ui/react-icons';
+import { DropdownMenu, IconButton } from '@radix-ui/themes';
+import { Link, useNavigate } from '@tanstack/react-router';
 
-import { authClient } from "../lib/auth-client";
+import { authClient } from '../lib/auth-client';
 
 export function AdminMenu() {
   const navigate = useNavigate();
 
   const handleSignOut = async () => {
     await authClient.signOut();
-    navigate({ to: "/login" });
+    navigate({ to: '/login' });
   };
 
   return (
@@ -39,9 +39,7 @@ export function AdminMenu() {
 
         <DropdownMenu.Separator />
 
-        <DropdownMenu.Item onSelect={handleSignOut}>
-          Sign Out
-        </DropdownMenu.Item>
+        <DropdownMenu.Item onSelect={handleSignOut}>Sign Out</DropdownMenu.Item>
       </DropdownMenu.Content>
     </DropdownMenu.Root>
   );

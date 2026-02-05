@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link } from '@tanstack/react-router';
 import {
   Container,
   Flex,
@@ -7,20 +7,20 @@ import {
   Badge,
   Table,
   Button,
-} from "@radix-ui/themes";
-import { PlusIcon } from "@radix-ui/react-icons";
+} from '@radix-ui/themes';
+import { PlusIcon } from '@radix-ui/react-icons';
 
-import { fetchUserStock } from "../../../api/users";
-import { fetchProducts } from "../../../api/products";
-import { AdminMenu } from "../../../components/admin-menu";
-import { authClient } from "../../../lib/auth-client";
+import { fetchUserStock } from '../../../api/users';
+import { fetchProducts } from '../../../api/products';
+import { AdminMenu } from '../../../components/admin-menu';
+import { authClient } from '../../../lib/auth-client';
 
-export const Route = createFileRoute("/admin/my-stock/")({
+export const Route = createFileRoute('/admin/my-stock/')({
   component: AdminMyStockPage,
   loader: async () => {
     const session = await authClient.getSession();
     if (!session.data?.user?.id) {
-      throw new Error("User not authenticated");
+      throw new Error('User not authenticated');
     }
 
     const [userStock, products] = await Promise.all([
@@ -75,12 +75,12 @@ function AdminMyStockPage() {
                   <Table.Row key={item.productId}>
                     <Table.Cell>
                       <Text weight="medium">
-                        {product?.name ?? "Unknown Product"}
+                        {product?.name ?? 'Unknown Product'}
                       </Text>
                     </Table.Cell>
                     <Table.Cell>
                       <Badge
-                        color={item.quantity > 0 ? "green" : "red"}
+                        color={item.quantity > 0 ? 'green' : 'red'}
                         size="3"
                         radius="full"
                       >

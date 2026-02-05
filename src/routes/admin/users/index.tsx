@@ -1,5 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState, useMemo } from "react";
+import { createFileRoute, Link } from '@tanstack/react-router';
+import { useState, useMemo } from 'react';
 import {
   Container,
   Heading,
@@ -11,14 +11,14 @@ import {
   DataList,
   TextField,
   Badge,
-} from "@radix-ui/themes";
-import { MagnifyingGlassIcon, PlusIcon } from "@radix-ui/react-icons";
+} from '@radix-ui/themes';
+import { MagnifyingGlassIcon, PlusIcon } from '@radix-ui/react-icons';
 
-import { fetchUsers } from "../../../api/users";
-import { AdminMenu } from "../../../components/admin-menu";
-import { authClient } from "../../../lib/auth-client";
+import { fetchUsers } from '../../../api/users';
+import { AdminMenu } from '../../../components/admin-menu';
+import { authClient } from '../../../lib/auth-client';
 
-export const Route = createFileRoute("/admin/users/")({
+export const Route = createFileRoute('/admin/users/')({
   component: AdminUsersPage,
   loader: async () => {
     const users = await fetchUsers();
@@ -30,7 +30,7 @@ function AdminUsersPage() {
   const session = authClient.useSession();
   const { users } = Route.useLoaderData();
 
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
 
   const filteredUsers = useMemo(() => {
     if (!users) {
@@ -46,7 +46,7 @@ function AdminUsersPage() {
       result = users.filter(
         (user) =>
           user.name.toLowerCase().includes(query) ||
-          user.email.toLowerCase().includes(query)
+          user.email.toLowerCase().includes(query),
       );
     }
 
@@ -97,7 +97,7 @@ function AdminUsersPage() {
         </TextField.Root>
 
         {/* Users Grid */}
-        <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap="4">
+        <Grid columns={{ initial: '1', sm: '2', md: '3' }} gap="4">
           {filteredUsers.map((user) => (
             <Link key={user.id} to="/admin/users/$id" params={{ id: user.id }}>
               <Card>
@@ -124,8 +124,8 @@ function AdminUsersPage() {
                     <DataList.Item>
                       <DataList.Label>Role</DataList.Label>
                       <DataList.Value>
-                        <Badge color={user.role === "admin" ? "blue" : "green"}>
-                          {user.role === "admin" ? "Admin" : "Expeditor"}
+                        <Badge color={user.role === 'admin' ? 'blue' : 'green'}>
+                          {user.role === 'admin' ? 'Admin' : 'Expeditor'}
                         </Badge>
                       </DataList.Value>
                     </DataList.Item>

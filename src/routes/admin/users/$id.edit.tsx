@@ -1,5 +1,5 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   Container,
   Heading,
@@ -9,17 +9,17 @@ import {
   Text,
   Card,
   Box,
-} from "@radix-ui/themes";
-import { useCallback } from "react";
-import toast from "react-hot-toast";
+} from '@radix-ui/themes';
+import { useCallback } from 'react';
+import toast from 'react-hot-toast';
 
 import {
   fetchUser,
   updateUser,
   type UpdateUserInput,
-} from "../../../api/users";
+} from '../../../api/users';
 
-export const Route = createFileRoute("/admin/users/$id/edit")({
+export const Route = createFileRoute('/admin/users/$id/edit')({
   component: EditUserPage,
   loader: async ({ params }) => {
     const user = await fetchUser(params.id);
@@ -38,7 +38,7 @@ function EditUserPage() {
   const updateMutation = useMutation({
     mutationFn: updateUser,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["users"] });
+      queryClient.invalidateQueries({ queryKey: ['users'] });
     },
   });
 
@@ -49,21 +49,21 @@ function EditUserPage() {
       try {
         const formData = new FormData(e.currentTarget);
         const data: UpdateUserInput = {
-          name: formData.get("name") as string,
-          email: formData.get("email") as string,
+          name: formData.get('name') as string,
+          email: formData.get('email') as string,
         };
 
         await updateMutation.mutateAsync({ id, data });
 
-        toast.success("User updated successfully");
+        toast.success('User updated successfully');
 
-        await navigate({ to: "/admin/users/$id", params: { id } });
+        await navigate({ to: '/admin/users/$id', params: { id } });
       } catch (error) {
         console.error(error);
-        toast.error("Failed to update user");
+        toast.error('Failed to update user');
       }
     },
-    [updateMutation, id, navigate]
+    [updateMutation, id, navigate],
   );
 
   if (!user) {
@@ -118,7 +118,7 @@ function EditUserPage() {
                   variant="soft"
                   color="gray"
                   onClick={() =>
-                    navigate({ to: "/admin/users/$id", params: { id } })
+                    navigate({ to: '/admin/users/$id', params: { id } })
                   }
                 >
                   Cancel

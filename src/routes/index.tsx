@@ -1,24 +1,24 @@
-import { createFileRoute, redirect, Outlet } from "@tanstack/react-router";
+import { createFileRoute, redirect, Outlet } from '@tanstack/react-router';
 
-import { authClient } from "../lib/auth-client";
+import { authClient } from '../lib/auth-client';
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute('/')({
   beforeLoad: async () => {
     const session = await authClient.getSession();
 
     if (!session.data) {
       throw redirect({
-        to: "/login",
+        to: '/login',
       });
     }
 
-    if (session.data.user.role === "admin") {
+    if (session.data.user.role === 'admin') {
       throw redirect({
-        to: "/admin/machines",
+        to: '/admin/machines',
       });
-    } else if (session.data.user.role === "user") {
+    } else if (session.data.user.role === 'user') {
       throw redirect({
-        to: "/expeditor/machines",
+        to: '/expeditor/machines',
       });
     }
   },

@@ -1,5 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState, useMemo } from "react";
+import { createFileRoute, Link } from '@tanstack/react-router';
+import { useState, useMemo } from 'react';
 import {
   Container,
   Heading,
@@ -10,13 +10,13 @@ import {
   Grid,
   DataList,
   TextField,
-} from "@radix-ui/themes";
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
+} from '@radix-ui/themes';
+import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 
-import { fetchMachines } from "../../../api/machines";
-import { AdminMenu } from "../../../components/admin-menu";
+import { fetchMachines } from '../../../api/machines';
+import { AdminMenu } from '../../../components/admin-menu';
 
-export const Route = createFileRoute("/admin/machines/")({
+export const Route = createFileRoute('/admin/machines/')({
   component: AdminMachinesPage,
   loader: async () => {
     const machines = await fetchMachines();
@@ -27,7 +27,7 @@ export const Route = createFileRoute("/admin/machines/")({
 function AdminMachinesPage() {
   const { machines } = Route.useLoaderData();
 
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
 
   const filteredMachines = useMemo(() => {
     if (!machines) {
@@ -42,7 +42,7 @@ function AdminMachinesPage() {
     return machines.filter(
       (machine) =>
         machine.name.toLowerCase().includes(query) ||
-        machine.location.toLowerCase().includes(query)
+        machine.location.toLowerCase().includes(query),
     );
   }, [machines, searchQuery]);
 
@@ -73,7 +73,7 @@ function AdminMachinesPage() {
         </TextField.Root>
 
         {/* Machines Grid */}
-        <Grid columns={{ initial: "1", sm: "2", md: "3" }} gap="4">
+        <Grid columns={{ initial: '1', sm: '2', md: '3' }} gap="4">
           {filteredMachines.map((machine) => (
             <Card key={machine.id}>
               <Flex direction="column" gap="3">

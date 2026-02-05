@@ -1,5 +1,5 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   Container,
   Heading,
@@ -9,17 +9,17 @@ import {
   Text,
   Card,
   Box,
-} from "@radix-ui/themes";
-import { useCallback } from "react";
-import toast from "react-hot-toast";
+} from '@radix-ui/themes';
+import { useCallback } from 'react';
+import toast from 'react-hot-toast';
 
 import {
   fetchProduct,
   updateProduct,
   type UpdateProductInput,
-} from "../../../api/products";
+} from '../../../api/products';
 
-export const Route = createFileRoute("/admin/products/$id/edit")({
+export const Route = createFileRoute('/admin/products/$id/edit')({
   component: EditProductPage,
   loader: async ({ params }) => {
     const product = await fetchProduct(params.id);
@@ -37,7 +37,7 @@ function EditProductPage() {
   const updateMutation = useMutation({
     mutationFn: updateProduct,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["products"] });
+      queryClient.invalidateQueries({ queryKey: ['products'] });
     },
   });
 
@@ -48,21 +48,21 @@ function EditProductPage() {
       try {
         const formData = new FormData(e.currentTarget);
         const data: UpdateProductInput = {
-          sku: formData.get("sku") as string,
-          name: formData.get("name") as string,
+          sku: formData.get('sku') as string,
+          name: formData.get('name') as string,
         };
 
         await updateMutation.mutateAsync({ id, data });
 
-        toast.success("Product updated successfully");
+        toast.success('Product updated successfully');
 
-        await navigate({ to: "/admin/products" });
+        await navigate({ to: '/admin/products' });
       } catch (error) {
         console.error(error);
-        toast.error("Failed to update product");
+        toast.error('Failed to update product');
       }
     },
-    [updateMutation, id, navigate]
+    [updateMutation, id, navigate],
   );
 
   if (!product) {
@@ -115,7 +115,7 @@ function EditProductPage() {
                   type="button"
                   variant="soft"
                   color="gray"
-                  onClick={() => navigate({ to: "/admin/products" })}
+                  onClick={() => navigate({ to: '/admin/products' })}
                 >
                   Cancel
                 </Button>

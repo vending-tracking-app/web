@@ -1,8 +1,8 @@
-import { api } from "../lib/api-client";
-import type { BaseEntity } from "./types";
+import { api } from '../lib/api-client';
+import type { BaseEntity } from './types';
 
 // Types
-export type UserRole = "admin" | "user";
+export type UserRole = 'admin' | 'user';
 
 export interface User extends BaseEntity {
   name: string;
@@ -34,12 +34,12 @@ export interface UpdateUserInput {
 }
 
 // API functions
-export const fetchUsers = () => api.get<User[]>("/users");
+export const fetchUsers = () => api.get<User[]>('/users');
 
 export const fetchUser = (id: string) => api.get<User>(`/users/${id}`);
 
 export const createUser = (data: CreateUserInput) =>
-  api.post<User>("/users", data);
+  api.post<User>('/users', data);
 
 export const updateUser = ({
   id,

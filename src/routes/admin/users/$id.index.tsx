@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link } from '@tanstack/react-router';
 import {
   Container,
   Flex,
@@ -9,14 +9,14 @@ import {
   Text,
   Badge,
   Table,
-} from "@radix-ui/themes";
-import { Pencil1Icon, SymbolIcon } from "@radix-ui/react-icons";
+} from '@radix-ui/themes';
+import { Pencil1Icon, SymbolIcon } from '@radix-ui/react-icons';
 
-import { fetchUser, fetchUserStock } from "../../../api/users";
-import { fetchProducts } from "../../../api/products";
-import { AdminMenu } from "../../../components/admin-menu";
+import { fetchUser, fetchUserStock } from '../../../api/users';
+import { fetchProducts } from '../../../api/products';
+import { AdminMenu } from '../../../components/admin-menu';
 
-export const Route = createFileRoute("/admin/users/$id/")({
+export const Route = createFileRoute('/admin/users/$id/')({
   component: UserDetailPage,
   loader: async ({ params }) => {
     const [user, userStock, products] = await Promise.all([
@@ -67,8 +67,8 @@ function UserDetailPage() {
               <DataList.Item>
                 <DataList.Label>Role</DataList.Label>
                 <DataList.Value>
-                  <Badge color={user.role === "admin" ? "blue" : "green"}>
-                    {user.role === "admin" ? "Admin" : "Expeditor"}
+                  <Badge color={user.role === 'admin' ? 'blue' : 'green'}>
+                    {user.role === 'admin' ? 'Admin' : 'Expeditor'}
                   </Badge>
                 </DataList.Value>
               </DataList.Item>
@@ -122,12 +122,12 @@ function UserDetailPage() {
                     <Table.Row key={item.productId}>
                       <Table.Cell>
                         <Text weight="medium">
-                          {product?.name ?? "Unknown Product"}
+                          {product?.name ?? 'Unknown Product'}
                         </Text>
                       </Table.Cell>
                       <Table.Cell>
                         <Badge
-                          color={item.quantity > 0 ? "green" : "red"}
+                          color={item.quantity > 0 ? 'green' : 'red'}
                           size="3"
                           radius="full"
                         >

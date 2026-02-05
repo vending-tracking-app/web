@@ -1,8 +1,8 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { createFileRoute, Outlet } from '@tanstack/react-router';
 
-import { requireAdmin } from "../../lib/route-guards";
+import { requireAdmin } from '../../lib/route-guards';
 
-export const Route = createFileRoute("/admin")({
+export const Route = createFileRoute('/admin')({
   beforeLoad: async () => {
     await requireAdmin();
   },

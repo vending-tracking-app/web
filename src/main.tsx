@@ -1,16 +1,16 @@
-import { StrictMode } from "react";
-import ReactDOM from "react-dom/client";
-import { RouterProvider, createRouter } from "@tanstack/react-router";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Theme } from "@radix-ui/themes";
-import { Toaster } from "react-hot-toast";
+import { StrictMode } from 'react';
+import ReactDOM from 'react-dom/client';
+import { RouterProvider, createRouter } from '@tanstack/react-router';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Theme } from '@radix-ui/themes';
+import { Toaster } from 'react-hot-toast';
 
-import "@radix-ui/themes/styles.css";
+import '@radix-ui/themes/styles.css';
 
 // Import the generated route tree
-import { routeTree } from "./routeTree.gen";
+import { routeTree } from './routeTree.gen';
 
-import "./styles.css";
+import './styles.css';
 
 // Create a QueryClient instance
 const queryClient = new QueryClient({
@@ -26,21 +26,21 @@ const queryClient = new QueryClient({
 const router = createRouter({
   routeTree,
   context: {},
-  defaultPreload: "intent",
+  defaultPreload: 'intent',
   scrollRestoration: true,
   defaultStructuralSharing: true,
   defaultPreloadStaleTime: 0,
 });
 
 // Register the router instance for type safety
-declare module "@tanstack/react-router" {
+declare module '@tanstack/react-router' {
   interface Register {
     router: typeof router;
   }
 }
 
 // Render the app
-const rootElement = document.getElementById("app");
+const rootElement = document.getElementById('app');
 
 if (rootElement && !rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
@@ -52,6 +52,6 @@ if (rootElement && !rootElement.innerHTML) {
           <Toaster />
         </Theme>
       </QueryClientProvider>
-    </StrictMode>
+    </StrictMode>,
   );
 }

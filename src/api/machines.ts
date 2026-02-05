@@ -1,5 +1,5 @@
-import { api } from "../lib/api-client";
-import type { BaseEntity } from "./types";
+import { api } from '../lib/api-client';
+import type { BaseEntity } from './types';
 
 // Types
 export interface Machine extends BaseEntity {
@@ -27,12 +27,12 @@ export interface UpdateMachineInput {
 }
 
 // API functions
-export const fetchMachines = () => api.get<Machine[]>("/machines");
+export const fetchMachines = () => api.get<Machine[]>('/machines');
 
 export const fetchMachine = (id: string) => api.get<Machine>(`/machines/${id}`);
 
 export const createMachine = (data: CreateMachineInput) =>
-  api.post<Machine>("/machines", data);
+  api.post<Machine>('/machines', data);
 
 export const updateMachine = ({
   id,

@@ -1,5 +1,5 @@
-import { api } from "../lib/api-client";
-import type { BaseEntity } from "./types";
+import { api } from '../lib/api-client';
+import type { BaseEntity } from './types';
 
 // Types
 export interface Product extends BaseEntity {
@@ -18,12 +18,12 @@ export interface UpdateProductInput {
 }
 
 // API functions
-export const fetchProducts = () => api.get<Product[]>("/products");
+export const fetchProducts = () => api.get<Product[]>('/products');
 
 export const fetchProduct = (id: string) => api.get<Product>(`/products/${id}`);
 
 export const createProduct = (data: CreateProductInput) =>
-  api.post<Product>("/products", data);
+  api.post<Product>('/products', data);
 
 export const updateProduct = ({
   id,

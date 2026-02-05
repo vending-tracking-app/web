@@ -1,18 +1,18 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Container, Flex, Heading, Text, Badge, Table } from "@radix-ui/themes";
+import { createFileRoute } from '@tanstack/react-router';
+import { Container, Flex, Heading, Text, Badge, Table } from '@radix-ui/themes';
 
-import { fetchUserStock } from "../../api/users";
-import { fetchProducts } from "../../api/products";
-import { authClient } from "../../lib/auth-client";
-import { ExpeditorMenu } from "../../components/expeditor-menu";
+import { fetchUserStock } from '../../api/users';
+import { fetchProducts } from '../../api/products';
+import { authClient } from '../../lib/auth-client';
+import { ExpeditorMenu } from '../../components/expeditor-menu';
 
-export const Route = createFileRoute("/expeditor/my-stock")({
+export const Route = createFileRoute('/expeditor/my-stock')({
   component: ExpeditorMyStockPage,
   loader: async () => {
     const session = await authClient.getSession();
 
     if (!session.data?.user?.id) {
-      throw new Error("User not authenticated");
+      throw new Error('User not authenticated');
     }
 
     const [userStock, products] = await Promise.all([
@@ -63,12 +63,12 @@ function ExpeditorMyStockPage() {
                     <Table.Row key={item.productId}>
                       <Table.Cell>
                         <Text weight="medium">
-                          {product?.name ?? "Unknown Product"}
+                          {product?.name ?? 'Unknown Product'}
                         </Text>
                       </Table.Cell>
                       <Table.Cell>
                         <Badge
-                          color={item.quantity > 0 ? "green" : "red"}
+                          color={item.quantity > 0 ? 'green' : 'red'}
                           size="3"
                           radius="full"
                         >

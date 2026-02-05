@@ -1,5 +1,5 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useMutation } from "@tanstack/react-query";
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { useMutation } from '@tanstack/react-query';
 import {
   Container,
   Flex,
@@ -11,30 +11,30 @@ import {
   Card,
   Popover,
   TextField,
-} from "@radix-ui/themes";
+} from '@radix-ui/themes';
 import {
   TrashIcon,
   MinusIcon,
   PlusIcon,
   CameraIcon,
   CheckIcon,
-} from "@radix-ui/react-icons";
-import { useState, useCallback, useMemo, useRef, useEffect } from "react";
-import toast from "react-hot-toast";
+} from '@radix-ui/react-icons';
+import { useState, useCallback, useMemo, useRef, useEffect } from 'react';
+import toast from 'react-hot-toast';
 
-import { fetchProducts } from "../../../api/products";
-import { fetchMachineStock } from "../../../api/machines";
+import { fetchProducts } from '../../../api/products';
+import { fetchMachineStock } from '../../../api/machines';
 import {
   createShiftOperation,
   ShiftOperationType,
-} from "../../../api/shift-operations";
+} from '../../../api/shift-operations';
 
 interface ProductInStock {
   id: string;
   quantity: number;
 }
 
-export const Route = createFileRoute("/expeditor/machines/$id/close-shift")({
+export const Route = createFileRoute('/expeditor/machines/$id/close-shift')({
   component: ExpeditorCloseShiftPage,
   loader: async ({ params }) => {
     const [machineStock, products] = await Promise.all([
@@ -65,7 +65,7 @@ function ExpeditorCloseShiftPage() {
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState<string>();
   const [photoFile, setPhotoFile] = useState<File | null>(null);
-  const [cashCollected, setCashCollected] = useState<string>("");
+  const [cashCollected, setCashCollected] = useState<string>('');
 
   const photoUrl = useMemo(() => {
     if (!photoFile) {
@@ -90,8 +90,8 @@ function ExpeditorCloseShiftPage() {
   const incrementQuantity = useCallback((index: number) => {
     setSnapshot((prev) =>
       prev.map((item, i) =>
-        i === index ? { ...item, quantity: item.quantity + 1 } : item
-      )
+        i === index ? { ...item, quantity: item.quantity + 1 } : item,
+      ),
     );
   }, []);
 
@@ -100,8 +100,8 @@ function ExpeditorCloseShiftPage() {
       prev.map((item, i) =>
         i === index
           ? { ...item, quantity: Math.max(0, item.quantity - 1) }
-          : item
-      )
+          : item,
+      ),
     );
   }, []);
 
@@ -112,7 +112,7 @@ function ExpeditorCloseShiftPage() {
   const addProduct = useCallback(() => {
     if (selectedProductId) {
       setSnapshot((prev) => [...prev, { id: selectedProductId, quantity: 0 }]);
-      setSelectedProductId("");
+      setSelectedProductId('');
       setPopoverOpen(false);
     }
   }, [selectedProductId]);
@@ -120,21 +120,21 @@ function ExpeditorCloseShiftPage() {
   const availableProducts = useMemo(() => {
     const selectedProductIds = snapshot.map((item) => item.id);
     return products.filter(
-      (product) => !selectedProductIds.includes(product.id)
+      (product) => !selectedProductIds.includes(product.id),
     );
   }, [products, snapshot]);
 
   const hasAvailableProducts = availableProducts.length > 0;
 
   const getProductName = useCallback(
-    (productId: string) => products.find((p) => p.id === productId)?.name ?? "",
-    [products]
+    (productId: string) => products.find((p) => p.id === productId)?.name ?? '',
+    [products],
   );
 
   const handleCloseShift = useCallback(async () => {
-    if (!photoFile || cashCollected === "") {
+    if (!photoFile || cashCollected === '') {
       toast.error(
-        "Please take a photo of the machine and enter the money collected"
+        'Please take a photo of the machine and enter the money collected',
       );
       return;
     }
@@ -150,15 +150,15 @@ function ExpeditorCloseShiftPage() {
         })),
       });
 
-      toast.success("Shift closed successfully");
+      toast.success('Shift closed successfully');
 
       await navigate({
-        to: "/expeditor/machines/$id/open-shift",
+        to: '/expeditor/machines/$id/open-shift',
         params: { id },
       });
     } catch (error) {
       console.error(error);
-      toast.error("Failed to close shift");
+      toast.error('Failed to close shift');
     }
   }, [id, cashCollected, snapshot, closeShiftMutation]);
 
@@ -178,9 +178,9 @@ function ExpeditorCloseShiftPage() {
                 src={photoUrl}
                 alt="Machine"
                 style={{
-                  width: "100%",
-                  maxHeight: "400px",
-                  objectFit: "contain",
+                  width: '100%',
+                  maxHeight: '400px',
+                  objectFit: 'contain',
                 }}
               />
             ) : (
@@ -211,12 +211,12 @@ function ExpeditorCloseShiftPage() {
                 setPhotoFile(file);
               }
             }}
-            style={{ display: "none" }}
+            style={{ display: 'none' }}
           />
 
           <Button onClick={() => fileInputRef.current?.click()} variant="soft">
             <CameraIcon />
-            {photoUrl ? "Retake Photo" : "Take Photo"}
+            {photoUrl ? 'Retake Photo' : 'Take Photo'}
           </Button>
         </Flex>
 
@@ -292,7 +292,7 @@ function ExpeditorCloseShiftPage() {
                     <Text
                       size="3"
                       weight="medium"
-                      style={{ minWidth: "30px", textAlign: "center" }}
+                      style={{ minWidth: '30px', textAlign: 'center' }}
                     >
                       {item.quantity}
                     </Text>
@@ -325,7 +325,7 @@ function ExpeditorCloseShiftPage() {
 
         <Button
           color="green"
-          disabled={!photoUrl || cashCollected === ""}
+          disabled={!photoUrl || cashCollected === ''}
           onClick={handleCloseShift}
           loading={closeShiftMutation.isPending}
         >
