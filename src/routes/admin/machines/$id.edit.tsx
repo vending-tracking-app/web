@@ -56,7 +56,7 @@ function EditMachinePage() {
 
         toast.success('Machine updated successfully');
 
-        await navigate({ to: '/admin/machines' });
+        await navigate({ to: '/admin/machines/$id', params: { id } });
       } catch (error) {
         console.error(error);
         toast.error('Failed to update machine');
@@ -115,7 +115,9 @@ function EditMachinePage() {
                   type="button"
                   variant="soft"
                   color="gray"
-                  onClick={() => navigate({ to: '/admin/machines' })}
+                  onClick={() =>
+                    navigate({ to: '/admin/machines/$id', params: { id } })
+                  }
                 >
                   Cancel
                 </Button>

@@ -24,6 +24,8 @@ import { Route as AdminProductsNewRouteImport } from './routes/admin/products/ne
 import { Route as AdminMyStockReplenishRouteImport } from './routes/admin/my-stock/replenish'
 import { Route as AdminMachinesNewRouteImport } from './routes/admin/machines/new'
 import { Route as AdminUsersIdIndexRouteImport } from './routes/admin/users/$id.index'
+import { Route as AdminShiftOperationsIdIndexRouteImport } from './routes/admin/shift-operations/$id.index'
+import { Route as AdminMachinesIdIndexRouteImport } from './routes/admin/machines/$id.index'
 import { Route as ExpeditorMachinesIdOpenShiftRouteImport } from './routes/expeditor/machines/$id.open-shift'
 import { Route as ExpeditorMachinesIdCloseShiftRouteImport } from './routes/expeditor/machines/$id.close-shift'
 import { Route as AdminUsersIdTransferRouteImport } from './routes/admin/users/$id.transfer'
@@ -106,6 +108,17 @@ const AdminUsersIdIndexRoute = AdminUsersIdIndexRouteImport.update({
   path: '/users/$id/',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminShiftOperationsIdIndexRoute =
+  AdminShiftOperationsIdIndexRouteImport.update({
+    id: '/shift-operations/$id/',
+    path: '/shift-operations/$id/',
+    getParentRoute: () => AdminRouteRoute,
+  } as any)
+const AdminMachinesIdIndexRoute = AdminMachinesIdIndexRouteImport.update({
+  id: '/machines/$id/',
+  path: '/machines/$id/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const ExpeditorMachinesIdOpenShiftRoute =
   ExpeditorMachinesIdOpenShiftRouteImport.update({
     id: '/machines/$id/open-shift',
@@ -160,6 +173,8 @@ export interface FileRoutesByFullPath {
   '/admin/users/$id/transfer': typeof AdminUsersIdTransferRoute
   '/expeditor/machines/$id/close-shift': typeof ExpeditorMachinesIdCloseShiftRoute
   '/expeditor/machines/$id/open-shift': typeof ExpeditorMachinesIdOpenShiftRoute
+  '/admin/machines/$id': typeof AdminMachinesIdIndexRoute
+  '/admin/shift-operations/$id': typeof AdminShiftOperationsIdIndexRoute
   '/admin/users/$id': typeof AdminUsersIdIndexRoute
 }
 export interface FileRoutesByTo {
@@ -183,6 +198,8 @@ export interface FileRoutesByTo {
   '/admin/users/$id/transfer': typeof AdminUsersIdTransferRoute
   '/expeditor/machines/$id/close-shift': typeof ExpeditorMachinesIdCloseShiftRoute
   '/expeditor/machines/$id/open-shift': typeof ExpeditorMachinesIdOpenShiftRoute
+  '/admin/machines/$id': typeof AdminMachinesIdIndexRoute
+  '/admin/shift-operations/$id': typeof AdminShiftOperationsIdIndexRoute
   '/admin/users/$id': typeof AdminUsersIdIndexRoute
 }
 export interface FileRoutesById {
@@ -207,6 +224,8 @@ export interface FileRoutesById {
   '/admin/users/$id/transfer': typeof AdminUsersIdTransferRoute
   '/expeditor/machines/$id/close-shift': typeof ExpeditorMachinesIdCloseShiftRoute
   '/expeditor/machines/$id/open-shift': typeof ExpeditorMachinesIdOpenShiftRoute
+  '/admin/machines/$id/': typeof AdminMachinesIdIndexRoute
+  '/admin/shift-operations/$id/': typeof AdminShiftOperationsIdIndexRoute
   '/admin/users/$id/': typeof AdminUsersIdIndexRoute
 }
 export interface FileRouteTypes {
@@ -232,6 +251,8 @@ export interface FileRouteTypes {
     | '/admin/users/$id/transfer'
     | '/expeditor/machines/$id/close-shift'
     | '/expeditor/machines/$id/open-shift'
+    | '/admin/machines/$id'
+    | '/admin/shift-operations/$id'
     | '/admin/users/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -255,6 +276,8 @@ export interface FileRouteTypes {
     | '/admin/users/$id/transfer'
     | '/expeditor/machines/$id/close-shift'
     | '/expeditor/machines/$id/open-shift'
+    | '/admin/machines/$id'
+    | '/admin/shift-operations/$id'
     | '/admin/users/$id'
   id:
     | '__root__'
@@ -278,6 +301,8 @@ export interface FileRouteTypes {
     | '/admin/users/$id/transfer'
     | '/expeditor/machines/$id/close-shift'
     | '/expeditor/machines/$id/open-shift'
+    | '/admin/machines/$id/'
+    | '/admin/shift-operations/$id/'
     | '/admin/users/$id/'
   fileRoutesById: FileRoutesById
 }
@@ -395,6 +420,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminUsersIdIndexRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/shift-operations/$id/': {
+      id: '/admin/shift-operations/$id/'
+      path: '/shift-operations/$id'
+      fullPath: '/admin/shift-operations/$id'
+      preLoaderRoute: typeof AdminShiftOperationsIdIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/machines/$id/': {
+      id: '/admin/machines/$id/'
+      path: '/machines/$id'
+      fullPath: '/admin/machines/$id'
+      preLoaderRoute: typeof AdminMachinesIdIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/expeditor/machines/$id/open-shift': {
       id: '/expeditor/machines/$id/open-shift'
       path: '/machines/$id/open-shift'
@@ -453,6 +492,8 @@ interface AdminRouteRouteChildren {
   AdminProductsIdEditRoute: typeof AdminProductsIdEditRoute
   AdminUsersIdEditRoute: typeof AdminUsersIdEditRoute
   AdminUsersIdTransferRoute: typeof AdminUsersIdTransferRoute
+  AdminMachinesIdIndexRoute: typeof AdminMachinesIdIndexRoute
+  AdminShiftOperationsIdIndexRoute: typeof AdminShiftOperationsIdIndexRoute
   AdminUsersIdIndexRoute: typeof AdminUsersIdIndexRoute
 }
 
@@ -469,6 +510,8 @@ const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminProductsIdEditRoute: AdminProductsIdEditRoute,
   AdminUsersIdEditRoute: AdminUsersIdEditRoute,
   AdminUsersIdTransferRoute: AdminUsersIdTransferRoute,
+  AdminMachinesIdIndexRoute: AdminMachinesIdIndexRoute,
+  AdminShiftOperationsIdIndexRoute: AdminShiftOperationsIdIndexRoute,
   AdminUsersIdIndexRoute: AdminUsersIdIndexRoute,
 }
 

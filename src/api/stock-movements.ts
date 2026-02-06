@@ -1,5 +1,5 @@
 import { api } from '../lib/api-client';
-import type { SuccessResponse } from './types';
+import type { BaseEntity, SuccessResponse } from './types';
 
 // Types
 export enum StockMovementType {
@@ -25,6 +25,16 @@ export interface CreateStockMovementInput {
   type: StockMovementType;
   note?: string;
   items: CreateStockMovementItem[];
+}
+
+export interface StockMovementItem extends BaseEntity {
+  productId: string;
+  quantity: number;
+}
+
+export interface StockMovement extends BaseEntity {
+  type: StockMovementType;
+  items?: StockMovementItem[];
 }
 
 // API functions

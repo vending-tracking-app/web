@@ -75,44 +75,39 @@ function AdminMachinesPage() {
         {/* Machines Grid */}
         <Grid columns={{ initial: '1', sm: '2', md: '3' }} gap="4">
           {filteredMachines.map((machine) => (
-            <Card key={machine.id}>
-              <Flex direction="column" gap="3">
-                {/* Machine Header */}
-                <Flex justify="between" align="start">
+            <Link
+              key={machine.id}
+              to="/admin/machines/$id"
+              params={{ id: machine.id }}
+            >
+              <Card>
+                <Flex direction="column" gap="3">
                   <Heading size="4">{machine.name}</Heading>
-                  <Button asChild size="2" variant="soft">
-                    <Link
-                      to="/admin/machines/$id/edit"
-                      params={{ id: machine.id }}
-                    >
-                      Edit
-                    </Link>
-                  </Button>
-                </Flex>
 
-                {/* Machine Details */}
-                <DataList.Root>
-                  <DataList.Item>
-                    <DataList.Label>Location</DataList.Label>
-                    <DataList.Value>
-                      <Text>{machine.location}</Text>
-                    </DataList.Value>
-                  </DataList.Item>
-                  <DataList.Item>
-                    <DataList.Label>Created</DataList.Label>
-                    <DataList.Value>
-                      {new Date(machine.createdAt).toLocaleString()}
-                    </DataList.Value>
-                  </DataList.Item>
-                  <DataList.Item>
-                    <DataList.Label>Updated</DataList.Label>
-                    <DataList.Value>
-                      {new Date(machine.updatedAt).toLocaleString()}
-                    </DataList.Value>
-                  </DataList.Item>
-                </DataList.Root>
-              </Flex>
-            </Card>
+                  {/* Machine Details */}
+                  <DataList.Root>
+                    <DataList.Item>
+                      <DataList.Label>Location</DataList.Label>
+                      <DataList.Value>
+                        <Text>{machine.location}</Text>
+                      </DataList.Value>
+                    </DataList.Item>
+                    <DataList.Item>
+                      <DataList.Label>Created</DataList.Label>
+                      <DataList.Value>
+                        {new Date(machine.createdAt).toLocaleString()}
+                      </DataList.Value>
+                    </DataList.Item>
+                    <DataList.Item>
+                      <DataList.Label>Updated</DataList.Label>
+                      <DataList.Value>
+                        {new Date(machine.updatedAt).toLocaleString()}
+                      </DataList.Value>
+                    </DataList.Item>
+                  </DataList.Root>
+                </Flex>
+              </Card>
+            </Link>
           ))}
         </Grid>
       </Flex>
