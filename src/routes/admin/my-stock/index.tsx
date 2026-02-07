@@ -43,7 +43,7 @@ function AdminMyStockPage() {
           </Flex>
           <Button variant="soft" asChild>
             <Link to="/admin/my-stock/replenish">
-              <PlusIcon /> Пополнить остатки
+              <PlusIcon /> Пополнить
             </Link>
           </Button>
         </Flex>

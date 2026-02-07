@@ -103,6 +103,23 @@ function ExpeditorCloseShiftPage() {
     );
   }, []);
 
+  const updateQuantity = useCallback((index: number, value: string) => {
+    const nextQuantity = Number.parseInt(value, 10);
+
+    setSnapshot((prev) =>
+      prev.map((item, i) =>
+        i === index
+          ? {
+              ...item,
+              quantity: Number.isNaN(nextQuantity)
+                ? 0
+                : Math.max(0, nextQuantity),
+            }
+          : item,
+      ),
+    );
+  }, []);
+
   const removeRow = useCallback((index: number) => {
     setSnapshot((prev) => prev.filter((_, i) => i !== index));
   }, []);
@@ -287,13 +304,19 @@ function ExpeditorCloseShiftPage() {
                     >
                       <MinusIcon />
                     </IconButton>
-                    <Text
-                      size="3"
-                      weight="medium"
-                      style={{ minWidth: '30px', textAlign: 'center' }}
-                    >
-                      {item.quantity}
-                    </Text>
+                    <TextField.Root
+                      aria-label="Количество"
+                      size="1"
+                      type="number"
+                      min="0"
+                      step="1"
+                      inputMode="numeric"
+                      value={String(item.quantity)}
+                      onChange={(event) =>
+                        updateQuantity(index, event.target.value)
+                      }
+                      style={{ width: '70px' }}
+                    />
                     <IconButton
                       size="1"
                       variant="soft"

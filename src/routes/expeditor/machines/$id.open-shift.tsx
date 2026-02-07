@@ -10,6 +10,7 @@ import {
   IconButton,
   Card,
   Popover,
+  TextField,
 } from '@radix-ui/themes';
 import {
   TrashIcon,
@@ -96,6 +97,23 @@ function ExpeditorOpenShiftPage() {
       prev.map((item, i) =>
         i === index
           ? { ...item, quantity: Math.max(0, item.quantity - 1) }
+          : item,
+      ),
+    );
+  }, []);
+
+  const updateQuantity = useCallback((index: number, value: string) => {
+    const nextQuantity = Number.parseInt(value, 10);
+
+    setSnapshot((prev) =>
+      prev.map((item, i) =>
+        i === index
+          ? {
+              ...item,
+              quantity: Number.isNaN(nextQuantity)
+                ? 0
+                : Math.max(0, nextQuantity),
+            }
           : item,
       ),
     );
@@ -261,13 +279,19 @@ function ExpeditorOpenShiftPage() {
                     >
                       <MinusIcon />
                     </IconButton>
-                    <Text
-                      size="3"
-                      weight="medium"
-                      style={{ minWidth: '30px', textAlign: 'center' }}
-                    >
-                      {item.quantity}
-                    </Text>
+                    <TextField.Root
+                      aria-label="Количество"
+                      size="1"
+                      type="number"
+                      min="0"
+                      step="1"
+                      inputMode="numeric"
+                      value={String(item.quantity)}
+                      onChange={(event) =>
+                        updateQuantity(index, event.target.value)
+                      }
+                      style={{ width: '70px' }}
+                    />
                     <IconButton
                       size="1"
                       variant="soft"

@@ -77,7 +77,7 @@ function AdminUsersPage() {
 
           <Button asChild>
             <Link to="/admin/users/new">
-              <PlusIcon /> Добавить пользователя
+              <PlusIcon /> Добавить
             </Link>
           </Button>
         </Flex>
@@ -112,12 +112,12 @@ function AdminUsersPage() {
 
                   {/* User Details */}
                   <DataList.Root>
-                  <DataList.Item>
-                    <DataList.Label>Телефон</DataList.Label>
-                    <DataList.Value>
-                      <Text>{user.phoneNumber ?? '—'}</Text>
-                    </DataList.Value>
-                  </DataList.Item>
+                    <DataList.Item>
+                      <DataList.Label>Телефон</DataList.Label>
+                      <DataList.Value>
+                        <Text>{user.phoneNumber ?? '—'}</Text>
+                      </DataList.Value>
+                    </DataList.Item>
                     <DataList.Item>
                       <DataList.Label>Роль</DataList.Label>
                       <DataList.Value>
