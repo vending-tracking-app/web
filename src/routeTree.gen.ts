@@ -9,10 +9,13 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ExpeditorRouteRouteImport } from './routes/expeditor/route'
 import { Route as AdminRouteRouteImport } from './routes/admin/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ResetPasswordIndexRouteImport } from './routes/reset-password/index'
+import { Route as ResetPasswordConfirmRouteImport } from './routes/reset-password/confirm'
 import { Route as ExpeditorMyStockRouteImport } from './routes/expeditor/my-stock'
 import { Route as ExpeditorMachinesIndexRouteImport } from './routes/expeditor/machines/index'
 import { Route as AdminUsersIndexRouteImport } from './routes/admin/users/index'
@@ -33,6 +36,11 @@ import { Route as AdminUsersIdEditRouteImport } from './routes/admin/users/$id.e
 import { Route as AdminProductsIdEditRouteImport } from './routes/admin/products/$id.edit'
 import { Route as AdminMachinesIdEditRouteImport } from './routes/admin/machines/$id.edit'
 
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -52,6 +60,16 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordIndexRoute = ResetPasswordIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ResetPasswordRoute,
+} as any)
+const ResetPasswordConfirmRoute = ResetPasswordConfirmRouteImport.update({
+  id: '/confirm',
+  path: '/confirm',
+  getParentRoute: () => ResetPasswordRoute,
 } as any)
 const ExpeditorMyStockRoute = ExpeditorMyStockRouteImport.update({
   id: '/my-stock',
@@ -157,7 +175,10 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteRouteWithChildren
   '/expeditor': typeof ExpeditorRouteRouteWithChildren
   '/login': typeof LoginRoute
+  '/reset-password': typeof ResetPasswordRouteWithChildren
   '/expeditor/my-stock': typeof ExpeditorMyStockRoute
+  '/reset-password/confirm': typeof ResetPasswordConfirmRoute
+  '/reset-password/': typeof ResetPasswordIndexRoute
   '/admin/machines/new': typeof AdminMachinesNewRoute
   '/admin/my-stock/replenish': typeof AdminMyStockReplenishRoute
   '/admin/products/new': typeof AdminProductsNewRoute
@@ -183,6 +204,8 @@ export interface FileRoutesByTo {
   '/expeditor': typeof ExpeditorRouteRouteWithChildren
   '/login': typeof LoginRoute
   '/expeditor/my-stock': typeof ExpeditorMyStockRoute
+  '/reset-password/confirm': typeof ResetPasswordConfirmRoute
+  '/reset-password': typeof ResetPasswordIndexRoute
   '/admin/machines/new': typeof AdminMachinesNewRoute
   '/admin/my-stock/replenish': typeof AdminMyStockReplenishRoute
   '/admin/products/new': typeof AdminProductsNewRoute
@@ -208,7 +231,10 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteRouteWithChildren
   '/expeditor': typeof ExpeditorRouteRouteWithChildren
   '/login': typeof LoginRoute
+  '/reset-password': typeof ResetPasswordRouteWithChildren
   '/expeditor/my-stock': typeof ExpeditorMyStockRoute
+  '/reset-password/confirm': typeof ResetPasswordConfirmRoute
+  '/reset-password/': typeof ResetPasswordIndexRoute
   '/admin/machines/new': typeof AdminMachinesNewRoute
   '/admin/my-stock/replenish': typeof AdminMyStockReplenishRoute
   '/admin/products/new': typeof AdminProductsNewRoute
@@ -235,7 +261,10 @@ export interface FileRouteTypes {
     | '/admin'
     | '/expeditor'
     | '/login'
+    | '/reset-password'
     | '/expeditor/my-stock'
+    | '/reset-password/confirm'
+    | '/reset-password/'
     | '/admin/machines/new'
     | '/admin/my-stock/replenish'
     | '/admin/products/new'
@@ -261,6 +290,8 @@ export interface FileRouteTypes {
     | '/expeditor'
     | '/login'
     | '/expeditor/my-stock'
+    | '/reset-password/confirm'
+    | '/reset-password'
     | '/admin/machines/new'
     | '/admin/my-stock/replenish'
     | '/admin/products/new'
@@ -285,7 +316,10 @@ export interface FileRouteTypes {
     | '/admin'
     | '/expeditor'
     | '/login'
+    | '/reset-password'
     | '/expeditor/my-stock'
+    | '/reset-password/confirm'
+    | '/reset-password/'
     | '/admin/machines/new'
     | '/admin/my-stock/replenish'
     | '/admin/products/new'
@@ -311,10 +345,18 @@ export interface RootRouteChildren {
   AdminRouteRoute: typeof AdminRouteRouteWithChildren
   ExpeditorRouteRoute: typeof ExpeditorRouteRouteWithChildren
   LoginRoute: typeof LoginRoute
+  ResetPasswordRoute: typeof ResetPasswordRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -342,6 +384,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/reset-password/': {
+      id: '/reset-password/'
+      path: '/'
+      fullPath: '/reset-password/'
+      preLoaderRoute: typeof ResetPasswordIndexRouteImport
+      parentRoute: typeof ResetPasswordRoute
+    }
+    '/reset-password/confirm': {
+      id: '/reset-password/confirm'
+      path: '/confirm'
+      fullPath: '/reset-password/confirm'
+      preLoaderRoute: typeof ResetPasswordConfirmRouteImport
+      parentRoute: typeof ResetPasswordRoute
     }
     '/expeditor/my-stock': {
       id: '/expeditor/my-stock'
@@ -537,11 +593,26 @@ const ExpeditorRouteRouteWithChildren = ExpeditorRouteRoute._addFileChildren(
   ExpeditorRouteRouteChildren,
 )
 
+interface ResetPasswordRouteChildren {
+  ResetPasswordConfirmRoute: typeof ResetPasswordConfirmRoute
+  ResetPasswordIndexRoute: typeof ResetPasswordIndexRoute
+}
+
+const ResetPasswordRouteChildren: ResetPasswordRouteChildren = {
+  ResetPasswordConfirmRoute: ResetPasswordConfirmRoute,
+  ResetPasswordIndexRoute: ResetPasswordIndexRoute,
+}
+
+const ResetPasswordRouteWithChildren = ResetPasswordRoute._addFileChildren(
+  ResetPasswordRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRouteRoute: AdminRouteRouteWithChildren,
   ExpeditorRouteRoute: ExpeditorRouteRouteWithChildren,
   LoginRoute: LoginRoute,
+  ResetPasswordRoute: ResetPasswordRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

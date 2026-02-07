@@ -1,31 +1,25 @@
-import {
-  createFileRoute,
-  Link,
-  redirect,
-  useNavigate,
-} from '@tanstack/react-router';
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
 import { Box, Card, Flex, Text, TextField, Button } from '@radix-ui/themes';
 import { useState, type FormEvent } from 'react';
 
 import { authClient } from '@/lib/auth-client';
 
-export const Route = createFileRoute('/login')({
-  beforeLoad: async () => {
-    const session = await authClient.getSession();
-
-    if (session.data) {
-      throw redirect({
-        to: '/',
-      });
-    }
-  },
-  component: Login,
+export const Route = createFileRoute('/reset-password/confirm')({
+  component: ResetPasswordConfirm,
+  validateSearch: (search: Record<string, unknown>) => ({
+    phoneNumber:
+      typeof search.phoneNumber === 'string' ? search.phoneNumber : '',
+  }),
 });
 
-function Login() {
+function ResetPasswordConfirm() {
   const navigate = useNavigate();
+  const { phoneNumber: initialPhoneNumber } = Route.useSearch();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [phoneNumber, setPhoneNumber] = useState(initialPhoneNumber);
+  const [otp, setOtp] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -33,21 +27,18 @@ function Login() {
     setIsLoading(true);
     setError(null);
 
-    const formData = new FormData(e.target as HTMLFormElement);
-    const phoneNumber = formData.get('phoneNumber') as string;
-    const password = formData.get('password') as string;
-
-    await authClient.signIn.phoneNumber(
+    await authClient.phoneNumber.resetPassword(
       {
         phoneNumber,
-        password,
+        otp,
+        newPassword: password,
       },
       {
         onSuccess: () => {
-          navigate({ to: '/' });
+          navigate({ to: '/login' });
         },
         onError: (ctx) => {
-          setError(ctx.error.message ?? 'Failed to sign in');
+          setError(ctx.error.message ?? 'Failed to reset password');
         },
       },
     );
@@ -75,30 +66,48 @@ function Login() {
                   id="phoneNumber"
                   name="phoneNumber"
                   type="tel"
-                  placeholder="+15551234567"
+                  placeholder="+77012345678"
                   required
+                  value={phoneNumber}
+                  onChange={(event) => setPhoneNumber(event.target.value)}
+                />
+              </Box>
+
+              <Box>
+                <Text as="label" htmlFor="otp" weight="medium" mb="2">
+                  Verification code
+                </Text>
+                <TextField.Root
+                  id="otp"
+                  name="otp"
+                  placeholder="Enter OTP"
+                  required
+                  value={otp}
+                  onChange={(event) => setOtp(event.target.value)}
                 />
               </Box>
 
               <Box>
                 <Text as="label" htmlFor="password" weight="medium" mb="2">
-                  Password
+                  New password
                 </Text>
                 <TextField.Root
                   id="password"
                   name="password"
                   type="password"
-                  placeholder="Enter your password"
+                  placeholder="Enter new password"
                   required
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
                 />
               </Box>
 
               <Button type="submit" loading={isLoading}>
-                Sign In
+                Reset password
               </Button>
 
-              <Text size="2" color="gray" asChild>
-                <Link to="/reset-password">Forgot password?</Link>
+              <Text size="2" color="gray">
+                <Link to="/reset-password">Back</Link>
               </Text>
 
               {error && <Text color="red">{error}</Text>}

@@ -1,31 +1,18 @@
-import {
-  createFileRoute,
-  Link,
-  redirect,
-  useNavigate,
-} from '@tanstack/react-router';
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
 import { Box, Card, Flex, Text, TextField, Button } from '@radix-ui/themes';
 import { useState, type FormEvent } from 'react';
 
 import { authClient } from '@/lib/auth-client';
 
-export const Route = createFileRoute('/login')({
-  beforeLoad: async () => {
-    const session = await authClient.getSession();
-
-    if (session.data) {
-      throw redirect({
-        to: '/',
-      });
-    }
-  },
-  component: Login,
+export const Route = createFileRoute('/reset-password/')({
+  component: ResetPasswordRequest,
 });
 
-function Login() {
+function ResetPasswordRequest() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [phoneNumber, setPhoneNumber] = useState('');
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -33,21 +20,16 @@ function Login() {
     setIsLoading(true);
     setError(null);
 
-    const formData = new FormData(e.target as HTMLFormElement);
-    const phoneNumber = formData.get('phoneNumber') as string;
-    const password = formData.get('password') as string;
-
-    await authClient.signIn.phoneNumber(
+    await authClient.phoneNumber.requestPasswordReset(
       {
         phoneNumber,
-        password,
       },
       {
         onSuccess: () => {
-          navigate({ to: '/' });
+          navigate({ to: '/reset-password/confirm', search: { phoneNumber } });
         },
         onError: (ctx) => {
-          setError(ctx.error.message ?? 'Failed to sign in');
+          setError(ctx.error.message ?? 'Failed to request reset');
         },
       },
     );
@@ -75,30 +57,34 @@ function Login() {
                   id="phoneNumber"
                   name="phoneNumber"
                   type="tel"
-                  placeholder="+15551234567"
+                  placeholder="+77012345678"
                   required
-                />
-              </Box>
-
-              <Box>
-                <Text as="label" htmlFor="password" weight="medium" mb="2">
-                  Password
-                </Text>
-                <TextField.Root
-                  id="password"
-                  name="password"
-                  type="password"
-                  placeholder="Enter your password"
-                  required
+                  value={phoneNumber}
+                  onChange={(event) => setPhoneNumber(event.target.value)}
                 />
               </Box>
 
               <Button type="submit" loading={isLoading}>
-                Sign In
+                Send reset code
               </Button>
 
-              <Text size="2" color="gray" asChild>
-                <Link to="/reset-password">Forgot password?</Link>
+              <Button
+                type="button"
+                variant="soft"
+                disabled={!phoneNumber}
+                onClick={() =>
+                  navigate({
+                    to: '/reset-password/confirm',
+                    search: { phoneNumber },
+                  })
+                }
+              >
+                I already have a code
+              </Button>
+
+              <Text size="2" color="gray">
+                Remembered your password?{' '}
+                <Link to="/login">Back to sign in</Link>
               </Text>
 
               {error && <Text color="red">{error}</Text>}

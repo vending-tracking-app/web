@@ -25,7 +25,11 @@ function RootComponent() {
       return;
     }
     // If there's no session and we're not already on the login page, redirect
-    if (!session && location.pathname !== '/login') {
+    const publicPrefixes = ['/login', '/reset-password'];
+    const isPublic = publicPrefixes.some((prefix) =>
+      location.pathname.startsWith(prefix),
+    );
+    if (!session && !isPublic) {
       navigate({ to: '/login' });
     }
   }, [session, isPending, location.pathname, navigate]);
