@@ -43,7 +43,7 @@ function AdminUsersPage() {
       result = users.filter(
         (user) =>
           user.name.toLowerCase().includes(query) ||
-          user.email.toLowerCase().includes(query),
+          (user.phoneNumber ?? '').toLowerCase().includes(query),
       );
     }
 
@@ -84,7 +84,7 @@ function AdminUsersPage() {
 
         {/* Search */}
         <TextField.Root
-          placeholder="Search by name or email..."
+          placeholder="Search by name or phone..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         >
@@ -112,12 +112,12 @@ function AdminUsersPage() {
 
                   {/* User Details */}
                   <DataList.Root>
-                    <DataList.Item>
-                      <DataList.Label>Email</DataList.Label>
-                      <DataList.Value>
-                        <Text>{user.email}</Text>
-                      </DataList.Value>
-                    </DataList.Item>
+                  <DataList.Item>
+                    <DataList.Label>Phone</DataList.Label>
+                    <DataList.Value>
+                      <Text>{user.phoneNumber ?? '—'}</Text>
+                    </DataList.Value>
+                  </DataList.Item>
                     <DataList.Item>
                       <DataList.Label>Role</DataList.Label>
                       <DataList.Value>

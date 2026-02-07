@@ -29,12 +29,12 @@ function Login() {
     setError(null);
 
     const formData = new FormData(e.target as HTMLFormElement);
-    const email = formData.get('email') as string;
+    const phoneNumber = formData.get('phoneNumber') as string;
     const password = formData.get('password') as string;
 
-    await authClient.signIn.email(
+    await authClient.signIn.phoneNumber(
       {
-        email,
+        phoneNumber,
         password,
       },
       {
@@ -63,14 +63,14 @@ function Login() {
           <form onSubmit={handleSubmit}>
             <Flex direction="column" gap="4">
               <Box>
-                <Text as="label" htmlFor="email" weight="medium" mb="2">
-                  Email
+                <Text as="label" htmlFor="phoneNumber" weight="medium" mb="2">
+                  Phone number
                 </Text>
                 <TextField.Root
-                  id="email"
-                  name="email"
-                  type="email"
-                  placeholder="you@example.com"
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  type="tel"
+                  placeholder="+15551234567"
                   required
                 />
               </Box>

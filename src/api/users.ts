@@ -8,6 +8,7 @@ export type UserRole = 'admin' | 'user';
 export interface User extends BaseEntity {
   name: string;
   email: string;
+  phoneNumber: string | null;
   role: UserRole;
   image: string | null;
 }
@@ -23,14 +24,14 @@ export interface UserStock {
 
 export interface CreateUserInput {
   name: string;
-  email: string;
+  phoneNumber: string;
   role: UserRole;
   password: string;
 }
 
 export interface UpdateUserInput {
   name?: string;
-  email?: string;
+  phoneNumber?: string;
   role?: UserRole;
 }
 

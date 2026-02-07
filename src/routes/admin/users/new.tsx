@@ -44,7 +44,7 @@ function NewUserPage() {
         const formData = new FormData(e.currentTarget);
         const data: CreateUserInput = {
           name: formData.get('name') as string,
-          email: formData.get('email') as string,
+          phoneNumber: formData.get('phoneNumber') as string,
           role: formData.get('role') as UserRole,
           password: formData.get('password') as string,
         };
@@ -84,14 +84,14 @@ function NewUserPage() {
               </Box>
 
               <Box>
-                <Text as="label" htmlFor="email" weight="bold" mb="2">
-                  Email
+                <Text as="label" htmlFor="phoneNumber" weight="bold" mb="2">
+                  Phone number
                 </Text>
                 <TextField.Root
-                  id="email"
-                  name="email"
-                  type="email"
-                  placeholder="Enter user email"
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  type="tel"
+                  placeholder="Enter phone number"
                   required
                 />
               </Box>

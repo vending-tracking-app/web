@@ -51,7 +51,7 @@ function EditUserPage() {
         const formData = new FormData(e.currentTarget);
         const data: UpdateUserInput = {
           name: formData.get('name') as string,
-          email: formData.get('email') as string,
+          phoneNumber: formData.get('phoneNumber') as string,
         };
 
         await updateMutation.mutateAsync({ id, data });
@@ -94,15 +94,15 @@ function EditUserPage() {
               </Box>
 
               <Box>
-                <Text as="label" htmlFor="email" weight="bold" mb="2">
-                  Email
+                <Text as="label" htmlFor="phoneNumber" weight="bold" mb="2">
+                  Phone number
                 </Text>
                 <TextField.Root
-                  id="email"
-                  name="email"
-                  type="email"
-                  placeholder="Enter user email"
-                  defaultValue={user.email}
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  type="tel"
+                  placeholder="Enter phone number"
+                  defaultValue={user.phoneNumber ?? ''}
                   required
                 />
               </Box>

@@ -56,9 +56,9 @@ function UserDetailPage() {
 
             <DataList.Root>
               <DataList.Item>
-                <DataList.Label>Email</DataList.Label>
+                <DataList.Label>Phone</DataList.Label>
                 <DataList.Value>
-                  <Text>{user.email}</Text>
+                  <Text>{user.phoneNumber ?? '—'}</Text>
                 </DataList.Value>
               </DataList.Item>
 
