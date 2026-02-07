@@ -35,8 +35,8 @@ import { useProducts } from '@/hooks/use-products';
 import { useUsers } from '@/hooks/use-users';
 
 const shiftTypeLabel: Record<ShiftOperationType, string> = {
-  [ShiftOperationType.SHIFT_START]: 'Shift start',
-  [ShiftOperationType.SHIFT_END]: 'Shift end',
+  [ShiftOperationType.SHIFT_START]: 'Начало смены',
+  [ShiftOperationType.SHIFT_END]: 'Конец смены',
 };
 
 export const Route = createFileRoute('/admin/machines/$id/')({
@@ -166,7 +166,7 @@ function RouteComponent() {
 
           <Button asChild size="2" variant="soft">
             <Link to="/admin/machines/$id/edit" params={{ id }}>
-              Edit
+              Редактировать
             </Link>
           </Button>
         </Flex>
@@ -174,7 +174,7 @@ function RouteComponent() {
         <Card>
           <DataList.Root>
             <DataList.Item>
-              <DataList.Label>Location</DataList.Label>
+              <DataList.Label>Расположение</DataList.Label>
               <DataList.Value>
                 <Text>{machine.location}</Text>
               </DataList.Value>
@@ -186,13 +186,13 @@ function RouteComponent() {
           machineStock.stock.some((item) => item.quantity > 0) && <div />}
 
         <Flex direction="column" gap="3">
-          <Heading size="4">Stock at {stockUpdatedAt}</Heading>
+          <Heading size="4">Остатки на {stockUpdatedAt}</Heading>
 
           <Table.Root variant="surface">
             <Table.Header>
               <Table.Row>
-                <Table.ColumnHeaderCell>Product</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>Quantity</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell>Товар</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell>Количество</Table.ColumnHeaderCell>
               </Table.Row>
             </Table.Header>
 
@@ -203,7 +203,7 @@ function RouteComponent() {
                   <Table.Row key={item.productId}>
                     <Table.Cell>
                       <Text weight="medium">
-                        {product?.name ?? 'Unknown Product'}
+                        {product?.name ?? 'Неизвестный товар'}
                       </Text>
                     </Table.Cell>
                     <Table.Cell>
@@ -223,13 +223,13 @@ function RouteComponent() {
         </Flex>
 
         <Flex direction="column" gap="3">
-          <Heading size="4">Sales</Heading>
+          <Heading size="4">Продажи</Heading>
           <Card>
             <Flex direction="column" gap="4" p="4">
               <Flex gap="3" wrap="wrap">
                 <Flex direction="column" gap="2">
                   <Text size="2" weight="bold">
-                    Product
+                    Товар
                   </Text>
                   <Select.Root
                     value={productFilter}
@@ -237,7 +237,7 @@ function RouteComponent() {
                   >
                     <Select.Trigger style={{ width: 220 }} />
                     <Select.Content>
-                      <Select.Item value="all">All products</Select.Item>
+                      <Select.Item value="all">Все товары</Select.Item>
                       {products.map((product) => (
                         <Select.Item key={product.id} value={product.id}>
                           {product.name}
@@ -249,7 +249,7 @@ function RouteComponent() {
 
                 <Flex direction="column" gap="2">
                   <Text size="2" weight="bold">
-                    From
+                    С
                   </Text>
                   <TextField.Root
                     type="date"
@@ -261,7 +261,7 @@ function RouteComponent() {
 
                 <Flex direction="column" gap="2">
                   <Text size="2" weight="bold">
-                    To
+                    По
                   </Text>
                   <TextField.Root
                     type="date"
@@ -274,15 +274,15 @@ function RouteComponent() {
 
               {isSalesLoading ? (
                 <Text size="2" color="gray">
-                  Loading sales data...
+                  Загрузка данных по продажам...
                 </Text>
               ) : isSalesError ? (
                 <Text size="2" color="red">
-                  Failed to load sales data.
+                  Не удалось загрузить данные по продажам.
                 </Text>
               ) : chartSeries.length === 0 || chartData.length === 0 ? (
                 <Text size="2" color="gray">
-                  No sales data for this period.
+                  Нет данных о продажах за этот период.
                 </Text>
               ) : (
                 <div style={{ width: '100%', height: 320 }}>
@@ -326,21 +326,21 @@ function RouteComponent() {
 
         {/* Shift operations table */}
         <Flex direction="column" gap="3">
-          <Heading size="4">Shift operations</Heading>
+          <Heading size="4">Операции смены</Heading>
 
           {sortedShiftOperations.length === 0 ? (
             <Text color="gray" size="2">
-              No shift operations
+              Операций смены нет
             </Text>
           ) : (
             <Table.Root variant="surface">
               <Table.Header>
                 <Table.Row>
-                  <Table.ColumnHeaderCell>Type</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell>Date & time</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell>Created by</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell>Тип</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell>Дата и время</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell>Создал</Table.ColumnHeaderCell>
                   <Table.ColumnHeaderCell>
-                    Cash collected
+                    Собрано наличными
                   </Table.ColumnHeaderCell>
                 </Table.Row>
               </Table.Header>

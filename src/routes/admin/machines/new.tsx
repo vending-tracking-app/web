@@ -44,12 +44,12 @@ function NewMachinePage() {
 
         await createMutation.mutateAsync(data);
 
-        toast.success('Machine created successfully');
+        toast.success('Автомат успешно создан');
 
         await navigate({ to: '/admin/machines' });
       } catch (error) {
         console.error(error);
-        toast.error('Failed to create machine');
+        toast.error('Не удалось создать автомат');
       }
     },
     [createMutation, navigate],
@@ -58,7 +58,7 @@ function NewMachinePage() {
   return (
     <Container size="2" p="4">
       <Flex direction="column" gap="4">
-        <Heading size="6">Add New Machine</Heading>
+        <Heading size="6">Добавить новый автомат</Heading>
 
         {/* Form Card */}
         <Card>
@@ -66,31 +66,31 @@ function NewMachinePage() {
             <Flex direction="column" gap="4" p="4">
               <Box>
                 <Text as="label" htmlFor="name" weight="bold" mb="2">
-                  Machine Name
+                  Название автомата
                 </Text>
                 <TextField.Root
                   id="name"
                   name="name"
-                  placeholder="Enter machine name"
+                  placeholder="Введите название автомата"
                   required
                 />
               </Box>
 
               <Box>
                 <Text as="label" htmlFor="location" weight="bold" mb="2">
-                  Location
+                  Расположение
                 </Text>
                 <TextField.Root
                   id="location"
                   name="location"
-                  placeholder="Enter machine location"
+                  placeholder="Введите расположение автомата"
                   required
                 />
               </Box>
 
               {createMutation.isError && (
                 <Text color="red" size="2">
-                  Error: {createMutation.error.message}
+                  Ошибка: {createMutation.error.message}
                 </Text>
               )}
 
@@ -101,11 +101,11 @@ function NewMachinePage() {
                   color="gray"
                   onClick={() => navigate({ to: '/admin/machines' })}
                 >
-                  Cancel
+                  Отмена
                 </Button>
 
                 <Button type="submit" loading={createMutation.isPending}>
-                  Create Machine
+                  Создать автомат
                 </Button>
               </Flex>
             </Flex>

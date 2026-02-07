@@ -121,12 +121,12 @@ function TransferPage() {
         })),
       });
 
-      toast.success('Products transferred successfully');
+      toast.success('Товары успешно переданы');
 
       await navigate({ to: '/admin/users/$id', params: { id } });
     } catch (error) {
       console.error(error);
-      toast.error('Failed to transfer products');
+      toast.error('Не удалось передать товары');
     }
   }, [
     id,
@@ -144,7 +144,7 @@ function TransferPage() {
         <Flex justify="between" align="center">
           <Flex align="center" gap="2">
             <AdminMenu />
-            <Heading size="6">Transfer Products</Heading>
+            <Heading size="6">Передать товары</Heading>
           </Flex>
         </Flex>
 
@@ -152,7 +152,7 @@ function TransferPage() {
           {/* Transfer Direction */}
           <Flex direction="column" gap="2">
             <Text weight="bold" size="3">
-              Transfer Direction
+              Направление передачи
             </Text>
             <RadioCards.Root
               value={transferDirection}
@@ -162,10 +162,10 @@ function TransferPage() {
               columns="2"
             >
               <RadioCards.Item value="to">
-                <Text weight="bold">To {user.name}</Text>
+                <Text weight="bold">К {user.name}</Text>
               </RadioCards.Item>
               <RadioCards.Item value="from">
-                <Text weight="bold">From {user.name}</Text>
+                <Text weight="bold">От {user.name}</Text>
               </RadioCards.Item>
             </RadioCards.Root>
           </Flex>
@@ -174,13 +174,13 @@ function TransferPage() {
           <Flex direction="column" gap="3">
             <Flex align="center" justify="between">
               <Text weight="bold" size="3">
-                Products
+                Товары
               </Text>
 
               <Popover.Root open={popoverOpen} onOpenChange={setPopoverOpen}>
                 <Popover.Trigger>
                   <Button disabled={!hasAvailableProducts} variant="soft">
-                    <PlusIcon /> Add Product
+                    <PlusIcon /> Добавить товар
                   </Button>
                 </Popover.Trigger>
                 <Popover.Content width="300px">
@@ -189,7 +189,7 @@ function TransferPage() {
                       value={selectedProductId}
                       onValueChange={setSelectedProductId}
                     >
-                      <Select.Trigger placeholder="Select product" />
+                      <Select.Trigger placeholder="Выберите товар" />
                       <Select.Content>
                         {availableProducts.map((product) => (
                           <Select.Item key={product.id} value={product.id}>
@@ -199,7 +199,7 @@ function TransferPage() {
                       </Select.Content>
                     </Select.Root>
                     <Button onClick={addProduct} disabled={!selectedProductId}>
-                      Add
+                      Добавить
                     </Button>
                   </Flex>
                 </Popover.Content>
@@ -213,7 +213,7 @@ function TransferPage() {
                     <Text weight="bold">{getProductName(item.id)}</Text>
                     <Flex align="center" gap="2">
                       <Text size="2" color="gray">
-                        Quantity:
+                        Количество:
                       </Text>
                       <IconButton
                         size="1"
@@ -251,7 +251,7 @@ function TransferPage() {
 
             {transferItems.length === 0 && (
               <Text color="gray" size="2">
-                No products added yet. Click "Add Product" to start.
+                Товары еще не добавлены. Нажмите «Добавить товар», чтобы начать.
               </Text>
             )}
           </Flex>
@@ -265,7 +265,7 @@ function TransferPage() {
                 navigate({ to: '/admin/users/$id', params: { id: user.id } })
               }
             >
-              Cancel
+              Отмена
             </Button>
 
             <Button
@@ -276,7 +276,7 @@ function TransferPage() {
               onClick={handleTransfer}
               loading={transferMutation.isPending}
             >
-              Transfer Products
+              Передать товары
             </Button>
           </Flex>
         </Flex>

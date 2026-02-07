@@ -47,7 +47,7 @@ function Login() {
           navigate({ to: '/' });
         },
         onError: (ctx) => {
-          setError(ctx.error.message ?? 'Failed to sign in');
+          setError(ctx.error.message ?? 'Не удалось войти');
         },
       },
     );
@@ -69,7 +69,7 @@ function Login() {
             <Flex direction="column" gap="4">
               <Box>
                 <Text as="label" htmlFor="phoneNumber" weight="medium" mb="2">
-                  Phone number
+                  Номер телефона
                 </Text>
                 <TextField.Root
                   id="phoneNumber"
@@ -82,23 +82,23 @@ function Login() {
 
               <Box>
                 <Text as="label" htmlFor="password" weight="medium" mb="2">
-                  Password
+                  Пароль
                 </Text>
                 <TextField.Root
                   id="password"
                   name="password"
                   type="password"
-                  placeholder="Enter your password"
+                  placeholder="Введите пароль"
                   required
                 />
               </Box>
 
               <Button type="submit" loading={isLoading}>
-                Sign In
+                Войти
               </Button>
 
               <Text size="2" color="gray" asChild>
-                <Link to="/reset-password">Forgot password?</Link>
+                <Link to="/reset-password">Забыли пароль?</Link>
               </Text>
 
               {error && <Text color="red">{error}</Text>}

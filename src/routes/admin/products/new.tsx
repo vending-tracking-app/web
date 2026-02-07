@@ -44,12 +44,12 @@ function NewProductPage() {
 
         await createMutation.mutateAsync(data);
 
-        toast.success('Product created successfully');
+        toast.success('Товар успешно создан');
 
         await navigate({ to: '/admin/products' });
       } catch (error) {
         console.error(error);
-        toast.error('Failed to create product');
+        toast.error('Не удалось создать товар');
       }
     },
     [createMutation, navigate],
@@ -58,7 +58,7 @@ function NewProductPage() {
   return (
     <Container size="2" p="4">
       <Flex direction="column" gap="4">
-        <Heading size="6">Add New Product</Heading>
+        <Heading size="6">Добавить новый товар</Heading>
 
         {/* Form Card */}
         <Card>
@@ -71,26 +71,26 @@ function NewProductPage() {
                 <TextField.Root
                   id="sku"
                   name="sku"
-                  placeholder="Enter product SKU"
+                  placeholder="Введите SKU товара"
                   required
                 />
               </Box>
 
               <Box>
                 <Text as="label" htmlFor="name" weight="bold" mb="2">
-                  Product Name
+                  Название товара
                 </Text>
                 <TextField.Root
                   id="name"
                   name="name"
-                  placeholder="Enter product name"
+                  placeholder="Введите название товара"
                   required
                 />
               </Box>
 
               {createMutation.isError && (
                 <Text color="red" size="2">
-                  Error: {createMutation.error.message}
+                  Ошибка: {createMutation.error.message}
                 </Text>
               )}
 
@@ -101,11 +101,11 @@ function NewProductPage() {
                   color="gray"
                   onClick={() => navigate({ to: '/admin/products' })}
                 >
-                  Cancel
+                  Отмена
                 </Button>
 
                 <Button type="submit" loading={createMutation.isPending}>
-                  Create Product
+                  Создать товар
                 </Button>
               </Flex>
             </Flex>

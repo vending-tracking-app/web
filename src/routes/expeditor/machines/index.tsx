@@ -47,12 +47,12 @@ function ExpeditorMachinesPage() {
         {/* Header */}
         <Flex align="center" gap="2">
           <ExpeditorMenu />
-          <Heading size="6">Machines</Heading>
+          <Heading size="6">Автоматы</Heading>
         </Flex>
 
         {/* Search */}
         <TextField.Root
-          placeholder="Search by name or location..."
+          placeholder="Поиск по названию или месту..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         >
@@ -74,7 +74,7 @@ function ExpeditorMachinesPage() {
                       to="/expeditor/machines/$id/close-shift"
                       params={{ id: machine.id }}
                     >
-                      Close Shift
+                      Закрыть смену
                     </Link>
                   </Button>
                 </Flex>
@@ -82,7 +82,7 @@ function ExpeditorMachinesPage() {
                 {/* Machine Details */}
                 <DataList.Root>
                   <DataList.Item>
-                    <DataList.Label>Location</DataList.Label>
+                    <DataList.Label>Расположение</DataList.Label>
                     <DataList.Value>
                       <Text>{machine.location}</Text>
                     </DataList.Value>

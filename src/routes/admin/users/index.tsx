@@ -72,19 +72,19 @@ function AdminUsersPage() {
         <Flex justify="between" align="center">
           <Flex align="center" gap="2">
             <AdminMenu />
-            <Heading size="6">Users</Heading>
+            <Heading size="6">Пользователи</Heading>
           </Flex>
 
           <Button asChild>
             <Link to="/admin/users/new">
-              <PlusIcon /> Add User
+              <PlusIcon /> Добавить пользователя
             </Link>
           </Button>
         </Flex>
 
         {/* Search */}
         <TextField.Root
-          placeholder="Search by name or phone..."
+          placeholder="Поиск по имени или телефону..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         >
@@ -105,7 +105,7 @@ function AdminUsersPage() {
                       <Heading size="4">{user.name}</Heading>
 
                       {session.data?.user?.id === user.id && (
-                        <Badge color="gray">You</Badge>
+                        <Badge color="gray">Вы</Badge>
                       )}
                     </Flex>
                   </Flex>
@@ -113,16 +113,18 @@ function AdminUsersPage() {
                   {/* User Details */}
                   <DataList.Root>
                   <DataList.Item>
-                    <DataList.Label>Phone</DataList.Label>
+                    <DataList.Label>Телефон</DataList.Label>
                     <DataList.Value>
                       <Text>{user.phoneNumber ?? '—'}</Text>
                     </DataList.Value>
                   </DataList.Item>
                     <DataList.Item>
-                      <DataList.Label>Role</DataList.Label>
+                      <DataList.Label>Роль</DataList.Label>
                       <DataList.Value>
                         <Badge color={user.role === 'admin' ? 'blue' : 'green'}>
-                          {user.role === 'admin' ? 'Admin' : 'Expeditor'}
+                          {user.role === 'admin'
+                            ? 'Администратор'
+                            : 'Экспедитор'}
                         </Badge>
                       </DataList.Value>
                     </DataList.Item>

@@ -55,12 +55,12 @@ function EditProductPage() {
 
         await updateMutation.mutateAsync({ id, data });
 
-        toast.success('Product updated successfully');
+        toast.success('Товар успешно обновлен');
 
         await navigate({ to: '/admin/products' });
       } catch (error) {
         console.error(error);
-        toast.error('Failed to update product');
+        toast.error('Не удалось обновить товар');
       }
     },
     [updateMutation, id, navigate],
@@ -73,7 +73,7 @@ function EditProductPage() {
   return (
     <Container size="2" p="4">
       <Flex direction="column" gap="4">
-        <Heading size="6">Edit Product</Heading>
+        <Heading size="6">Редактировать товар</Heading>
 
         {/* Form Card */}
         <Card>
@@ -86,7 +86,7 @@ function EditProductPage() {
                 <TextField.Root
                   id="sku"
                   name="sku"
-                  placeholder="Enter product SKU"
+                  placeholder="Введите SKU товара"
                   defaultValue={product.sku}
                   required
                 />
@@ -94,12 +94,12 @@ function EditProductPage() {
 
               <Box>
                 <Text as="label" htmlFor="name" weight="bold" mb="2">
-                  Product Name
+                  Название товара
                 </Text>
                 <TextField.Root
                   id="name"
                   name="name"
-                  placeholder="Enter product name"
+                  placeholder="Введите название товара"
                   defaultValue={product.name}
                   required
                 />
@@ -107,7 +107,7 @@ function EditProductPage() {
 
               {updateMutation.isError && (
                 <Text color="red" size="2">
-                  Error: {updateMutation.error.message}
+                  Ошибка: {updateMutation.error.message}
                 </Text>
               )}
 
@@ -118,11 +118,11 @@ function EditProductPage() {
                   color="gray"
                   onClick={() => navigate({ to: '/admin/products' })}
                 >
-                  Cancel
+                  Отмена
                 </Button>
 
                 <Button type="submit" loading={updateMutation.isPending}>
-                  Update Product
+                  Обновить товар
                 </Button>
               </Flex>
             </Flex>

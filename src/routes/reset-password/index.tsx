@@ -29,7 +29,7 @@ function ResetPasswordRequest() {
           navigate({ to: '/reset-password/confirm', search: { phoneNumber } });
         },
         onError: (ctx) => {
-          setError(ctx.error.message ?? 'Failed to request reset');
+          setError(ctx.error.message ?? 'Не удалось запросить сброс');
         },
       },
     );
@@ -51,7 +51,7 @@ function ResetPasswordRequest() {
             <Flex direction="column" gap="4">
               <Box>
                 <Text as="label" htmlFor="phoneNumber" weight="medium" mb="2">
-                  Phone number
+                  Номер телефона
                 </Text>
                 <TextField.Root
                   id="phoneNumber"
@@ -65,7 +65,7 @@ function ResetPasswordRequest() {
               </Box>
 
               <Button type="submit" loading={isLoading}>
-                Send reset code
+                Отправить код сброса
               </Button>
 
               <Button
@@ -79,12 +79,12 @@ function ResetPasswordRequest() {
                   })
                 }
               >
-                I already have a code
+                У меня уже есть код
               </Button>
 
               <Text size="2" color="gray">
-                Remembered your password?{' '}
-                <Link to="/login">Back to sign in</Link>
+                Вспомнили пароль?{' '}
+                <Link to="/login">Вернуться ко входу</Link>
               </Text>
 
               {error && <Text color="red">{error}</Text>}

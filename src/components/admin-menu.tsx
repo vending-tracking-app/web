@@ -22,24 +22,26 @@ export function AdminMenu() {
 
       <DropdownMenu.Content>
         <DropdownMenu.Item asChild>
-          <Link to="/admin/my-stock">My Stock</Link>
+          <Link to="/admin/my-stock">Мои остатки</Link>
         </DropdownMenu.Item>
 
         <DropdownMenu.Item asChild>
-          <Link to="/admin/products">Products</Link>
+          <Link to="/admin/products">Товары</Link>
         </DropdownMenu.Item>
 
         <DropdownMenu.Item asChild>
-          <Link to="/admin/machines">Machines</Link>
+          <Link to="/admin/machines">Автоматы</Link>
         </DropdownMenu.Item>
 
         <DropdownMenu.Item asChild>
-          <Link to="/admin/users">Users</Link>
+          <Link to="/admin/users">Пользователи</Link>
         </DropdownMenu.Item>
 
         <DropdownMenu.Separator />
 
-        <DropdownMenu.Item onSelect={handleSignOut}>Sign Out</DropdownMenu.Item>
+        <DropdownMenu.Item onSelect={handleSignOut}>
+          Выйти
+        </DropdownMenu.Item>
       </DropdownMenu.Content>
     </DropdownMenu.Root>
   );

@@ -20,7 +20,7 @@ export const Route = createFileRoute('/admin/my-stock/')({
   loader: async () => {
     const session = await authClient.getSession();
     if (!session.data?.user?.id) {
-      throw new Error('User not authenticated');
+      throw new Error('Пользователь не авторизован');
     }
 
     const userStock = await fetchUserStock(session.data.user.id);
@@ -39,11 +39,11 @@ function AdminMyStockPage() {
         <Flex align="center" justify="between">
           <Flex align="center" gap="2">
             <AdminMenu />
-            <Heading size="6">My Stock</Heading>
+            <Heading size="6">Мои остатки</Heading>
           </Flex>
           <Button variant="soft" asChild>
             <Link to="/admin/my-stock/replenish">
-              <PlusIcon /> Replenish Stock
+              <PlusIcon /> Пополнить остатки
             </Link>
           </Button>
         </Flex>
@@ -51,14 +51,14 @@ function AdminMyStockPage() {
         {/* Stock Table */}
         {userStock.stock.length === 0 ? (
           <Text color="gray" size="2">
-            No stock items
+            Нет остатков
           </Text>
         ) : (
           <Table.Root variant="surface">
             <Table.Header>
               <Table.Row>
-                <Table.ColumnHeaderCell>Product</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>Quantity</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell>Товар</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell>Количество</Table.ColumnHeaderCell>
               </Table.Row>
             </Table.Header>
 
@@ -69,7 +69,7 @@ function AdminMyStockPage() {
                   <Table.Row key={item.productId}>
                     <Table.Cell>
                       <Text weight="medium">
-                        {product?.name ?? 'Unknown Product'}
+                        {product?.name ?? 'Неизвестный товар'}
                       </Text>
                     </Table.Cell>
                     <Table.Cell>

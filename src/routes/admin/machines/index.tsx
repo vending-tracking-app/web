@@ -49,17 +49,17 @@ function AdminMachinesPage() {
         <Flex justify="between" align="center">
           <Flex align="center" gap="2">
             <AdminMenu />
-            <Heading size="6">Machines</Heading>
+            <Heading size="6">Автоматы</Heading>
           </Flex>
 
           <Button asChild>
-            <Link to="/admin/machines/new">Add Machine</Link>
+            <Link to="/admin/machines/new">Добавить автомат</Link>
           </Button>
         </Flex>
 
         {/* Search */}
         <TextField.Root
-          placeholder="Search by name or location..."
+          placeholder="Поиск по названию или месту..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         >
@@ -83,19 +83,19 @@ function AdminMachinesPage() {
                   {/* Machine Details */}
                   <DataList.Root>
                     <DataList.Item>
-                      <DataList.Label>Location</DataList.Label>
+                      <DataList.Label>Расположение</DataList.Label>
                       <DataList.Value>
                         <Text>{machine.location}</Text>
                       </DataList.Value>
                     </DataList.Item>
                     <DataList.Item>
-                      <DataList.Label>Created</DataList.Label>
+                      <DataList.Label>Создано</DataList.Label>
                       <DataList.Value>
                         {new Date(machine.createdAt).toLocaleString()}
                       </DataList.Value>
                     </DataList.Item>
                     <DataList.Item>
-                      <DataList.Label>Updated</DataList.Label>
+                      <DataList.Label>Обновлено</DataList.Label>
                       <DataList.Value>
                         {new Date(machine.updatedAt).toLocaleString()}
                       </DataList.Value>

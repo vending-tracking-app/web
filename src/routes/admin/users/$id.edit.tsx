@@ -56,12 +56,12 @@ function EditUserPage() {
 
         await updateMutation.mutateAsync({ id, data });
 
-        toast.success('User updated successfully');
+        toast.success('Пользователь успешно обновлен');
 
         await navigate({ to: '/admin/users/$id', params: { id } });
       } catch (error) {
         console.error(error);
-        toast.error('Failed to update user');
+        toast.error('Не удалось обновить пользователя');
       }
     },
     [updateMutation, id, navigate],
@@ -74,7 +74,7 @@ function EditUserPage() {
   return (
     <Container size="2" p="4">
       <Flex direction="column" gap="4">
-        <Heading size="6">Edit User</Heading>
+        <Heading size="6">Редактировать пользователя</Heading>
 
         {/* Form Card */}
         <Card>
@@ -82,12 +82,12 @@ function EditUserPage() {
             <Flex direction="column" gap="4" p="4">
               <Box>
                 <Text as="label" htmlFor="name" weight="bold" mb="2">
-                  Name
+                  Имя
                 </Text>
                 <TextField.Root
                   id="name"
                   name="name"
-                  placeholder="Enter user name"
+                  placeholder="Введите имя пользователя"
                   defaultValue={user.name}
                   required
                 />
@@ -95,13 +95,13 @@ function EditUserPage() {
 
               <Box>
                 <Text as="label" htmlFor="phoneNumber" weight="bold" mb="2">
-                  Phone number
+                  Номер телефона
                 </Text>
                 <TextField.Root
                   id="phoneNumber"
                   name="phoneNumber"
                   type="tel"
-                  placeholder="Enter phone number"
+                  placeholder="Введите номер телефона"
                   defaultValue={user.phoneNumber ?? ''}
                   required
                 />
@@ -109,7 +109,7 @@ function EditUserPage() {
 
               {updateMutation.isError && (
                 <Text color="red" size="2">
-                  Error: {updateMutation.error.message}
+                  Ошибка: {updateMutation.error.message}
                 </Text>
               )}
 
@@ -122,11 +122,11 @@ function EditUserPage() {
                     navigate({ to: '/admin/users/$id', params: { id } })
                   }
                 >
-                  Cancel
+                  Отмена
                 </Button>
 
                 <Button type="submit" loading={updateMutation.isPending}>
-                  Update User
+                  Обновить пользователя
                 </Button>
               </Flex>
             </Flex>

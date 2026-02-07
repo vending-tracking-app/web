@@ -13,11 +13,11 @@ export function ExpeditorMenu() {
 
       <DropdownMenu.Content>
         <DropdownMenu.Item asChild>
-          <Link to="/expeditor/my-stock">My Stock</Link>
+          <Link to="/expeditor/my-stock">Мои остатки</Link>
         </DropdownMenu.Item>
 
         <DropdownMenu.Item asChild>
-          <Link to="/expeditor/machines">Machines</Link>
+          <Link to="/expeditor/machines">Автоматы</Link>
         </DropdownMenu.Item>
       </DropdownMenu.Content>
     </DropdownMenu.Root>

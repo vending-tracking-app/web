@@ -55,12 +55,12 @@ function EditMachinePage() {
 
         await updateMutation.mutateAsync({ id, data });
 
-        toast.success('Machine updated successfully');
+        toast.success('Автомат успешно обновлен');
 
         await navigate({ to: '/admin/machines/$id', params: { id } });
       } catch (error) {
         console.error(error);
-        toast.error('Failed to update machine');
+        toast.error('Не удалось обновить автомат');
       }
     },
     [updateMutation, id, navigate],
@@ -73,7 +73,7 @@ function EditMachinePage() {
   return (
     <Container size="2" p="4">
       <Flex direction="column" gap="4">
-        <Heading size="6">Edit Machine</Heading>
+        <Heading size="6">Редактировать автомат</Heading>
 
         {/* Form Card */}
         <Card>
@@ -81,12 +81,12 @@ function EditMachinePage() {
             <Flex direction="column" gap="4" p="4">
               <Box>
                 <Text as="label" htmlFor="name" weight="bold" mb="2">
-                  Machine Name
+                  Название автомата
                 </Text>
                 <TextField.Root
                   id="name"
                   name="name"
-                  placeholder="Enter machine name"
+                  placeholder="Введите название автомата"
                   defaultValue={machine.name}
                   required
                 />
@@ -94,12 +94,12 @@ function EditMachinePage() {
 
               <Box>
                 <Text as="label" htmlFor="location" weight="bold" mb="2">
-                  Location
+                  Расположение
                 </Text>
                 <TextField.Root
                   id="location"
                   name="location"
-                  placeholder="Enter machine location"
+                  placeholder="Введите расположение автомата"
                   defaultValue={machine.location}
                   required
                 />
@@ -107,7 +107,7 @@ function EditMachinePage() {
 
               {updateMutation.isError && (
                 <Text color="red" size="2">
-                  Error: {updateMutation.error.message}
+                  Ошибка: {updateMutation.error.message}
                 </Text>
               )}
 
@@ -120,11 +120,11 @@ function EditMachinePage() {
                     navigate({ to: '/admin/machines/$id', params: { id } })
                   }
                 >
-                  Cancel
+                  Отмена
                 </Button>
 
                 <Button type="submit" loading={updateMutation.isPending}>
-                  Update Machine
+                  Обновить автомат
                 </Button>
               </Flex>
             </Flex>

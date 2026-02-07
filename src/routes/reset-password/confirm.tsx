@@ -38,7 +38,7 @@ function ResetPasswordConfirm() {
           navigate({ to: '/login' });
         },
         onError: (ctx) => {
-          setError(ctx.error.message ?? 'Failed to reset password');
+          setError(ctx.error.message ?? 'Не удалось сбросить пароль');
         },
       },
     );
@@ -60,7 +60,7 @@ function ResetPasswordConfirm() {
             <Flex direction="column" gap="4">
               <Box>
                 <Text as="label" htmlFor="phoneNumber" weight="medium" mb="2">
-                  Phone number
+                  Номер телефона
                 </Text>
                 <TextField.Root
                   id="phoneNumber"
@@ -75,12 +75,12 @@ function ResetPasswordConfirm() {
 
               <Box>
                 <Text as="label" htmlFor="otp" weight="medium" mb="2">
-                  Verification code
+                  Код подтверждения
                 </Text>
                 <TextField.Root
                   id="otp"
                   name="otp"
-                  placeholder="Enter OTP"
+                  placeholder="Введите код"
                   required
                   value={otp}
                   onChange={(event) => setOtp(event.target.value)}
@@ -89,13 +89,13 @@ function ResetPasswordConfirm() {
 
               <Box>
                 <Text as="label" htmlFor="password" weight="medium" mb="2">
-                  New password
+                  Новый пароль
                 </Text>
                 <TextField.Root
                   id="password"
                   name="password"
                   type="password"
-                  placeholder="Enter new password"
+                  placeholder="Введите новый пароль"
                   required
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
@@ -103,11 +103,11 @@ function ResetPasswordConfirm() {
               </Box>
 
               <Button type="submit" loading={isLoading}>
-                Reset password
+                Сбросить пароль
               </Button>
 
               <Text size="2" color="gray">
-                <Link to="/reset-password">Back</Link>
+                <Link to="/reset-password">Назад</Link>
               </Text>
 
               {error && <Text color="red">{error}</Text>}

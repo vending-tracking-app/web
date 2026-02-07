@@ -1,6 +1,6 @@
 {
-  "short_name": "Vending Tracker",
-  "name": "Vending Machine Tracking App",
+  "short_name": "Автоматы",
+  "name": "Учет торговых автоматов",
   "icons": [
     {
       "src": "favicon.ico",

@@ -12,7 +12,7 @@ export const Route = createFileRoute('/expeditor/my-stock')({
     const session = await authClient.getSession();
 
     if (!session.data?.user?.id) {
-      throw new Error('User not authenticated');
+      throw new Error('Пользователь не авторизован');
     }
 
     const userStock = await fetchUserStock(session.data.user.id);
@@ -30,23 +30,23 @@ function ExpeditorMyStockPage() {
         {/* Header */}
         <Flex align="center" gap="2">
           <ExpeditorMenu />
-          <Heading size="6">My Stock</Heading>
+          <Heading size="6">Мои остатки</Heading>
         </Flex>
 
         {/* Stock Table */}
         <Flex direction="column" gap="3">
-          <Heading size="4">Products</Heading>
+          <Heading size="4">Товары</Heading>
 
           {userStock.stock.length === 0 ? (
             <Text color="gray" size="2">
-              No stock items
+              Нет остатков
             </Text>
           ) : (
             <Table.Root variant="surface">
               <Table.Header>
                 <Table.Row>
-                  <Table.ColumnHeaderCell>Product</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell>Quantity</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell>Товар</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell>Количество</Table.ColumnHeaderCell>
                 </Table.Row>
               </Table.Header>
 
@@ -57,7 +57,7 @@ function ExpeditorMyStockPage() {
                     <Table.Row key={item.productId}>
                       <Table.Cell>
                         <Text weight="medium">
-                          {product?.name ?? 'Unknown Product'}
+                          {product?.name ?? 'Неизвестный товар'}
                         </Text>
                       </Table.Cell>
                       <Table.Cell>

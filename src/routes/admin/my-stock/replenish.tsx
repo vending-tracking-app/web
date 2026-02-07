@@ -108,12 +108,12 @@ function ReplenishPage() {
         })),
       });
 
-      toast.success('Stock replenished successfully');
+      toast.success('Остатки успешно пополнены');
 
       await navigate({ to: '/admin/my-stock' });
     } catch (error) {
       console.error(error);
-      toast.error('Failed to replenish stock');
+      toast.error('Не удалось пополнить остатки');
     }
   }, [transferItems, transferMutation, navigate, session.data?.user?.id]);
 
@@ -121,20 +121,20 @@ function ReplenishPage() {
     <Container size="3" p="4">
       <Flex direction="column" gap="4">
         {/* Header */}
-        <Heading size="6">Replenish Stock</Heading>
+        <Heading size="6">Пополнить остатки</Heading>
 
         <Flex direction="column" gap="4" p="4">
           {/* Products Section */}
           <Flex direction="column" gap="3">
             <Flex align="center" justify="between">
               <Text weight="bold" size="3">
-                Products
+                Товары
               </Text>
 
               <Popover.Root open={popoverOpen} onOpenChange={setPopoverOpen}>
                 <Popover.Trigger>
                   <Button disabled={!hasAvailableProducts} variant="soft">
-                    <PlusIcon /> Add Product
+                    <PlusIcon /> Добавить товар
                   </Button>
                 </Popover.Trigger>
                 <Popover.Content width="300px">
@@ -143,7 +143,7 @@ function ReplenishPage() {
                       value={selectedProductId}
                       onValueChange={setSelectedProductId}
                     >
-                      <Select.Trigger placeholder="Select product" />
+                      <Select.Trigger placeholder="Выберите товар" />
                       <Select.Content>
                         {availableProducts.map((product) => (
                           <Select.Item key={product.id} value={product.id}>
@@ -153,7 +153,7 @@ function ReplenishPage() {
                       </Select.Content>
                     </Select.Root>
                     <Button onClick={addProduct} disabled={!selectedProductId}>
-                      Add
+                      Добавить
                     </Button>
                   </Flex>
                 </Popover.Content>
@@ -167,7 +167,7 @@ function ReplenishPage() {
                     <Text weight="bold">{getProductName(item.id)}</Text>
                     <Flex align="center" gap="2">
                       <Text size="2" color="gray">
-                        Quantity:
+                        Количество:
                       </Text>
                       <IconButton
                         size="1"
@@ -205,7 +205,7 @@ function ReplenishPage() {
 
             {transferItems.length === 0 && (
               <Text color="gray" size="2">
-                No products added yet. Click "Add Product" to start.
+                Товары еще не добавлены. Нажмите «Добавить товар», чтобы начать.
               </Text>
             )}
           </Flex>
@@ -217,7 +217,7 @@ function ReplenishPage() {
               color="gray"
               onClick={() => navigate({ to: '/admin/my-stock' })}
             >
-              Cancel
+              Отмена
             </Button>
 
             <Button
@@ -228,7 +228,7 @@ function ReplenishPage() {
               onClick={handleReplenish}
               loading={transferMutation.isPending}
             >
-              Replenish Stock
+              Пополнить остатки
             </Button>
           </Flex>
         </Flex>

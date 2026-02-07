@@ -39,12 +39,12 @@ function UserDetailPage() {
         <Flex justify="between" align="center">
           <Flex align="center" gap="2">
             <AdminMenu />
-            <Heading size="6">User Details</Heading>
+            <Heading size="6">Данные пользователя</Heading>
           </Flex>
 
           <Button asChild>
             <Link to="/admin/users/$id/edit" params={{ id: user.id }}>
-              <Pencil1Icon /> Edit
+              <Pencil1Icon /> Редактировать
             </Link>
           </Button>
         </Flex>
@@ -56,30 +56,30 @@ function UserDetailPage() {
 
             <DataList.Root>
               <DataList.Item>
-                <DataList.Label>Phone</DataList.Label>
+                <DataList.Label>Телефон</DataList.Label>
                 <DataList.Value>
                   <Text>{user.phoneNumber ?? '—'}</Text>
                 </DataList.Value>
               </DataList.Item>
 
               <DataList.Item>
-                <DataList.Label>Role</DataList.Label>
+                <DataList.Label>Роль</DataList.Label>
                 <DataList.Value>
                   <Badge color={user.role === 'admin' ? 'blue' : 'green'}>
-                    {user.role === 'admin' ? 'Admin' : 'Expeditor'}
+                    {user.role === 'admin' ? 'Администратор' : 'Экспедитор'}
                   </Badge>
                 </DataList.Value>
               </DataList.Item>
 
               <DataList.Item>
-                <DataList.Label>Created</DataList.Label>
+                <DataList.Label>Создано</DataList.Label>
                 <DataList.Value>
                   <Text>{new Date(user.createdAt).toLocaleString()}</Text>
                 </DataList.Value>
               </DataList.Item>
 
               <DataList.Item>
-                <DataList.Label>Updated</DataList.Label>
+                <DataList.Label>Обновлено</DataList.Label>
                 <DataList.Value>
                   <Text>{new Date(user.updatedAt).toLocaleString()}</Text>
                 </DataList.Value>
@@ -91,25 +91,25 @@ function UserDetailPage() {
         {/* Stock Table */}
         <Flex direction="column" gap="3">
           <Flex justify="between" align="center">
-            <Heading size="4">Products</Heading>
+            <Heading size="4">Товары</Heading>
 
             <Button size="2" asChild>
               <Link to="/admin/users/$id/transfer" params={{ id: user.id }}>
-                <SymbolIcon /> Transfer
+                <SymbolIcon /> Передать
               </Link>
             </Button>
           </Flex>
 
           {userStock.stock.length === 0 ? (
             <Text color="gray" size="2">
-              No stock items
+              Нет остатков
             </Text>
           ) : (
             <Table.Root variant="surface">
               <Table.Header>
                 <Table.Row>
-                  <Table.ColumnHeaderCell>Product</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell>Quantity</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell>Товар</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell>Количество</Table.ColumnHeaderCell>
                 </Table.Row>
               </Table.Header>
 
@@ -120,7 +120,7 @@ function UserDetailPage() {
                     <Table.Row key={item.productId}>
                       <Table.Cell>
                         <Text weight="medium">
-                          {product?.name ?? 'Unknown Product'}
+                          {product?.name ?? 'Неизвестный товар'}
                         </Text>
                       </Table.Cell>
                       <Table.Cell>

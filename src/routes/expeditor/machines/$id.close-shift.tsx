@@ -132,7 +132,7 @@ function ExpeditorCloseShiftPage() {
   const handleCloseShift = useCallback(async () => {
     if (!photoFile || cashCollected === '') {
       toast.error(
-        'Please take a photo of the machine and enter the money collected',
+        'Пожалуйста, сфотографируйте автомат и укажите сумму выручки',
       );
       return;
     }
@@ -148,7 +148,7 @@ function ExpeditorCloseShiftPage() {
         })),
       });
 
-      toast.success('Shift closed successfully');
+      toast.success('Смена успешно закрыта');
 
       await navigate({
         to: '/expeditor/machines/$id/open-shift',
@@ -156,25 +156,25 @@ function ExpeditorCloseShiftPage() {
       });
     } catch (error) {
       console.error(error);
-      toast.error('Failed to close shift');
+      toast.error('Не удалось закрыть смену');
     }
   }, [id, cashCollected, snapshot, closeShiftMutation]);
 
   return (
     <Container size="4" p="4">
       <Flex direction="column" gap="6">
-        <Heading size="6">Close Shift - Machine</Heading>
+        <Heading size="6">Закрыть смену — автомат</Heading>
 
         <Flex direction="column" gap="3">
           <Text weight="bold" size="3">
-            Machine Photo
+            Фото автомата
           </Text>
 
           <Card>
             {photoUrl ? (
               <img
                 src={photoUrl}
-                alt="Machine"
+                alt="Автомат"
                 style={{
                   width: '100%',
                   maxHeight: '400px',
@@ -191,7 +191,7 @@ function ExpeditorCloseShiftPage() {
               >
                 <CameraIcon width="32" height="32" color="gray" />
                 <Text color="gray" size="2">
-                  No photo taken yet
+                  Фото еще не сделано
                 </Text>
               </Flex>
             )}
@@ -214,13 +214,13 @@ function ExpeditorCloseShiftPage() {
 
           <Button onClick={() => fileInputRef.current?.click()} variant="soft">
             <CameraIcon />
-            {photoUrl ? 'Retake Photo' : 'Take Photo'}
+            {photoUrl ? 'Сделать фото заново' : 'Сделать фото'}
           </Button>
         </Flex>
 
         <Flex direction="column" gap="3">
           <Text as="label" htmlFor="moneyAmount" weight="bold" size="3">
-            Money in Machine
+            Деньги в автомате
           </Text>
 
           <TextField.Root
@@ -239,13 +239,13 @@ function ExpeditorCloseShiftPage() {
         <Flex direction="column" gap="3">
           <Flex align="center" justify="between">
             <Text weight="bold" size="3">
-              Products
+              Товары
             </Text>
 
             <Popover.Root open={popoverOpen} onOpenChange={setPopoverOpen}>
               <Popover.Trigger>
                 <Button disabled={!hasAvailableProducts}>
-                  <PlusIcon /> Add Product
+                  <PlusIcon /> Добавить товар
                 </Button>
               </Popover.Trigger>
               <Popover.Content width="300px">
@@ -254,7 +254,7 @@ function ExpeditorCloseShiftPage() {
                     value={selectedProductId}
                     onValueChange={setSelectedProductId}
                   >
-                    <Select.Trigger placeholder="Select product" />
+                    <Select.Trigger placeholder="Выберите товар" />
                     <Select.Content>
                       {availableProducts.map((product) => (
                         <Select.Item key={product.id} value={product.id}>
@@ -264,7 +264,7 @@ function ExpeditorCloseShiftPage() {
                     </Select.Content>
                   </Select.Root>
                   <Button onClick={addProduct} disabled={!selectedProductId}>
-                    Add
+                    Добавить
                   </Button>
                 </Flex>
               </Popover.Content>
@@ -278,7 +278,7 @@ function ExpeditorCloseShiftPage() {
                   <Text weight="bold">{getProductName(item.id)}</Text>
                   <Flex align="center" gap="2">
                     <Text size="2" color="gray">
-                      Quantity:
+                      Количество:
                     </Text>
                     <IconButton
                       size="1"
@@ -316,7 +316,7 @@ function ExpeditorCloseShiftPage() {
 
           {snapshot.length === 0 && (
             <Text color="gray" size="2">
-              No products added yet. Click "Add Product" to start.
+              Товары еще не добавлены. Нажмите «Добавить товар», чтобы начать.
             </Text>
           )}
         </Flex>
@@ -328,7 +328,7 @@ function ExpeditorCloseShiftPage() {
           loading={closeShiftMutation.isPending}
         >
           <CheckIcon />
-          Close Shift
+          Закрыть смену
         </Button>
       </Flex>
     </Container>

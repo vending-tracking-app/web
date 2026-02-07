@@ -10,7 +10,7 @@ import {
 import { createFileRoute } from '@tanstack/react-router';
 import { useMemo } from 'react';
 
-import { fetchShiftOperation } from '@/api/shift-operations';
+import { fetchShiftOperation, ShiftOperationType } from '@/api/shift-operations';
 import type { StockMovementItem } from '@/api/stock-movements';
 import { StockMovementType } from '@/api/stock-movements';
 import { AdminMenu } from '@/components/admin-menu';
@@ -19,15 +19,20 @@ import { useProducts } from '@/hooks/use-products';
 import { useUsers } from '@/hooks/use-users';
 
 const movementTypeLabel: Record<StockMovementType, string> = {
-  [StockMovementType.MARKET_TO_USER]: 'Market → User',
-  [StockMovementType.USER_TO_USER]: 'User → User',
-  [StockMovementType.USER_TO_MACHINE]: 'User → Machine',
-  [StockMovementType.MACHINE_TO_USER]: 'Machine → User',
-  [StockMovementType.MACHINE_TO_CUSTOMER]: 'Machine → Customer',
-  [StockMovementType.USER_TO_WASTE]: 'User → Waste',
-  [StockMovementType.MACHINE_TO_WASTE]: 'Machine → Waste',
-  [StockMovementType.NOWHERE_TO_USER]: 'Nowhere → User',
-  [StockMovementType.NOWHERE_TO_MACHINE]: 'Nowhere → Machine',
+  [StockMovementType.MARKET_TO_USER]: 'Склад → Пользователь',
+  [StockMovementType.USER_TO_USER]: 'Пользователь → Пользователь',
+  [StockMovementType.USER_TO_MACHINE]: 'Пользователь → Автомат',
+  [StockMovementType.MACHINE_TO_USER]: 'Автомат → Пользователь',
+  [StockMovementType.MACHINE_TO_CUSTOMER]: 'Автомат → Клиент',
+  [StockMovementType.USER_TO_WASTE]: 'Пользователь → Списание',
+  [StockMovementType.MACHINE_TO_WASTE]: 'Автомат → Списание',
+  [StockMovementType.NOWHERE_TO_USER]: 'Неизвестно → Пользователь',
+  [StockMovementType.NOWHERE_TO_MACHINE]: 'Неизвестно → Автомат',
+};
+
+const shiftOperationTypeLabel: Record<ShiftOperationType, string> = {
+  [ShiftOperationType.SHIFT_START]: 'Начало смены',
+  [ShiftOperationType.SHIFT_END]: 'Конец смены',
 };
 
 export const Route = createFileRoute('/admin/shift-operations/$id/')({
@@ -68,13 +73,13 @@ function RouteComponent() {
         {/* Header */}
         <Flex align="center" gap="2">
           <AdminMenu />
-          <Heading size="6">Shift operation</Heading>
+          <Heading size="6">Операция смены</Heading>
         </Flex>
 
         <Card>
           <DataList.Root>
             <DataList.Item>
-              <DataList.Label>Created at</DataList.Label>
+              <DataList.Label>Создано</DataList.Label>
               <DataList.Value>
                 <Text>
                   {new Date(shiftOperation.createdAt).toLocaleString()}
@@ -82,21 +87,23 @@ function RouteComponent() {
               </DataList.Value>
             </DataList.Item>
             <DataList.Item>
-              <DataList.Label>Created by</DataList.Label>
+              <DataList.Label>Создал</DataList.Label>
               <DataList.Value>{createdByName}</DataList.Value>
             </DataList.Item>
             <DataList.Item>
-              <DataList.Label>Machine</DataList.Label>
+              <DataList.Label>Автомат</DataList.Label>
               <DataList.Value>
                 {machinesMap.get(shiftOperation.machineId)?.name ?? '-'}
               </DataList.Value>
             </DataList.Item>
             <DataList.Item>
-              <DataList.Label>Shift operation type</DataList.Label>
-              <DataList.Value>{shiftOperation.type}</DataList.Value>
+              <DataList.Label>Тип операции смены</DataList.Label>
+              <DataList.Value>
+                {shiftOperationTypeLabel[shiftOperation.type]}
+              </DataList.Value>
             </DataList.Item>
             <DataList.Item>
-              <DataList.Label>Cash collected</DataList.Label>
+              <DataList.Label>Собрано наличными</DataList.Label>
               <DataList.Value>
                 {shiftOperation.cashCollected ?? '-'}
               </DataList.Value>
@@ -106,19 +113,19 @@ function RouteComponent() {
 
         {/* Product movements table */}
         <Flex direction="column" gap="3">
-          <Heading size="4">Product movements</Heading>
+          <Heading size="4">Движения товаров</Heading>
 
           {rows.length === 0 ? (
             <Text color="gray" size="2">
-              No product movements
+              Движений товаров нет
             </Text>
           ) : (
             <Table.Root variant="surface">
               <Table.Header>
                 <Table.Row>
-                  <Table.ColumnHeaderCell>Product</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell>Quantity</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell>Movement type</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell>Товар</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell>Количество</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell>Тип перемещения</Table.ColumnHeaderCell>
                 </Table.Row>
               </Table.Header>
               <Table.Body>
@@ -126,7 +133,7 @@ function RouteComponent() {
                   <Table.Row key={item.id}>
                     <Table.Cell>
                       <Text weight="medium">
-                        {productsMap.get(item.productId)?.name ?? 'Unknown'}
+                        {productsMap.get(item.productId)?.name ?? 'Неизвестно'}
                       </Text>
                     </Table.Cell>
                     <Table.Cell>

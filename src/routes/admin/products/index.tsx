@@ -49,17 +49,17 @@ function AdminProductsPage() {
         <Flex justify="between" align="center">
           <Flex align="center" gap="2">
             <AdminMenu />
-            <Heading size="6">Products</Heading>
+            <Heading size="6">Товары</Heading>
           </Flex>
 
           <Button asChild>
-            <Link to="/admin/products/new">Add Product</Link>
+            <Link to="/admin/products/new">Добавить товар</Link>
           </Button>
         </Flex>
 
         {/* Search */}
         <TextField.Root
-          placeholder="Search by name or SKU..."
+          placeholder="Поиск по названию или SKU..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         >
@@ -81,7 +81,7 @@ function AdminProductsPage() {
                       to="/admin/products/$id/edit"
                       params={{ id: product.id }}
                     >
-                      Edit
+                      Редактировать
                     </Link>
                   </Button>
                 </Flex>
@@ -95,13 +95,13 @@ function AdminProductsPage() {
                     </DataList.Value>
                   </DataList.Item>
                   <DataList.Item>
-                    <DataList.Label>Created</DataList.Label>
+                    <DataList.Label>Создано</DataList.Label>
                     <DataList.Value>
                       {new Date(product.createdAt).toLocaleString()}
                     </DataList.Value>
                   </DataList.Item>
                   <DataList.Item>
-                    <DataList.Label>Updated</DataList.Label>
+                    <DataList.Label>Обновлено</DataList.Label>
                     <DataList.Value>
                       {new Date(product.updatedAt).toLocaleString()}
                     </DataList.Value>
