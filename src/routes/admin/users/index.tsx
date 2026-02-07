@@ -14,21 +14,18 @@ import {
 } from '@radix-ui/themes';
 import { MagnifyingGlassIcon, PlusIcon } from '@radix-ui/react-icons';
 
-import { fetchUsers } from '../../../api/users';
-import { AdminMenu } from '../../../components/admin-menu';
-import { authClient } from '../../../lib/auth-client';
+import { AdminMenu } from '@/components/admin-menu';
+import { authClient } from '@/lib/auth-client';
+import { useUsers } from '@/hooks/use-users';
 
 export const Route = createFileRoute('/admin/users/')({
   component: AdminUsersPage,
-  loader: async () => {
-    const users = await fetchUsers();
-    return { users };
-  },
 });
 
 function AdminUsersPage() {
   const session = authClient.useSession();
-  const { users } = Route.useLoaderData();
+
+  const { users } = useUsers();
 
   const [searchQuery, setSearchQuery] = useState('');
 

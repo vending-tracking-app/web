@@ -15,12 +15,12 @@ import { TrashIcon, MinusIcon, PlusIcon } from '@radix-ui/react-icons';
 import { useState, useCallback, useMemo } from 'react';
 import toast from 'react-hot-toast';
 
-import { fetchProducts } from '../../../api/products';
 import {
   createStockMovement,
   StockMovementType,
 } from '../../../api/stock-movements';
 import { authClient } from '../../../lib/auth-client';
+import { useProducts } from '@/hooks/use-products';
 
 interface ProductInTransfer {
   id: string;
@@ -29,15 +29,11 @@ interface ProductInTransfer {
 
 export const Route = createFileRoute('/admin/my-stock/replenish')({
   component: ReplenishPage,
-  loader: async () => {
-    const products = await fetchProducts();
-    return { products };
-  },
 });
 
 function ReplenishPage() {
   const session = authClient.useSession();
-  const { products } = Route.useLoaderData();
+  const { products } = useProducts();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 

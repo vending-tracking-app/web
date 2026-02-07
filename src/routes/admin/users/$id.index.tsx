@@ -12,27 +12,25 @@ import {
 } from '@radix-ui/themes';
 import { Pencil1Icon, SymbolIcon } from '@radix-ui/react-icons';
 
-import { fetchUser, fetchUserStock } from '../../../api/users';
-import { fetchProducts } from '../../../api/products';
-import { AdminMenu } from '../../../components/admin-menu';
+import { fetchUser, fetchUserStock } from '@/api/users';
+import { AdminMenu } from '@/components/admin-menu';
+import { useProducts } from '@/hooks/use-products';
 
 export const Route = createFileRoute('/admin/users/$id/')({
   component: UserDetailPage,
   loader: async ({ params }) => {
-    const [user, userStock, products] = await Promise.all([
+    const [user, userStock] = await Promise.all([
       fetchUser(params.id),
       fetchUserStock(params.id),
-      fetchProducts(),
     ]);
-    return { user, userStock, products };
+    return { user, userStock };
   },
 });
 
 function UserDetailPage() {
-  const { user, userStock, products } = Route.useLoaderData();
+  const { user, userStock } = Route.useLoaderData();
 
-  // Create a map of product IDs to product details for easy lookup
-  const productMap = new Map(products.map((p) => [p.id, p]));
+  const { productsMap } = useProducts();
 
   return (
     <Container size="3" p="4">
@@ -117,7 +115,7 @@ function UserDetailPage() {
 
               <Table.Body>
                 {userStock.stock.map((item) => {
-                  const product = productMap.get(item.productId);
+                  const product = productsMap.get(item.productId);
                   return (
                     <Table.Row key={item.productId}>
                       <Table.Cell>

@@ -18,6 +18,7 @@ import {
   updateUser,
   type UpdateUserInput,
 } from '../../../api/users';
+import { usersQueryKey } from '@/hooks/use-users';
 
 export const Route = createFileRoute('/admin/users/$id/edit')({
   component: EditUserPage,
@@ -38,7 +39,7 @@ function EditUserPage() {
   const updateMutation = useMutation({
     mutationFn: updateUser,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['users'] });
+      queryClient.invalidateQueries({ queryKey: usersQueryKey });
     },
   });
 

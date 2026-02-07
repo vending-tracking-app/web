@@ -17,13 +17,13 @@ import { useState, useCallback, useMemo } from 'react';
 import toast from 'react-hot-toast';
 
 import { fetchUser } from '../../../api/users';
-import { fetchProducts } from '../../../api/products';
 import {
   createStockMovement,
   StockMovementType,
 } from '../../../api/stock-movements';
 import { AdminMenu } from '../../../components/admin-menu';
 import { authClient } from '../../../lib/auth-client';
+import { useProducts } from '@/hooks/use-products';
 
 interface ProductInTransfer {
   id: string;
@@ -35,11 +35,8 @@ type TransferDirection = 'to' | 'from';
 export const Route = createFileRoute('/admin/users/$id/transfer')({
   component: TransferPage,
   loader: async ({ params }) => {
-    const [user, products] = await Promise.all([
-      fetchUser(params.id),
-      fetchProducts(),
-    ]);
-    return { user, products };
+    const user = await fetchUser(params.id);
+    return { user };
   },
 });
 
@@ -47,7 +44,8 @@ function TransferPage() {
   const session = authClient.useSession();
 
   const { id } = Route.useParams();
-  const { user, products } = Route.useLoaderData();
+  const { user } = Route.useLoaderData();
+  const { products } = useProducts();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 

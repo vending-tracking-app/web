@@ -22,12 +22,12 @@ import {
 import { useState, useCallback, useMemo, useRef, useEffect } from 'react';
 import toast from 'react-hot-toast';
 
-import { fetchProducts } from '../../../api/products';
 import { fetchMachineStock } from '../../../api/machines';
 import {
   createShiftOperation,
   ShiftOperationType,
 } from '../../../api/shift-operations';
+import { useProducts } from '@/hooks/use-products';
 
 interface ProductInStock {
   id: string;
@@ -37,11 +37,8 @@ interface ProductInStock {
 export const Route = createFileRoute('/expeditor/machines/$id/close-shift')({
   component: ExpeditorCloseShiftPage,
   loader: async ({ params }) => {
-    const [machineStock, products] = await Promise.all([
-      fetchMachineStock(params.id),
-      fetchProducts(),
-    ]);
-    return { machineStock, products };
+    const machineStock = await fetchMachineStock(params.id);
+    return { machineStock };
   },
 });
 
@@ -49,7 +46,8 @@ function ExpeditorCloseShiftPage() {
   const navigate = useNavigate();
 
   const { id } = Route.useParams();
-  const { machineStock, products } = Route.useLoaderData();
+  const { machineStock } = Route.useLoaderData();
+  const { products } = useProducts();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 

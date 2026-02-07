@@ -1,4 +1,3 @@
-import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
 import {
   Badge,
   Button,
@@ -10,16 +9,17 @@ import {
   Table,
   Text,
 } from '@radix-ui/themes';
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
+import { useMemo } from 'react';
 
 import {
   fetchShiftOperations,
   ShiftOperationType,
 } from '@/api/shift-operations';
 import { fetchMachine, fetchMachineStock } from '@/api/machines';
-import { fetchUsers } from '@/api/users';
 import { AdminMenu } from '@/components/admin-menu';
-import { useMemo } from 'react';
-import { fetchProducts } from '@/api/products';
+import { useProducts } from '@/hooks/use-products';
+import { useUsers } from '@/hooks/use-users';
 
 const shiftTypeLabel: Record<ShiftOperationType, string> = {
   [ShiftOperationType.SHIFT_START]: 'Shift start',
@@ -29,15 +29,12 @@ const shiftTypeLabel: Record<ShiftOperationType, string> = {
 export const Route = createFileRoute('/admin/machines/$id/')({
   component: RouteComponent,
   loader: async ({ params }) => {
-    const [machine, shiftOperations, users, machineStock, products] =
-      await Promise.all([
-        fetchMachine(params.id),
-        fetchShiftOperations(params.id),
-        fetchUsers(),
-        fetchMachineStock(params.id),
-        fetchProducts(),
-      ]);
-    return { machine, shiftOperations, users, machineStock, products };
+    const [machine, shiftOperations, machineStock] = await Promise.all([
+      fetchMachine(params.id),
+      fetchShiftOperations(params.id),
+      fetchMachineStock(params.id),
+    ]);
+    return { machine, shiftOperations, machineStock };
   },
 });
 
@@ -45,13 +42,9 @@ function RouteComponent() {
   const navigate = useNavigate();
 
   const { id } = Route.useParams();
-  const { machine, shiftOperations, users, machineStock, products } =
-    Route.useLoaderData();
-
-  const productsMap = useMemo(
-    () => new Map(products.map((p) => [p.id, p])),
-    [products],
-  );
+  const { machine, shiftOperations, machineStock } = Route.useLoaderData();
+  const { productsMap } = useProducts();
+  const { usersMap } = useUsers();
 
   const sortedShiftOperations = useMemo(
     () =>
@@ -69,11 +62,6 @@ function RouteComponent() {
         ? new Date(sortedShiftOperations[0].createdAt).toLocaleString()
         : null,
     [sortedShiftOperations],
-  );
-
-  const usersById = useMemo(
-    () => new Map(users.map((u) => [u.id, u])),
-    [users],
   );
 
   return (
@@ -186,7 +174,7 @@ function RouteComponent() {
                     </Table.Cell>
                     <Table.Cell>
                       <Text size="2">
-                        {usersById.get(op.createdById)?.name ?? '—'}
+                        {usersMap.get(op.createdById)?.name ?? '—'}
                       </Text>
                     </Table.Cell>
                     <Table.Cell>

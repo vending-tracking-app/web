@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { useQuery } from '@tanstack/react-query';
 import { useState, useMemo } from 'react';
 import {
   Container,
@@ -14,7 +13,7 @@ import {
 } from '@radix-ui/themes';
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 
-import { fetchMachines } from '../../../api/machines';
+import { useMachines } from '@/hooks/use-machines';
 import { ExpeditorMenu } from '../../../components/expeditor-menu';
 
 export const Route = createFileRoute('/expeditor/machines/')({
@@ -23,11 +22,7 @@ export const Route = createFileRoute('/expeditor/machines/')({
 
 function ExpeditorMachinesPage() {
   const [searchQuery, setSearchQuery] = useState('');
-
-  const { data: machines } = useQuery({
-    queryKey: ['machines'],
-    queryFn: fetchMachines,
-  });
+  const { machines } = useMachines();
 
   const filteredMachines = useMemo(() => {
     if (!machines) {

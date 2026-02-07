@@ -13,19 +13,15 @@ import {
 } from '@radix-ui/themes';
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 
-import { fetchMachines } from '../../../api/machines';
+import { useMachines } from '@/hooks/use-machines';
 import { AdminMenu } from '../../../components/admin-menu';
 
 export const Route = createFileRoute('/admin/machines/')({
   component: AdminMachinesPage,
-  loader: async () => {
-    const machines = await fetchMachines();
-    return { machines };
-  },
 });
 
 function AdminMachinesPage() {
-  const { machines } = Route.useLoaderData();
+  const { machines } = useMachines();
 
   const [searchQuery, setSearchQuery] = useState('');
 

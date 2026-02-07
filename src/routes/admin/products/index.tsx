@@ -13,19 +13,15 @@ import {
 } from '@radix-ui/themes';
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 
-import { fetchProducts } from '../../../api/products';
+import { useProducts } from '@/hooks/use-products';
 import { AdminMenu } from '../../../components/admin-menu';
 
 export const Route = createFileRoute('/admin/products/')({
   component: AdminProductsPage,
-  loader: async () => {
-    const products = await fetchProducts();
-    return { products };
-  },
 });
 
 function AdminProductsPage() {
-  const { products } = Route.useLoaderData();
+  const { products } = useProducts();
 
   const [searchQuery, setSearchQuery] = useState('');
 

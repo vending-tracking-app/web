@@ -11,9 +11,9 @@ import {
 import { PlusIcon } from '@radix-ui/react-icons';
 
 import { fetchUserStock } from '../../../api/users';
-import { fetchProducts } from '../../../api/products';
 import { AdminMenu } from '../../../components/admin-menu';
 import { authClient } from '../../../lib/auth-client';
+import { useProducts } from '@/hooks/use-products';
 
 export const Route = createFileRoute('/admin/my-stock/')({
   component: AdminMyStockPage,
@@ -23,20 +23,14 @@ export const Route = createFileRoute('/admin/my-stock/')({
       throw new Error('User not authenticated');
     }
 
-    const [userStock, products] = await Promise.all([
-      fetchUserStock(session.data.user.id),
-      fetchProducts(),
-    ]);
-
-    return { userStock, products };
+    const userStock = await fetchUserStock(session.data.user.id);
+    return { userStock };
   },
 });
 
 function AdminMyStockPage() {
-  const { userStock, products } = Route.useLoaderData();
-
-  // Create a map of product IDs to product details for easy lookup
-  const productMap = new Map(products.map((p) => [p.id, p]));
+  const { userStock } = Route.useLoaderData();
+  const { productsMap: productMap } = useProducts();
 
   return (
     <Container size="3" p="4">

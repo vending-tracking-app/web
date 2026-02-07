@@ -2,9 +2,9 @@ import { createFileRoute } from '@tanstack/react-router';
 import { Container, Flex, Heading, Text, Badge, Table } from '@radix-ui/themes';
 
 import { fetchUserStock } from '../../api/users';
-import { fetchProducts } from '../../api/products';
 import { authClient } from '../../lib/auth-client';
 import { ExpeditorMenu } from '../../components/expeditor-menu';
+import { useProducts } from '@/hooks/use-products';
 
 export const Route = createFileRoute('/expeditor/my-stock')({
   component: ExpeditorMyStockPage,
@@ -15,20 +15,14 @@ export const Route = createFileRoute('/expeditor/my-stock')({
       throw new Error('User not authenticated');
     }
 
-    const [userStock, products] = await Promise.all([
-      fetchUserStock(session.data.user.id),
-      fetchProducts(),
-    ]);
-
-    return { userStock, products };
+    const userStock = await fetchUserStock(session.data.user.id);
+    return { userStock };
   },
 });
 
 function ExpeditorMyStockPage() {
-  const { userStock, products } = Route.useLoaderData();
-
-  // Create a map of product IDs to product details for easy lookup
-  const productMap = new Map(products.map((p) => [p.id, p]));
+  const { userStock } = Route.useLoaderData();
+  const { productsMap } = useProducts();
 
   return (
     <Container size="3" p="4">
@@ -58,7 +52,7 @@ function ExpeditorMyStockPage() {
 
               <Table.Body>
                 {userStock.stock.map((item) => {
-                  const product = productMap.get(item.productId);
+                  const product = productsMap.get(item.productId);
                   return (
                     <Table.Row key={item.productId}>
                       <Table.Cell>

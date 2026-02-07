@@ -10,13 +10,13 @@ import {
 import { createFileRoute } from '@tanstack/react-router';
 import { useMemo } from 'react';
 
-import { fetchProducts } from '@/api/products';
 import { fetchShiftOperation } from '@/api/shift-operations';
 import type { StockMovementItem } from '@/api/stock-movements';
 import { StockMovementType } from '@/api/stock-movements';
-import { fetchUsers } from '@/api/users';
 import { AdminMenu } from '@/components/admin-menu';
-import { fetchMachines } from '@/api/machines';
+import { useMachines } from '@/hooks/use-machines';
+import { useProducts } from '@/hooks/use-products';
+import { useUsers } from '@/hooks/use-users';
 
 const movementTypeLabel: Record<StockMovementType, string> = {
   [StockMovementType.MARKET_TO_USER]: 'Market → User',
@@ -33,22 +33,20 @@ const movementTypeLabel: Record<StockMovementType, string> = {
 export const Route = createFileRoute('/admin/shift-operations/$id/')({
   component: RouteComponent,
   loader: async ({ params }) => {
-    const [shiftOperation, products, users, machines] = await Promise.all([
-      fetchShiftOperation(params.id),
-      fetchProducts(),
-      fetchUsers(),
-      fetchMachines(),
-    ]);
-    return { shiftOperation, products, users, machines };
+    const shiftOperation = await fetchShiftOperation(params.id);
+    return { shiftOperation };
   },
 });
 
 function RouteComponent() {
-  const { shiftOperation, products, users, machines } = Route.useLoaderData();
+  const { shiftOperation } = Route.useLoaderData();
+  const { usersMap } = useUsers();
+  const { productsMap } = useProducts();
+  const { machinesMap } = useMachines();
 
   const createdByName = useMemo(
-    () => users.find((u) => u.id === shiftOperation.createdById)?.name,
-    [users, shiftOperation],
+    () => usersMap.get(shiftOperation.createdById)?.name,
+    [usersMap, shiftOperation],
   );
 
   const rows = useMemo(
@@ -62,11 +60,6 @@ function RouteComponent() {
         return acc;
       }, []),
     [shiftOperation],
-  );
-
-  const productsById = useMemo(
-    () => new Map(products.map((p) => [p.id, p])),
-    [products],
   );
 
   return (
@@ -95,8 +88,7 @@ function RouteComponent() {
             <DataList.Item>
               <DataList.Label>Machine</DataList.Label>
               <DataList.Value>
-                {machines.find((m) => m.id === shiftOperation.machineId)
-                  ?.name ?? '-'}
+                {machinesMap.get(shiftOperation.machineId)?.name ?? '-'}
               </DataList.Value>
             </DataList.Item>
             <DataList.Item>
@@ -134,7 +126,7 @@ function RouteComponent() {
                   <Table.Row key={item.id}>
                     <Table.Cell>
                       <Text weight="medium">
-                        {productsById.get(item.productId)?.name ?? 'Unknown'}
+                        {productsMap.get(item.productId)?.name ?? 'Unknown'}
                       </Text>
                     </Table.Cell>
                     <Table.Cell>
