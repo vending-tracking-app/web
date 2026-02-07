@@ -97,37 +97,7 @@ function RouteComponent() {
       productId: productFilter === 'all' ? undefined : productFilter,
     });
 
-  const useMockSalesData = true;
-  const mockSalesData = useMemo(() => {
-    const start = new Date(fromDate || defaultFrom);
-    const end = new Date(toDate || defaultTo);
-    const dayMs = 24 * 60 * 60 * 1000;
-    const days: string[] = [];
-    for (let ts = start.getTime(); ts <= end.getTime(); ts += dayMs) {
-      days.push(new Date(ts).toISOString().slice(0, 10));
-    }
-
-    const mockProducts = products.slice(0, 3);
-    return {
-      series: mockProducts.map((product, index) => ({
-        productId: product.id,
-        productName: product.name,
-        points: days.map((date, dayIndex) => ({
-          date,
-          units: Math.max(
-            0,
-            Math.round(
-              8 +
-                Math.sin((dayIndex + 1) / (3 + index)) * 6 +
-                (index + 1) * 2,
-            ),
-          ),
-        })),
-      })),
-    };
-  }, [fromDate, toDate, defaultFrom, defaultTo, products]);
-
-  const series = (useMockSalesData ? mockSalesData?.series : salesData?.series) ?? [];
+  const series = salesData?.series ?? [];
   const seriesToRender =
     productFilter === 'all'
       ? series
