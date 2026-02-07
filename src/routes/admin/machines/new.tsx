@@ -13,7 +13,7 @@ import {
 import { useCallback } from 'react';
 import toast from 'react-hot-toast';
 
-import { createMachine, type CreateMachineInput } from '../../../api/machines';
+import { createMachine, type CreateMachineInput } from '@/api/machines';
 
 export const Route = createFileRoute('/admin/machines/new')({
   component: NewMachinePage,

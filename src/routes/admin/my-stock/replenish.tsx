@@ -18,8 +18,8 @@ import toast from 'react-hot-toast';
 import {
   createStockMovement,
   StockMovementType,
-} from '../../../api/stock-movements';
-import { authClient } from '../../../lib/auth-client';
+} from '@/api/stock-movements';
+import { authClient } from '@/lib/auth-client';
 import { useProducts } from '@/hooks/use-products';
 
 interface ProductInTransfer {

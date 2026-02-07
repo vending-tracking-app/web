@@ -1,4 +1,5 @@
-import { api } from '../lib/api-client';
+import { api } from '@/lib/api-client';
+
 import type { StockMovement } from './stock-movements';
 import type { SuccessResponse, BaseEntity } from './types';
 

@@ -14,7 +14,7 @@ import {
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 
 import { useMachines } from '@/hooks/use-machines';
-import { ExpeditorMenu } from '../../../components/expeditor-menu';
+import { ExpeditorMenu } from '@/components/expeditor-menu';
 
 export const Route = createFileRoute('/expeditor/machines/')({
   component: ExpeditorMachinesPage,

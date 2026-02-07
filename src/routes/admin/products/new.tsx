@@ -13,7 +13,7 @@ import {
 import { useCallback } from 'react';
 import toast from 'react-hot-toast';
 
-import { createProduct, type CreateProductInput } from '../../../api/products';
+import { createProduct, type CreateProductInput } from '@/api/products';
 
 export const Route = createFileRoute('/admin/products/new')({
   component: NewProductPage,

@@ -17,7 +17,7 @@ import {
   fetchUser,
   updateUser,
   type UpdateUserInput,
-} from '../../../api/users';
+} from '@/api/users';
 import { usersQueryKey } from '@/hooks/use-users';
 
 export const Route = createFileRoute('/admin/users/$id/edit')({

@@ -14,7 +14,7 @@ import {
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 
 import { useProducts } from '@/hooks/use-products';
-import { AdminMenu } from '../../../components/admin-menu';
+import { AdminMenu } from '@/components/admin-menu';
 
 export const Route = createFileRoute('/admin/products/')({
   component: AdminProductsPage,

@@ -1,9 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { Container, Flex, Heading, Text, Badge, Table } from '@radix-ui/themes';
 
-import { fetchUserStock } from '../../api/users';
-import { authClient } from '../../lib/auth-client';
-import { ExpeditorMenu } from '../../components/expeditor-menu';
+import { fetchUserStock } from '@/api/users';
+import { authClient } from '@/lib/auth-client';
+import { ExpeditorMenu } from '@/components/expeditor-menu';
 import { useProducts } from '@/hooks/use-products';
 
 export const Route = createFileRoute('/expeditor/my-stock')({

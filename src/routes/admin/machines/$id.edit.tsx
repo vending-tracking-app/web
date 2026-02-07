@@ -17,7 +17,7 @@ import {
   fetchMachine,
   updateMachine,
   type UpdateMachineInput,
-} from '../../../api/machines';
+} from '@/api/machines';
 
 export const Route = createFileRoute('/admin/machines/$id/edit')({
   component: EditMachinePage,

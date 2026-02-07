@@ -16,13 +16,13 @@ import { TrashIcon, MinusIcon, PlusIcon } from '@radix-ui/react-icons';
 import { useState, useCallback, useMemo } from 'react';
 import toast from 'react-hot-toast';
 
-import { fetchUser } from '../../../api/users';
+import { fetchUser } from '@/api/users';
 import {
   createStockMovement,
   StockMovementType,
-} from '../../../api/stock-movements';
-import { AdminMenu } from '../../../components/admin-menu';
-import { authClient } from '../../../lib/auth-client';
+} from '@/api/stock-movements';
+import { AdminMenu } from '@/components/admin-menu';
+import { authClient } from '@/lib/auth-client';
 import { useProducts } from '@/hooks/use-products';
 
 interface ProductInTransfer {

@@ -2,7 +2,7 @@ import { HamburgerMenuIcon } from '@radix-ui/react-icons';
 import { DropdownMenu, IconButton } from '@radix-ui/themes';
 import { Link, useNavigate } from '@tanstack/react-router';
 
-import { authClient } from '../lib/auth-client';
+import { authClient } from '@/lib/auth-client';
 
 export function AdminMenu() {
   const navigate = useNavigate();

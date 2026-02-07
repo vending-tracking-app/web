@@ -17,7 +17,7 @@ import {
   fetchProduct,
   updateProduct,
   type UpdateProductInput,
-} from '../../../api/products';
+} from '@/api/products';
 
 export const Route = createFileRoute('/admin/products/$id/edit')({
   component: EditProductPage,

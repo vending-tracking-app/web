@@ -18,7 +18,7 @@ import {
   createUser,
   type CreateUserInput,
   type UserRole,
-} from '../../../api/users';
+} from '@/api/users';
 
 export const Route = createFileRoute('/admin/users/new')({
   component: NewUserPage,

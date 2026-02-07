@@ -22,11 +22,11 @@ import {
 import { useState, useCallback, useMemo, useRef, useEffect } from 'react';
 import toast from 'react-hot-toast';
 
-import { fetchMachineStock } from '../../../api/machines';
+import { fetchMachineStock } from '@/api/machines';
 import {
   createShiftOperation,
   ShiftOperationType,
-} from '../../../api/shift-operations';
+} from '@/api/shift-operations';
 import { useProducts } from '@/hooks/use-products';
 
 interface ProductInStock {

@@ -8,7 +8,7 @@ import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
 import { TanStackDevtools } from '@tanstack/react-devtools';
 import { useEffect } from 'react';
 
-import { authClient } from '../lib/auth-client';
+import { authClient } from '@/lib/auth-client';
 
 export const Route = createRootRoute({
   component: RootComponent,

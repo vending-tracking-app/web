@@ -10,9 +10,9 @@ import {
 } from '@radix-ui/themes';
 import { PlusIcon } from '@radix-ui/react-icons';
 
-import { fetchUserStock } from '../../../api/users';
-import { AdminMenu } from '../../../components/admin-menu';
-import { authClient } from '../../../lib/auth-client';
+import { fetchUserStock } from '@/api/users';
+import { AdminMenu } from '@/components/admin-menu';
+import { authClient } from '@/lib/auth-client';
 import { useProducts } from '@/hooks/use-products';
 
 export const Route = createFileRoute('/admin/my-stock/')({
