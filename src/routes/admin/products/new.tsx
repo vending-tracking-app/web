@@ -14,6 +14,7 @@ import { useCallback } from 'react';
 import toast from 'react-hot-toast';
 
 import { createProduct, type CreateProductInput } from '@/api/products';
+import { productsQueryKey } from '@/hooks/use-products';
 
 export const Route = createFileRoute('/admin/products/new')({
   component: NewProductPage,
@@ -26,7 +27,7 @@ function NewProductPage() {
   const createMutation = useMutation({
     mutationFn: createProduct,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['products'] });
+      queryClient.invalidateQueries({ queryKey: productsQueryKey });
     },
   });
 

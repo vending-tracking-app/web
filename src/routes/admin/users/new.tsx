@@ -19,6 +19,7 @@ import {
   type CreateUserInput,
   type UserRole,
 } from '@/api/users';
+import { usersQueryKey } from '@/hooks/use-users';
 
 export const Route = createFileRoute('/admin/users/new')({
   component: NewUserPage,
@@ -31,7 +32,7 @@ function NewUserPage() {
   const createMutation = useMutation({
     mutationFn: createUser,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['users'] });
+      queryClient.invalidateQueries({ queryKey: usersQueryKey });
     },
   });
 

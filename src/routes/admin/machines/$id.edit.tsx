@@ -18,6 +18,7 @@ import {
   updateMachine,
   type UpdateMachineInput,
 } from '@/api/machines';
+import { machinesQueryKey } from '@/hooks/use-machines';
 
 export const Route = createFileRoute('/admin/machines/$id/edit')({
   component: EditMachinePage,
@@ -37,7 +38,7 @@ function EditMachinePage() {
   const updateMutation = useMutation({
     mutationFn: updateMachine,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['machines'] });
+      queryClient.invalidateQueries({ queryKey: machinesQueryKey });
     },
   });
 

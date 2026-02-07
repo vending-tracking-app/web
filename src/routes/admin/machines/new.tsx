@@ -14,6 +14,7 @@ import { useCallback } from 'react';
 import toast from 'react-hot-toast';
 
 import { createMachine, type CreateMachineInput } from '@/api/machines';
+import { machinesQueryKey } from '@/hooks/use-machines';
 
 export const Route = createFileRoute('/admin/machines/new')({
   component: NewMachinePage,
@@ -26,7 +27,7 @@ function NewMachinePage() {
   const createMutation = useMutation({
     mutationFn: createMachine,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['machines'] });
+      queryClient.invalidateQueries({ queryKey: machinesQueryKey });
     },
   });
 

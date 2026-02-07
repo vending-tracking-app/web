@@ -18,6 +18,7 @@ import {
   updateProduct,
   type UpdateProductInput,
 } from '@/api/products';
+import { productsQueryKey } from '@/hooks/use-products';
 
 export const Route = createFileRoute('/admin/products/$id/edit')({
   component: EditProductPage,
@@ -37,7 +38,7 @@ function EditProductPage() {
   const updateMutation = useMutation({
     mutationFn: updateProduct,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['products'] });
+      queryClient.invalidateQueries({ queryKey: productsQueryKey });
     },
   });
 
