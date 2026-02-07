@@ -1,9 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
-import { fetchMachines } from '@/api/machines';
+import { fetchMachines, fetchMachineSales } from '@/api/machines';
 
 export const machinesQueryKey = ['machines'] as const;
+export const machineSalesQueryKey = (
+  machineId?: string,
+  from?: string,
+  to?: string,
+  productId?: string,
+) => ['machineSales', machineId, from, to, productId] as const;
 
 export function useMachines() {
   const { data: machines = [], refetch: refetchMachines } = useQuery({
@@ -17,4 +23,25 @@ export function useMachines() {
   );
 
   return { machines, machinesMap, refetchMachines };
+}
+
+export function useMachineSales(params: {
+  machineId?: string;
+  from?: string;
+  to?: string;
+  productId?: string;
+}) {
+  const { machineId, from, to, productId } = params;
+
+  return useQuery({
+    queryKey: machineSalesQueryKey(machineId, from, to, productId),
+    queryFn: () =>
+      fetchMachineSales({
+        id: machineId ?? '',
+        from,
+        to,
+        productId,
+      }),
+    enabled: Boolean(machineId),
+  });
 }

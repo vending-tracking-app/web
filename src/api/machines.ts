@@ -17,6 +17,21 @@ export interface MachineStock {
   stock: MachineStockItem[];
 }
 
+export interface MachineSalesPoint {
+  date: string;
+  units: number;
+}
+
+export interface MachineSalesSeries {
+  productId: string;
+  productName: string;
+  points: MachineSalesPoint[];
+}
+
+export interface MachineSalesResponse {
+  series: MachineSalesSeries[];
+}
+
 export interface CreateMachineInput {
   name: string;
   location: string;
@@ -45,3 +60,31 @@ export const updateMachine = ({
 
 export const fetchMachineStock = (id: string) =>
   api.get<MachineStock>(`/machines/${id}/stock`);
+
+export const fetchMachineSales = ({
+  id,
+  from,
+  to,
+  productId,
+}: {
+  id: string;
+  from?: string;
+  to?: string;
+  productId?: string;
+}) => {
+  const params = new URLSearchParams();
+  if (from) {
+    params.set('from', from);
+  }
+  if (to) {
+    params.set('to', to);
+  }
+  if (productId) {
+    params.set('productId', productId);
+  }
+
+  const query = params.toString();
+  const suffix = query ? `?${query}` : '';
+
+  return api.get<MachineSalesResponse>(`/machines/${id}/sales${suffix}`);
+};
