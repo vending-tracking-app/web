@@ -1,8 +1,17 @@
 import { HamburgerMenuIcon } from '@radix-ui/react-icons';
 import { DropdownMenu, IconButton } from '@radix-ui/themes';
-import { Link } from '@tanstack/react-router';
+import { Link, useNavigate } from '@tanstack/react-router';
+
+import { authClient } from '@/lib/auth-client';
 
 export function ExpeditorMenu() {
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    await authClient.signOut();
+    navigate({ to: '/login' });
+  };
+
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger>
@@ -19,6 +28,10 @@ export function ExpeditorMenu() {
         <DropdownMenu.Item asChild>
           <Link to="/expeditor/machines">Автоматы</Link>
         </DropdownMenu.Item>
+
+        <DropdownMenu.Separator />
+
+        <DropdownMenu.Item onSelect={handleSignOut}>Выйти</DropdownMenu.Item>
       </DropdownMenu.Content>
     </DropdownMenu.Root>
   );
